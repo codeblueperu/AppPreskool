@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+<title>Preskool - Login</title>
+
+<link rel="shortcut icon" th:href="@{/themes/assets/img/favicon.png}">
+
+<link th:href="@{https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap}" rel="stylesheet">
+
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/bootstrap/css/bootstrap.min.css}">
+
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/feather/feather.css}">
+
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/icons/flags/flags.css}">
+
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/fontawesome.min.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/all.min.css}">
+
+<link rel="stylesheet" th:href="@{/themes/assets/css/style.css}">
+</head>
+<body>
+
+<div class="main-wrapper login-body">
+<div class="login-wrapper">
+<div class="container">
+<div class="loginbox">
+<div class="login-left">
+<img class="img-fluid" src="themes/assets/img/login.png" alt="Logo">
+</div>
+<div class="login-right">
+<div class="login-right-wrap">
+<h1>Bienvenido a Preskool</h1>
+<p class="account-subtitle">Crear Usuario <a th:href="@{/usuario/nuevo}">Registrarse</a></p>
+<h2>Login</h2>
+
+<form th:action="@{/login}" method="post">
+<div class="form-group">
+<label>Username <span class="login-danger">*</span></label>
+<input class="form-control" type="text" name="username">
+<span class="profile-views"><i class="fas fa-user-circle"></i></span>
+</div>
+<div class="form-group">
+<label>Password <span class="login-danger">*</span></label>
+<input class="form-control pass-input" type="password" name="password">
+<span class="profile-views feather-eye toggle-password"></span>
+</div>
+<div class="forgotpass">
+<div class="remember-me">
+<label class="custom_check mr-2 mb-0 d-inline-flex remember-me"> Recordar Contraseña
+<input type="checkbox" name="radio">
+<span class="checkmark"></span>
+</label>
+</div>
+<a th:href="@{/recuperar}">Olvido Contraseña</a>
+</div>
+<div class="form-group">
+<button class="btn btn-primary btn-block" type="submit">Acceder</button>
+</div>
+</form>
+<div th:if="${param.error}" class="alert alert-danger" role="alert">
+					Usuario o Contraseña Invalidos.</div>
+				<div th:if="${param.logout}" class="alert alert-danger"
+					role="alert">Usted ha sido desconectado.</div>
+
+<div class="login-or">
+<span class="or-line"></span>
+<span class="span-or">or</span>
+</div>
+
+<div class="social-login">
+<a href="#"><i class="fab fa-google-plus-g"></i></a>
+<a href="#"><i class="fab fa-facebook-f"></i></a>
+<a href="#"><i class="fab fa-twitter"></i></a>
+<a href="#"><i class="fab fa-linkedin-in"></i></a>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<script src="themes/assets/js/jquery-3.6.0.min.js"></script>
+
+<script src="themes/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script src="themes/assets/js/feather.min.js"></script>
+
+<script src="themes/assets/js/script.js"></script>
+</body>
+</html>

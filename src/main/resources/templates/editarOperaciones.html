@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{plantilla/plantilla}">
+<head>
+<title>Editar Operaciones</title>
+
+</head>
+<body>
+<div layout:fragment="content" >
+<div class="page-header">
+<div class="row align-items-center">
+<div class="col-sm-12">
+<div class="page-sub-header">
+<h3 class="page-title">Editar Operaciones</h3>
+<ul class="breadcrumb">
+<li class="breadcrumb-item"><a href="students.html">Editar Operaciones</a></li>
+<li class="breadcrumb-item active">Editar Operaciones</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div class="row">
+<div class="col-sm-12">
+<div class="card comman-shadow">
+<div class="card-body">
+<form th:action="@{/listaOperaciones/{idOperaciones}(id=${operacionesActualizada.idOperaciones})}" th:object="${operacionesActualizada}"  method="post">
+<div class="row">
+<div class="col-12">
+<h5 class="form-title student-info">Editar Operaciones <span><a ><i class="feather-more-vertical"></i></a></span></h5>
+</div>
+<div class="col-12 col-sm-4">
+<div class="form-group local-forms">
+<label>Nombre Operacion <span class="login-danger">*</span></label>
+<input class="form-control" type="text" th:value="${nombreOperacion}" id="txtNombreOperacion" th:field="*{nombre}" placeholder="Nombre Operacion" required autofocus="autofocus">
+</div>
+</div>
+
+<div class="col-12 col-sm-4">
+<div class="form-group local-forms">
+<label>Estado <span class="login-danger">*</span></label>
+<select class="form-control select" th:value="${estado}" id="txtEstado" th:field="*{estado}" required autofocus="autofocus">
+<option value="">Please Select Estado </option>
+<option th:value="Activo">Activo</option>
+<option th:value="Inactivo">Inactivo</option>
+</select>
+</div>
+</div>
+
+<div class="col-12 col-sm-4">
+<div class="form-group local-forms">
+<label>Fecha Creación <span class="login-danger">*</span></label>
+<input class="form-control" type="text" th:value="${fechaCreacionOperacion}" id="txtFechaCreacionOperacion" th:field="*{fechaCreacionOperacion}" placeholder="DD-MM-YYYY" required autofocus="autofocus" readonly="readonly" >
+</div>
+</div>
+
+<div class="col-12 col-sm-4">
+<div class="form-group local-forms">
+<label>Fecha Modificación <span class="login-danger">*</span></label>
+<input class="form-control" type="text" th:value="${fechaModificacionOperacion}" id="txtFechaModificacionOperacion" th:field="*{fechaModificacionOperacion}" placeholder="DD-MM-YYYY" required autofocus="autofocus" readonly="readonly" >
+</div>
+</div>
+<input type="hidden" th:field="*{idOperaciones}">
+<div class="col-12">
+<div class="student-submit">
+<button type="submit" class="btn btn-primary" >Actualizar</button>
+</div>
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</body>
+</html>
