@@ -88,6 +88,7 @@ public class PerfilOperacionesSevicioImpl implements IPerfilOperacionesServicio{
 	@Override
 	@Transactional
 	public PerfilOperaciones onBuscarPermidoRolMenu(int idmenu) {		
+		System.err.println(ConstantApp.ROL_LOGIN);
 		return repositorioPerfilOperaciones.findByFkPerfilNombreAndFkMenuIdMenu(ConstantApp.ROL_LOGIN, idmenu);
 	}
 

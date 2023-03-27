@@ -31,7 +31,6 @@ public class DataWebSecurity {
 
 	    @Bean
 	    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
 	        http	        
 			        .csrf()
 		            .disable()
