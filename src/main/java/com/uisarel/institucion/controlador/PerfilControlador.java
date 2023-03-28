@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.uisarel.institucion.modelo.entidades.Perfil;
+import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
+import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
 import com.uisarel.institucion.servicio.IPerfilServicio;
 import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
 
@@ -24,6 +26,9 @@ public class PerfilControlador {
 	
 	@Autowired
 	private ConfiguracionesServiceImp srvSeting;
+	
+	@Autowired
+	private IPerfilOperacionesServicio srvOperacion;
 	
 	//ListarPerfiles
 	@GetMapping("/listaPerfiles")
@@ -86,6 +91,11 @@ public class PerfilControlador {
 		
 		@ModelAttribute
 		public void setGenericos(Authentication auth,Model model) {
+			PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(3);
 			model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
+			model.addAttribute("cdrSelect", actions.getLeer());
+			model.addAttribute("cdrInsert", actions.getCrear());
+			model.addAttribute("cdrUpdate", actions.getActualizar());
+			model.addAttribute("cdrDelete", actions.getEliminar());
 		}
 }

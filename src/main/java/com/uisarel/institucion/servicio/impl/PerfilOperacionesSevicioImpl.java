@@ -15,8 +15,8 @@ import com.uisarel.institucion.utils.ConstantApp;
 
 @Service
 @Component
-public class PerfilOperacionesSevicioImpl implements IPerfilOperacionesServicio{
-	
+public class PerfilOperacionesSevicioImpl implements IPerfilOperacionesServicio {
+
 	@Autowired
 	public IPerfilOperacionesRepositorio repositorioPerfilOperaciones;
 
@@ -55,12 +55,13 @@ public class PerfilOperacionesSevicioImpl implements IPerfilOperacionesServicio{
 	@Transactional
 	public void onSearchPerfilOperacionAllDelete(int idmenu, int idperfil) {
 		try {
-			List<PerfilOperaciones> ope = repositorioPerfilOperaciones.findByFkPerfilIdPerfilAndFkMenuIdMenu(idperfil, idmenu);
+			List<PerfilOperaciones> ope = repositorioPerfilOperaciones.findByFkPerfilIdPerfilAndFkMenuIdMenu(idperfil,
+					idmenu);
 			System.err.println(ope);
-			if(ope.size() > 0) {
+			if (ope.size() > 0) {
 				repositorioPerfilOperaciones.delete(ope.get(0));
 			}
-			
+
 //			if(ope != null) {
 //				repositorioPerfilOperaciones.deleteById(ope.getIdPerfilOperaciones());
 //			}
@@ -71,14 +72,16 @@ public class PerfilOperacionesSevicioImpl implements IPerfilOperacionesServicio{
 
 	@Override
 	@Transactional
-	public List<PerfilOperaciones> onSearchPerfilOperationAsigned(int idPerfil,int idmenu) {
-		 List<PerfilOperaciones> lista = new ArrayList<>();		 
+	public List<PerfilOperaciones> onSearchPerfilOperationAsigned(int idPerfil, int idmenu) {
+		List<PerfilOperaciones> lista = new ArrayList<>();
 		try {
-			List<PerfilOperaciones> menuid = repositorioPerfilOperaciones.findByFkPerfilIdPerfilAndFkMenuIdMenu(idPerfil, idmenu);
-			if(menuid.size() > 0) {
-				lista = repositorioPerfilOperaciones.findByFkPerfilIdPerfilAndFkMenuMenuIdPadre(idPerfil,menuid.get(0).getFkMenu().getMenuIdPadre());
+			List<PerfilOperaciones> menuid = repositorioPerfilOperaciones
+					.findByFkPerfilIdPerfilAndFkMenuIdMenu(idPerfil, idmenu);
+			if (menuid.size() > 0) {
+				lista = repositorioPerfilOperaciones.findByFkPerfilIdPerfilAndFkMenuMenuIdPadre(idPerfil,
+						menuid.get(0).getFkMenu().getMenuIdPadre());
 			}
-			
+
 		} catch (Exception e) {
 			throw e;
 		}
@@ -87,10 +90,27 @@ public class PerfilOperacionesSevicioImpl implements IPerfilOperacionesServicio{
 
 	@Override
 	@Transactional
-	public PerfilOperaciones onBuscarPermidoRolMenu(int idmenu) {		
-		System.err.println(ConstantApp.ROL_LOGIN);
-		return repositorioPerfilOperaciones.findByFkPerfilNombreAndFkMenuIdMenu(ConstantApp.ROL_LOGIN, idmenu);
-	}
+	public PerfilOperaciones onBuscarPermidoRolMenu(int idmenu) {
+		PerfilOperaciones roles = new PerfilOperaciones();
+		try {
+			roles.setIdPerfilOperaciones(0);
+			roles.setLeer(0);
+			roles.setActualizar(0);
+			roles.setCrear(0);
+			roles.setEliminar(0);
+			System.err.println(ConstantApp.ROL_LOGIN);
+			System.err.println(repositorioPerfilOperaciones.findByFkPerfilNombreAndFkMenuIdMenu(ConstantApp.ROL_LOGIN,
+					idmenu));
+			if (repositorioPerfilOperaciones.findByFkPerfilNombreAndFkMenuIdMenu(ConstantApp.ROL_LOGIN,
+					idmenu) != null) {
+				roles = repositorioPerfilOperaciones.findByFkPerfilNombreAndFkMenuIdMenu(ConstantApp.ROL_LOGIN, idmenu);
+				
+			}
+		} catch (Exception e) {
+			throw e;
+		}
 
+		return roles;
+	}
 
 }

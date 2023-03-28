@@ -22,10 +22,8 @@ public class indexControlador {
 	@Autowired
 	private ConfiguracionesServiceImp srvSeting;
 	
-	//@PreAuthorize("isAuthenticated() and (hasRole('ADMINISTRADOR') or hasRole('OTHERS'))")
 	@GetMapping("/dashboard")
-	public String verPrincipal(Authentication auth,Model model) {	
-		//System.err.println(ConstantApp.ROL_LOGIN);
+	public String verPrincipal(Authentication auth,Model model) {
 		for (GrantedAuthority rol : auth.getAuthorities()) {
 			ConstantApp.ROL_LOGIN = 	rol.getAuthority();
 			System.err.println(ConstantApp.ROL_LOGIN);
