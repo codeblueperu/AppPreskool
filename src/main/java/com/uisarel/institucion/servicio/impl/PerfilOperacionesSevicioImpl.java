@@ -98,9 +98,6 @@ public class PerfilOperacionesSevicioImpl implements IPerfilOperacionesServicio 
 			roles.setActualizar(0);
 			roles.setCrear(0);
 			roles.setEliminar(0);
-			System.err.println(ConstantApp.ROL_LOGIN);
-			System.err.println(repositorioPerfilOperaciones.findByFkPerfilNombreAndFkMenuIdMenu(ConstantApp.ROL_LOGIN,
-					idmenu));
 			if (repositorioPerfilOperaciones.findByFkPerfilNombreAndFkMenuIdMenu(ConstantApp.ROL_LOGIN,
 					idmenu) != null) {
 				roles = repositorioPerfilOperaciones.findByFkPerfilNombreAndFkMenuIdMenu(ConstantApp.ROL_LOGIN, idmenu);
