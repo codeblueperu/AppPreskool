@@ -34,7 +34,7 @@ layout:decorate="~{plantilla/plantilla}">
 
 
 		<div class="row">
-			<div class="col-sm-8">
+			<div class="col-sm-7">
 				<div class="card card-table comman-shadow">
 					<div class="card-body">
 						<div class="page-header">							
@@ -43,15 +43,29 @@ layout:decorate="~{plantilla/plantilla}">
 						<div class="clear-fixed"></div>
 						<div class="page-body">
 							<div class="table-responsive">
-								<table class="table border-0 star-student table-hover table-center mb-0 table-striped" id="__table_estudiante__">
+								<table class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
 									<thead class="student-thread">
 										<tr>		
 											<th>ID</th>		
 											<th>CURSO</th>										
 											<th>ESTADO</th>
+											<th></th>
 										</tr>
 									</thead>
-									<tbody>
+									<tbody th:if="${cdrSelect == 1}">
+										<tr th:each="row :${lstdata}">
+											<td th:text="${row.idCurso}"></td>
+											<td th:text="${row.nombreCurso}"></td>
+											<td th:text="${row.estadoCurso}"></td>
+											<td>
+												<a th:if="${cdrDelete == 1}" th:href="@{/deleteCursoID/} + ${row.idCurso}" class="btn btn-sm bg-success-light me-2" >
+												<i class="feather-trash-2"></i>
+												</a>
+												<a th:if="${cdrUpdate == 1}" th:href="@{/buscarCursorID/} + ${row.idCurso}" class="btn btn-sm bg-danger-light" >
+												<i class="feather-edit"></i>
+												</a>
+											</td>
+										</tr>
 									</tbody>
 								</table>
 							</div>
@@ -62,7 +76,7 @@ layout:decorate="~{plantilla/plantilla}">
 				</div>
 			</div>
 
-			<div class="col-sm-4">
+			<div class="col-sm-5">
 				<div class="card card-table comman-shadow">
 					<div class="card-body">						
 						<div class="clear-fixed"></div>
@@ -110,18 +124,17 @@ layout:decorate="~{plantilla/plantilla}">
 				</div>
 			</div>
 		</div>
-
-		<script th:src="@{/themes/assets/js/jquery-3.6.0.min.js}"></script>
-		<script th:src="@{/themes/assets/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
-		<script th:src="@{/themes/assets/js/feather.min.js}"></script>
-		<script th:src="@{/themes/assets/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
-		<script th:src="@{/themes/assets/plugins/datatables/datatables.min.js}"></script>
-		<!-- <script th:src="@{/themes/assets/plugins/select2/js/select2.min.js}"></script> -->
-		<script th:src="@{/themes/assets/plugins/moment/moment.min.js}"></script>
-		<script th:src="@{/themes/assets/js/bootstrap-datetimepicker.min.js}"></script>
-		<div layout:fragment="ajax_method"></div>
-
 	</div>
+
+	<script th:src="@{/themes/assets/js/jquery-3.6.0.min.js}"></script>
+	<script th:src="@{/themes/assets/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/themes/assets/js/feather.min.js}"></script>
+	<script th:src="@{/themes/assets/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+	<script th:src="@{/themes/assets/plugins/datatables/datatables.min.js}"></script>
+	<!-- <script th:src="@{/themes/assets/plugins/select2/js/select2.min.js}"></script> -->
+	<script th:src="@{/themes/assets/plugins/moment/moment.min.js}"></script>
+	<script th:src="@{/themes/assets/js/bootstrap-datetimepicker.min.js}"></script>
+	<div layout:fragment="ajax_method"></div>
 </body>
 
 </html>

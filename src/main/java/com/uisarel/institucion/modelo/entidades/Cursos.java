@@ -14,7 +14,7 @@ public class Cursos {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idCurso;
 	
-	private String NombreCurso;
+	private String nombreCurso;
 	
 	private String estadoCurso;
 }

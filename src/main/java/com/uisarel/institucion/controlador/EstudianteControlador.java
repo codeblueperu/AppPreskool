@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 
 import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
-import com.uisarel.institucion.servicio.IEstudianteService;
 import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
 import com.uisarel.institucion.servicio.IPeriodoEscolarService;
 import com.uisarel.institucion.servicio.ISeccionService;
@@ -26,9 +25,6 @@ public class EstudianteControlador {
 	
 	@Autowired
 	private IPeriodoEscolarService srvPeriodoEscolar;
-	
-	@Autowired
-	private IEstudianteService srvEstudiante;
 	
 	@Autowired
 	private ISeccionService srvSeccion;

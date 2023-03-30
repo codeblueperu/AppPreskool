@@ -42,7 +42,7 @@ public class CursoControlador {
 			return "mantenimiento/curso";
 		}
 		int codeAction = datacurso.getIdCurso();
-		// datagrado.setGrado("ero");
+		
 		if (codeAction != 0) {
 			srvCurso.onUpdateCurso(datacurso);
 		} else {
@@ -52,7 +52,7 @@ public class CursoControlador {
 		redirectAttrs.addFlashAttribute("mensaje", (codeAction != 0 ? "Muy bien! el curso fue actualizado con éxito."
 				: "Muy bien! el curso se registro con éxito.")).addFlashAttribute("clase", "success");
 
-		return "redirect:/grado";
+		return "redirect:/curso";
 	}
 
 	@GetMapping("/buscarCursorID/{id}")
@@ -73,6 +73,7 @@ public class CursoControlador {
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
 		PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(18, auth);
+		model.addAttribute("lstdata", srvCurso.onListarCursos(""));
 		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
 		model.addAttribute("cdrSelect", actions.getLeer());
 		model.addAttribute("cdrInsert", actions.getCrear());
