@@ -33,7 +33,7 @@ public class PeriodoEscolarServiceImpl implements IPeriodoEscolarService {
 
 	@Override
 	public PeriodoEscolar onGuardarNuevoPeriodoEscolar(PeriodoEscolar dataperiodo) {
-		PeriodoEscolar newdata = new PeriodoEscolar();
+		PeriodoEscolar newdata = null;
 		try {
 			if(repoPerido.findByAnioEscolar(dataperiodo.getAnioEscolar()) == null) {
 				newdata = repoPerido.save(dataperiodo);

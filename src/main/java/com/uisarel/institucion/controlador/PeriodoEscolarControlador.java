@@ -1,6 +1,5 @@
 package com.uisarel.institucion.controlador;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.core.Authentication;
@@ -19,7 +18,6 @@ import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
 import com.uisarel.institucion.servicio.IPeriodoEscolarService;
 import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
 
-
 @Controller
 public class PeriodoEscolarControlador {
 
@@ -32,24 +30,34 @@ public class PeriodoEscolarControlador {
 	@Autowired
 	private IPerfilOperacionesServicio srvOperacion;
 
-	
-
 	@GetMapping("/periodoescolar")
 	public String getPeriodoEscolar(Model model) {
 		PeriodoEscolar datax = new PeriodoEscolar();
 		model.addAttribute("data", datax);
-		
+
 		return "mantenimiento/periodoEscolar";
 	}
 
-
 	@PostMapping("/guardarPeriodoEscolar")
 	public String postGuardarPeriodoEscolar(PeriodoEscolar dataperiodo, BindingResult result,
-			RedirectAttributes atribute) {
+			RedirectAttributes redirectAttrs) {
 		if (result.hasErrors()) {
-			return  "mantenimiento/periodoEscolar";
+			return "mantenimiento/periodoEscolar";
 		}
-		srvPeriodo.onGuardarNuevoPeriodoEscolar(dataperiodo);
+		int codeAction = dataperiodo.getIdPeriodoEscolar();
+		PeriodoEscolar response = (dataperiodo.getIdPeriodoEscolar() != 0
+				? srvPeriodo.onUpdatePeriodoEscolar(dataperiodo)
+				: srvPeriodo.onGuardarNuevoPeriodoEscolar(dataperiodo));
+		if (response == null) {
+			redirectAttrs.addFlashAttribute("mensaje", "Upps! el periodo escolar ya éxiste.").addFlashAttribute("clase",
+					"warning");
+		} else {
+			redirectAttrs
+					.addFlashAttribute("mensaje",
+							(codeAction != 0 ? "Muy bien! el periodo escolar fue actualizado con éxito."
+									: "Muy bien! el periodo escolar se registro con éxisto."))
+					.addFlashAttribute("clase", "success");
+		}
 
 		return "redirect:/periodoescolar";
 	}
@@ -57,7 +65,7 @@ public class PeriodoEscolarControlador {
 	@GetMapping("/buscarPeriodoEscolarID/{id}")
 	public String getBuscarPeriodoEscolarID(@PathVariable(value = "id") int idPeriodo, Model model) {
 		model.addAttribute("data", srvPeriodo.onBuscarPeriodoEscolarID(idPeriodo));
-		
+
 		return "mantenimiento/periodoEscolar";
 	}
 
@@ -71,7 +79,7 @@ public class PeriodoEscolarControlador {
 
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
-		PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(14,auth);	
+		PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(14, auth);
 		model.addAttribute("lstdata", srvPeriodo.onListarPeriodoEscolarAll());
 		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
 		model.addAttribute("cdrSelect", actions.getLeer());

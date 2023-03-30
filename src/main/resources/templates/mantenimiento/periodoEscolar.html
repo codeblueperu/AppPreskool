@@ -112,7 +112,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 						<div class="input-group mb-3">
 						<span class="input-group-text" id="basic-addon2"><i class="fa fa-table" aria-hidden="true"></i></span>
 							<input type="text" class="form-control" name="descripcionPeriodo"   th:field="*{descripcionPeriodo}"
-								aria-describedby="basic-addon2" autocomplete="off"> 
+								aria-describedby="basic-addon2" autocomplete="off" required> 
 						</div>
 					</div>
 					
@@ -121,7 +121,15 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 						<div class="input-group mb-3">
 						<span class="input-group-text" id="basic-addon2"><i class="fa fa-tag" aria-hidden="true"></i></span>
 							<input type="number" class="form-control" name="anioEscolar" th:field="*{anioEscolar}"
-								aria-describedby="basic-addon2" autocomplete="off"> 
+								aria-describedby="basic-addon2" autocomplete="off" required> 
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div th:classappend="'alert-' + (${clase != null} ? ${clase} : info)" th:if="${mensaje != null}"
+							     th:text="${mensaje}"
+							     class="alert">
+							</div>
 						</div>
 					</div>
 					<div class="row">
