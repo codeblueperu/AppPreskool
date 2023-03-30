@@ -1,7 +1,5 @@
 package com.uisarel.institucion.controlador;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,6 +19,7 @@ import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
 import com.uisarel.institucion.servicio.IPeriodoEscolarService;
 import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
 
+
 @Controller
 public class PeriodoEscolarControlador {
 
@@ -33,28 +32,23 @@ public class PeriodoEscolarControlador {
 	@Autowired
 	private IPerfilOperacionesServicio srvOperacion;
 
-	List<PeriodoEscolar> lstdata = new ArrayList<>();
+	
 
 	@GetMapping("/periodoescolar")
 	public String getPeriodoEscolar(Model model) {
 		PeriodoEscolar datax = new PeriodoEscolar();
-
 		model.addAttribute("data", datax);
+		
 		return "mantenimiento/periodoEscolar";
 	}
 
-	@GetMapping("/createPeriodoEscolar")
-	public String getCreatePeriodoEscolar(PeriodoEscolar mdlperiodo, Model model) {
-		// PeriodoEscolar data = new PeriodoEscolar();
-		model.addAttribute("titulo", "Nuevo Periodo Escolar");
-		// model.addAttribute("mdlperiodo", data);
-		return "mantenimiento/createPeriodoEscolar";
-	}
 
 	@PostMapping("/guardarPeriodoEscolar")
 	public String postGuardarPeriodoEscolar(PeriodoEscolar dataperiodo, BindingResult result,
 			RedirectAttributes atribute) {
-		// System.err.println(dataperiodo);
+		if (result.hasErrors()) {
+			return  "mantenimiento/periodoEscolar";
+		}
 		srvPeriodo.onGuardarNuevoPeriodoEscolar(dataperiodo);
 
 		return "redirect:/periodoescolar";
@@ -63,6 +57,7 @@ public class PeriodoEscolarControlador {
 	@GetMapping("/buscarPeriodoEscolarID/{id}")
 	public String getBuscarPeriodoEscolarID(@PathVariable(value = "id") int idPeriodo, Model model) {
 		model.addAttribute("data", srvPeriodo.onBuscarPeriodoEscolarID(idPeriodo));
+		
 		return "mantenimiento/periodoEscolar";
 	}
 
@@ -76,11 +71,8 @@ public class PeriodoEscolarControlador {
 
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
-
-		PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(14);
-		lstdata = srvPeriodo.onListarPeriodoEscolarAll();
-
-		model.addAttribute("lstdata", lstdata);
+		PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(14,auth);	
+		model.addAttribute("lstdata", srvPeriodo.onListarPeriodoEscolarAll());
 		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
 		model.addAttribute("cdrSelect", actions.getLeer());
 		model.addAttribute("cdrInsert", actions.getCrear());

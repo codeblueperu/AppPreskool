@@ -35,7 +35,10 @@ public class PeriodoEscolarServiceImpl implements IPeriodoEscolarService {
 	public PeriodoEscolar onGuardarNuevoPeriodoEscolar(PeriodoEscolar dataperiodo) {
 		PeriodoEscolar newdata = new PeriodoEscolar();
 		try {
-			newdata = repoPerido.save(dataperiodo);
+			if(repoPerido.findByAnioEscolar(dataperiodo.getAnioEscolar()) == null) {
+				newdata = repoPerido.save(dataperiodo);
+			}
+			
 		} catch (Exception e) {
 			System.err.println("Error al guardar periodo escolar");
 			throw e;

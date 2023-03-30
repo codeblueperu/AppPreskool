@@ -1,20 +1,18 @@
 package com.uisarel.institucion.servicio.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import com.uisarel.institucion.dto.DtoListaMenuPerfil;
 import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.modelo.entidades.PerfilMenu;
 import com.uisarel.institucion.modelo.repositorio.IPerfilMenuRepositorio;
+import com.uisarel.institucion.utils.ConstantApp;
 
 @Service
 public class ConfiguracionesServiceImp {
@@ -25,19 +23,13 @@ public class ConfiguracionesServiceImp {
 	public List<DtoListaMenuPerfil> onListaMenuPerfil(Authentication auth) {
 		List<DtoListaMenuPerfil> listamenu = new ArrayList<>();
 		try {
-			//PRIMERO OBTENERMOS EL ROL DEL USUARIO
-			String rolUsuarioLogin = "";
-			
-			@SuppressWarnings("unchecked")
-			Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>) SecurityContextHolder
-				    .getContext().getAuthentication().getAuthorities();
-				for (Iterator<SimpleGrantedAuthority> iterator = authorities.iterator(); iterator.hasNext();) {
-				  SimpleGrantedAuthority simpleGrantedAuthority = (SimpleGrantedAuthority) iterator.next();
-				  rolUsuarioLogin =simpleGrantedAuthority.toString();
-				}
+			//PRIMERO OBTENERMOS EL ROL DEL USUARIO			
+			for (GrantedAuthority rol : auth.getAuthorities()) {
+				ConstantApp.ROL_LOGIN = 	rol.getAuthority();
+			}
 
 			// LISTA MENU PRINCIPAL
-			List<PerfilMenu> menuPricipal = repoPerfilmenu.findByFkPerfilNombreAndFkMenuOrden(rolUsuarioLogin, "0");
+			List<PerfilMenu> menuPricipal = repoPerfilmenu.findByFkPerfilNombreAndFkMenuOrden(ConstantApp.ROL_LOGIN, "0");
 
 			for (PerfilMenu perfilMenu : menuPricipal) {
 				if (perfilMenu.getEstado().compareTo("1") == 0) {
@@ -52,7 +44,7 @@ public class ConfiguracionesServiceImp {
 					dto.setOrden(perfilMenu.getFkMenu().getOrden());
 //					PREPARAMOS LOS SUBMENUS
 					List<PerfilMenu> menuHijos = repoPerfilmenu.findByFkPerfilNombreAndFkMenuMenuIdPadreAndFkMenuOrden(
-							rolUsuarioLogin, perfilMenu.getFkMenu().getMenuIdPadre(), "1");
+							ConstantApp.ROL_LOGIN, perfilMenu.getFkMenu().getMenuIdPadre(), "1");
 					
 					List<Menu> prepareItems = new ArrayList<>();
 					for (PerfilMenu menuperfil : menuHijos) {

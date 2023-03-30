@@ -91,7 +91,7 @@ public class PerfilControlador {
 		
 		@ModelAttribute
 		public void setGenericos(Authentication auth,Model model) {
-			PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(3);
+			PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(3,auth);
 			model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
 			model.addAttribute("cdrSelect", actions.getLeer());
 			model.addAttribute("cdrInsert", actions.getCrear());

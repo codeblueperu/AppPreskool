@@ -2,6 +2,8 @@ package com.uisarel.institucion.servicio;
 
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
+
 import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
 
 public interface IPerfilOperacionesServicio {
@@ -32,7 +34,7 @@ public interface IPerfilOperacionesServicio {
 	public List<PerfilOperaciones> onSearchPerfilOperationAsigned(int idPerfil,int idmenu);
 	
 	
-	public PerfilOperaciones onBuscarPermidoRolMenu(int idmenu);
+	public PerfilOperaciones onBuscarPermidoRolMenu(int idmenu,Authentication auth);
 		
 
 }

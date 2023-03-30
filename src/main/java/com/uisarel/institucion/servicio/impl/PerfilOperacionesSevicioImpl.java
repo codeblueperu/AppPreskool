@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -90,7 +92,8 @@ public class PerfilOperacionesSevicioImpl implements IPerfilOperacionesServicio 
 
 	@Override
 	@Transactional
-	public PerfilOperaciones onBuscarPermidoRolMenu(int idmenu) {
+	public PerfilOperaciones onBuscarPermidoRolMenu(int idmenu,Authentication auth) {
+		
 		PerfilOperaciones roles = new PerfilOperaciones();
 		try {
 			roles.setIdPerfilOperaciones(0);
@@ -98,6 +101,9 @@ public class PerfilOperacionesSevicioImpl implements IPerfilOperacionesServicio 
 			roles.setActualizar(0);
 			roles.setCrear(0);
 			roles.setEliminar(0);
+			for (GrantedAuthority rol : auth.getAuthorities()) {
+				ConstantApp.ROL_LOGIN = 	rol.getAuthority();
+			}
 			if (repositorioPerfilOperaciones.findByFkPerfilNombreAndFkMenuIdMenu(ConstantApp.ROL_LOGIN,
 					idmenu) != null) {
 				roles = repositorioPerfilOperaciones.findByFkPerfilNombreAndFkMenuIdMenu(ConstantApp.ROL_LOGIN, idmenu);
