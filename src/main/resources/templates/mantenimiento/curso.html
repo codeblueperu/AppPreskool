@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{plantilla/plantilla}">
+<head>
+	<title>PreSkool | Curso</title>
+	<link rel="shortcut icon" th:href="@{/themes/assets/img/favicon.png}">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap}" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/feather/feather.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/icons/flags/flags.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/fontawesome.min.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/all.min.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/datatables/datatables.min.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/css/style.css}">
+
+</head>
+
+<body>
+	<div layout:fragment="content" >
+		<div class="page-header">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="page-sub-header">
+						<h3 class="page-title">Lista Cursos</h3>
+						<ul class="breadcrumb">
+							<li class="breadcrumb-item"><a href="students.html">All</a></li>
+							<li class="breadcrumb-item active">Cursos</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-sm-8">
+				<div class="card card-table comman-shadow">
+					<div class="card-body">
+						<div class="page-header">							
+							
+						</div>
+						<div class="clear-fixed"></div>
+						<div class="page-body">
+							<div class="table-responsive">
+								<table class="table border-0 star-student table-hover table-center mb-0 table-striped" id="__table_estudiante__">
+									<thead class="student-thread">
+										<tr>		
+											<th>ID</th>		
+											<th>CURSO</th>										
+											<th>ESTADO</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-4">
+				<div class="card card-table comman-shadow">
+					<div class="card-body">						
+						<div class="clear-fixed"></div>
+						<div class="page-body">
+							<form th:action="@{/guardarcurso}" th:object="${data}" method="POST" >
+
+								<input type="hidden" name="idCurso" th:field="*{idCurso}">
+								<div class="row">
+									<label for="descripcionPeriodo">Nombre del Curso</label>
+									<div class="input-group mb-3">
+										<span class="input-group-text" id="basic-addon2"><i class="fa fa-table" aria-hidden="true"></i></span>
+										<input type="text" class="form-control" name="NombreCurso" th:field="*{NombreCurso}"
+										aria-describedby="basic-addon2" autocomplete="off" required> 
+									</div>
+								</div>
+
+								<div class="row">
+									<label for="anioEscolar">Estado Curso</label>
+									<div class="input-group mb-3">
+										<span class="input-group-text" id="basic-addon2"><i class="fa fa-tag" aria-hidden="true"></i></span>
+										<select name="estadoCurso" class="form-control" th:field="*{estadoCurso}" required>
+											<option value="">---: SELECCIONE :---</option>
+											<option value="VIGENTE">VIGENTE</option>
+											<option value="ANULADO">ANULADO</option>
+										</select>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div th:classappend="'alert-' + (${clase != null} ? ${clase} : info)" th:if="${mensaje != null}"
+										th:text="${mensaje}"
+										class="alert">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<a th:href="@{/curso}" class="btn btn-danger" >Cancelar</a>
+									<button th:if="${cdrInsert == 1}" type="submit" class="btn btn-primary">Guardar</button>
+								</div>
+							</div>
+						</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script th:src="@{/themes/assets/js/jquery-3.6.0.min.js}"></script>
+		<script th:src="@{/themes/assets/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+		<script th:src="@{/themes/assets/js/feather.min.js}"></script>
+		<script th:src="@{/themes/assets/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+		<script th:src="@{/themes/assets/plugins/datatables/datatables.min.js}"></script>
+		<!-- <script th:src="@{/themes/assets/plugins/select2/js/select2.min.js}"></script> -->
+		<script th:src="@{/themes/assets/plugins/moment/moment.min.js}"></script>
+		<script th:src="@{/themes/assets/js/bootstrap-datetimepicker.min.js}"></script>
+		<div layout:fragment="ajax_method"></div>
+
+	</div>
+</body>
+
+</html>
