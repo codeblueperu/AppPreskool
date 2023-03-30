@@ -1,0 +1,48 @@
+<div th:fragment="mdlperiodoescolar">
+	<div class="modal fade" id="mdlPeriodoEscolar" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+			<form th:action="@{/guardarPeriodoEscolar}" th:object="${data}" method="POST" >
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Periodo Escolar</h5>
+				</div>
+				<div class="modal-body">
+				<div class="row">
+<!-- 					<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger" role="alert"> -->
+<!-- 		             	Por favor corrija los siguientes errores: -->
+<!-- 		             	<ul> -->
+<!-- 		             		<li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li> -->
+<!-- 		             	</ul> -->
+<!-- 		             </div> -->
+				</div>
+				<input type="hidden" name="idPeriodoEscolar" th:field="*{idPeriodoEscolar}">
+					<div class="row">
+						<label for="descripcionPeriodo">Descripción Periodo Escolar</label>
+						<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon2"><i class="fa fa-table" aria-hidden="true"></i></span>
+							<input type="text" class="form-control" th:field="*{descripcionPeriodo}"   name="descripcionPeriodo"
+								aria-describedby="basic-addon2" autocomplete="off"> 
+						</div>
+					</div>
+					
+					<div class="row">
+						<label for="anioEscolar">Periodo escolar</label>
+						<div class="input-group mb-3">
+						<span class="input-group-text" id="basic-addon2"><i class="fa fa-tag" aria-hidden="true"></i></span>
+							<input type="number" class="form-control" name="anioEscolar" th:field="*{anioEscolar}"
+								aria-describedby="basic-addon2" autocomplete="off"> 
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger"
+						onclick="eventModal(0)" data-dismiss="modal">Cancelar</button>
+					<button type="submit" class="btn btn-primary">Guardar</button>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
