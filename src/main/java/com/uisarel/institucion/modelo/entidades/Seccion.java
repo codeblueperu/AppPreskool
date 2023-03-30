@@ -1,5 +1,6 @@
 package com.uisarel.institucion.modelo.entidades;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,5 +17,6 @@ public class Seccion {
 	
 	private String descripcionSeccion;
 	
+	@Column(name = "estado_seccion")
 	private boolean estadoSeccion;
 }

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.uisarel.institucion.modelo.entidades.PeriodoEscolar;
 import com.uisarel.institucion.modelo.repositorio.IPeriodoEscolarRepositorio;
 import com.uisarel.institucion.servicio.IPeriodoEscolarService;
+import com.uisarel.institucion.utils.ConstantApp;
 
 @Service
 @Transactional
@@ -89,6 +90,23 @@ public class PeriodoEscolarServiceImpl implements IPeriodoEscolarService {
 			throw e;
 		}
 
+	}
+
+	@Override
+	public List<PeriodoEscolar> onListarPeriodoEscolarEstado(String estado) {
+		List<PeriodoEscolar> dtData = new ArrayList<>();
+		try {
+			if(ConstantApp.ROL_LOGIN.compareTo("ADMINISTRADOR") == 0) {
+				dtData = repoPerido.findAll();
+			}else {
+				dtData = repoPerido.findByEstado("APERTURADO");
+			}
+			
+		} catch (Exception e) {
+			System.err.println("Error al listar periodo escolar");
+			throw e;
+		}
+		return dtData;
 	}
 
 }

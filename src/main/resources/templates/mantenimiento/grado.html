@@ -3,7 +3,7 @@
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   layout:decorate="~{plantilla/plantilla}">
 <head>
-  <title>Periodo Escolar</title>
+  <title>Grado</title>
   
   
 <link rel="shortcut icon" th:href="@{/themes/assets/img/favicon.png}">
@@ -24,10 +24,10 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 <div class="row">
 <div class="col-sm-12">
 <div class="page-sub-header">
-<h3 class="page-title">Periodo Escolar</h3>
+<h3 class="page-title">Grado</h3>
 <ul class="breadcrumb">
-<li class="breadcrumb-item"><a href="students.html">Periodo Escolar</a></li>
-<li class="breadcrumb-item active">All Periodo Escolar</li>
+<li class="breadcrumb-item"><a href="students.html">Grado</a></li>
+<li class="breadcrumb-item active">All Grados</li>
 </ul>
 </div>
 </div>
@@ -60,27 +60,25 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 <div class="page-body" style="margin-top:-15px;">
 	<div class="table-responsive">
 		
-		<table class="table border-0 star-student table-hover table-center mb-0 datatable table-striped" id="__table_perfil_menu__">
+		<table class="table border-0 star-student table-hover table-center mb-0 datatable table-striped" id="">
 			<thead class="student-thread">
 				<tr >				
 				<th >ID</th>
-				<th>DESCRIPCION</th>
-				<th>PERIODO</th>
-				<th>ESTADO</th>
+				<th>NIVEL</th>
+				<th>GRADO</th>
 				<th></th>
 				</tr>
 			</thead>
 		<tbody th:if="${cdrSelect == 1}">
 		<tr th:each="row :${lstdata}">
-			<td th:text="${row.idPeriodoEscolar}"></td>
-			<td th:text="${row.descripcionPeriodo}"></td>
-			<td th:text="${row.anioEscolar}"></td>
-			<td th:text="${row.estado}"></td>
+			<td th:text="${row.idGrado}"></td>
+			<td th:text="${row.tipoGrado}"></td>
+			<td th:text="${row.gradoDescripcion}"></td>
 			<td>
-				<a th:if="${cdrDelete == 1}" th:href="@{/deletePeriodoEscolarID/} + ${row.idPeriodoEscolar}" class="btn btn-sm bg-success-light me-2" >
+				<a th:if="${cdrDelete == 1}" th:href="@{/deleteGradoID/} + ${row.idGrado}" class="btn btn-sm bg-success-light me-2" >
 				<i class="feather-trash-2"></i>
 				</a>
-				<a th:if="${cdrUpdate == 1}" th:href="@{/buscarPeriodoEscolarID/} + ${row.idPeriodoEscolar}" class="btn btn-sm bg-danger-light" >
+				<a th:if="${cdrUpdate == 1}" th:href="@{/buscarGradoID/} + ${row.idGrado}" class="btn btn-sm bg-danger-light" >
 				<i class="feather-edit"></i>
 				</a>
 			</td>
@@ -98,7 +96,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 <div class="col-md-4">
 	<div class="card card-table comman-shadow">
 		<div class="card-body">
-			<form th:action="@{/guardarPeriodoEscolar}" th:object="${data}" method="POST" >
+			<form th:action="@{/guardargrado}" th:object="${data}" method="POST" >
 				
 				<div class="row">
 <!-- 					<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger" role="alert"> -->
@@ -108,34 +106,26 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 <!-- 		             	</ul> -->
 <!-- 		             </div> -->
 				</div>
-				<input type="hidden" name="idPeriodoEscolar" th:field="*{idPeriodoEscolar}">
+				<input type="hidden" name="idGrado" th:field="*{idGrado}">
 					<div class="row">
-						<label for="descripcionPeriodo">Descripción Periodo Escolar</label>
+						<label for="descripcionPeriodo">Nivel</label>
 						<div class="input-group mb-3">
 						<span class="input-group-text" id="basic-addon2"><i class="fa fa-table" aria-hidden="true"></i></span>
-							<input type="text" class="form-control" name="descripcionPeriodo"   th:field="*{descripcionPeriodo}"
-								aria-describedby="basic-addon2" autocomplete="off" required> 
+						<select name="tipoGrado" class="form-control" th:field="*{tipoGrado}" required>
+							<option value="">---: SELECCIONE :---</option>
+							<option value="PRIMARIA">PRIMARIA</option>
+							<option value="SECUNDARIA">SECUNDARIA</option>
+						</select>
+							
 						</div>
 					</div>
 					
 					<div class="row">
-						<label for="anioEscolar">Periodo escolar</label>
+						<label for="anioEscolar">Grado</label>
 						<div class="input-group mb-3">
 						<span class="input-group-text" id="basic-addon2"><i class="fa fa-tag" aria-hidden="true"></i></span>
-							<input type="number" class="form-control" name="anioEscolar" th:field="*{anioEscolar}"
+							<input type="text" class="form-control" name="gradoDescripcion" th:field="*{gradoDescripcion}"
 								aria-describedby="basic-addon2" autocomplete="off" required> 
-						</div>
-					</div>
-
-					<div class="row">
-						<label for="anioEscolar">Estado</label>
-						<div class="input-group mb-3">
-						<span class="input-group-text" id="basic-addon2"><i class="fa fa-tag" aria-hidden="true"></i></span>
-							<select name="estado" class="form-control" th:field="*{estado}" required>
-								<option value="">---: SELECCIONE :---</option>
-								<option value="APERTURADO">APERTURADO</option>
-								<option value="CLAUSURADO">CLAUSURADO</option>
-							</select>
 						</div>
 					</div>
 					<div class="row">
@@ -148,7 +138,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<a th:href="@{/periodoescolar}" class="btn btn-danger" >Cancelar</a>
+							<a th:href="@{/grado}" class="btn btn-danger" >Cancelar</a>
 					<button th:if="${cdrInsert == 1}" type="submit" class="btn btn-primary">Guardar</button>
 						</div>
 					</div>
@@ -171,14 +161,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 <script th:src="@{/themes/assets/js/bootstrap-datetimepicker.min.js}"></script>
 
 <div layout:fragment="ajax_method"><script>
-	function eventModal(event){
-		if(event === 1){
-			$("#mdlPeriodoEscolar").modal('show')
-		}else{
-			$("#mdlPeriodoEscolar").modal('hide')
-		}
-		
-	}
+
 </script></div>
 
 

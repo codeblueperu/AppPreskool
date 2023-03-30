@@ -28,6 +28,7 @@ public class indexControlador {
 			ConstantApp.ROL_LOGIN = 	rol.getAuthority();
 			System.err.println(ConstantApp.ROL_LOGIN);
 		}
+		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
 		return"/plantilla/plantilla";
 	}
 	
@@ -48,7 +49,7 @@ public class indexControlador {
 	@PreAuthorize("isAuthenticated()")
 	@ModelAttribute
 	public void setGenericos(Authentication auth,Model model) {
-		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
+		
 	}
 	
 }

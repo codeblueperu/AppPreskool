@@ -19,13 +19,10 @@ import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
 
 @RestController
 @RequestMapping("/webservice/v1")
-public class AjaxController {
+public class AjaxSettingController {
 
 	@Autowired
 	private IMenuServicio srvMenu;
-
-//	@Autowired
-//	private IOperacionesServicio srvOperaciones;
 
 	@Autowired
 	private IPerfilMenuServicio srvPerfilMenu;
@@ -81,9 +78,6 @@ public class AjaxController {
 		data.setActualizar(onupdate);
 		data.setLeer(onselect);
 		data.setEliminar(ondelete);
-//		Operaciones op = new Operaciones();
-//		op.setIdOperaciones(idoperacion);
-//		data.setFkOperaciones(op);
 		Menu mnu = new Menu();
 		mnu.setIdMenu(idmenu);
 		data.setFkMenu(mnu);

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{plantilla/plantilla}">
+<head>
+	<title>PreSkool | Student</title>
+	<link rel="shortcut icon" th:href="@{/themes/assets/img/favicon.png}">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap}" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/feather/feather.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/icons/flags/flags.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/fontawesome.min.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/all.min.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/datatables/datatables.min.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/css/style.css}">
+
+</head>
+
+<body>
+	<div layout:fragment="content" >
+		<div class="page-header">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="page-sub-header">
+						<h3 class="page-title">Lista Estudiantes</h3>
+						<ul class="breadcrumb">
+							<li class="breadcrumb-item"><a href="students.html">Crear</a></li>
+							<li class="breadcrumb-item active"><a th:href="@{/viewcreatestudent}">nuevo estudiante</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="card card-table comman-shadow">
+					<div class="card-body">
+
+						<div class="page-header">
+							<div class="row">
+								<div class="col-md-3">
+									<div class="form-group local-forms">
+										<label>Periodo Escolar <span class="login-danger">*</span></label>
+										<select class="form-control" id="cboperiodo" onchange="onBuscarEstudianteNivelGradoSeccionPeriodo();">
+											<option value="">---: SELECCIONE :---</option>
+											<option th:each="itemperiodo : ${lstperiodo}" th:value="${itemperiodo.idPeriodoEscolar}" th:text="${itemperiodo.descripcionPeriodo}"></option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group local-forms">
+										<label>Nivel <span class="login-danger">*</span></label>
+										<select class="form-control" id="nivelEscolar" onchange="onBusarGradoNivel();onBuscarEstudianteNivelGradoSeccionPeriodo();">
+											<option value="">---: SELECCIONE :---</option>
+											<option value="PRIMARIA">PRIMARIA</option>
+											<option value="SECUNDARIA">SECUNDARIA</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group local-forms">
+										<label>Grado <span class="login-danger">*</span></label>
+										<select class="form-control" id="cboidGrado" onchange="onBuscarEstudianteNivelGradoSeccionPeriodo();">
+											<option value="">---: SELECCIONE :---</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group local-forms">
+										<label>Seccion <span class="login-danger">*</span></label>
+										<select class="form-control" id="cboidSeccion" onchange="onBuscarEstudianteNivelGradoSeccionPeriodo();">
+											<option value="">---: SELECCIONE :---</option>
+											<option th:each="itemseccion : ${lstseccion}" th:value="${itemseccion.idSeccion}" th:text="${itemseccion.descripcionSeccion}"></option>
+										</select>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+						<div class="clear-fixed"></div>
+						<div class="page-body">
+							<div class="table-responsive">
+								<table class="table border-0 star-student table-hover table-center mb-0 table-striped" id="__table_estudiante__">
+									<thead class="student-thread">
+										<tr>		
+											<th>Periodo</th>		
+											<th>Documento</th>
+											<th>Nombre Apellidos</th>
+											<th>Nivel</th>
+											<th>Turno</th>
+											<th>Grado</th>											
+											<th>Apoderado</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+<script th:src="@{/themes/assets/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/themes/assets/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/themes/assets/js/feather.min.js}"></script>
+<script th:src="@{/themes/assets/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/themes/assets/plugins/datatables/datatables.min.js}"></script>
+<!-- <script th:src="@{/themes/assets/plugins/select2/js/select2.min.js}"></script> -->
+<script th:src="@{/themes/assets/plugins/moment/moment.min.js}"></script>
+<script th:src="@{/themes/assets/js/bootstrap-datetimepicker.min.js}"></script>
+		<div layout:fragment="ajax_method"><script th:src="@{/ajax/apiEstudiante.js}"></script></div>
+
+	</div>
+</body>
+
+</html>

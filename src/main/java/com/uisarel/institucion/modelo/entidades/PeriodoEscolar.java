@@ -24,4 +24,6 @@ public class PeriodoEscolar implements Serializable{
 	@Column(name = "anio_escolar",unique = true)
 	private int anioEscolar;
 	
+	private String estado;
+	
 }

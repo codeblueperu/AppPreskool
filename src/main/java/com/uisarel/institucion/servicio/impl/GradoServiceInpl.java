@@ -77,4 +77,15 @@ public class GradoServiceInpl implements IGradoService {
 
 	}
 
+	@Override
+	public List<Grado> onListarGradoNivel(String nivel) {
+		List<Grado> lista = new ArrayList<>();
+		try {
+			lista = repoGrado.findByTipoGrado(nivel);
+		} catch (Exception e) {
+			throw e;
+		}
+		return lista;
+	}
+
 }

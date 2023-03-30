@@ -37,21 +37,23 @@ public class GradoController {
 	}
 
 	@PostMapping("/guardargrado")
-	public String postGuardarGrado(Grado dataperiodo, BindingResult result, RedirectAttributes redirectAttrs) {
+	public String postGuardarGrado(Grado datagrado, BindingResult result, RedirectAttributes redirectAttrs) {
 		if (result.hasErrors()) {
 			return "mantenimiento/grado";
 		}
-		int codeAction = dataperiodo.getIdGrado();
+		int codeAction = datagrado.getIdGrado();
+		//datagrado.setGrado("ero");
 		if (codeAction != 0) {
-			srvGrado.onUpdateGrado(dataperiodo);
+			srvGrado.onUpdateGrado(datagrado);
 		} else {
-			srvGrado.onGuardarGradoNuevo(dataperiodo);
+			System.err.println(datagrado);
+			srvGrado.onGuardarGradoNuevo(datagrado);
 		}
 
 		redirectAttrs.addFlashAttribute("mensaje", (codeAction != 0 ? "Muy bien! el grado fue actualizado con éxito."
-				: "Muy bien! el grado se registro con éxisto.")).addFlashAttribute("clase", "success");
+				: "Muy bien! el grado se registro con éxito.")).addFlashAttribute("clase", "success");
 
-		return "redirect:/periodoescolar";
+		return "redirect:/grado";
 	}
 
 	@GetMapping("/buscarGradoID/{id}")

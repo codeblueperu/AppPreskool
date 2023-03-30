@@ -34,7 +34,7 @@ async function onSendSubMenu(){
 	data: {idperfil: $("#idperfil").val(), idmenu: $("#idmenu").val()},
 	})
 	.done(function({data,asigned}) {
-		console.log(asigned)
+		//console.log(asigned)
 		
 		__table_perfil_menu__.clear().draw();
 		

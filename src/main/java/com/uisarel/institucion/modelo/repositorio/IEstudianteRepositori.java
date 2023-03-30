@@ -1,0 +1,35 @@
+package com.uisarel.institucion.modelo.repositorio;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.uisarel.institucion.modelo.entidades.Estudiante;
+
+@Repository
+public interface IEstudianteRepositori extends JpaRepository<Estudiante, Integer> {
+
+	/**
+	 * @author JMISERVER13
+	 * @param numDocumento
+	 * @param periodoEscolar
+	 * @return
+	 */
+	Estudiante findByNumDocumentoAndPeriodoEscolarIdPeriodoEscolar(String numDocumento, int periodoEscolar);
+
+	/**
+	 * @author JMISERVER13
+	 * @param periodoEscolar
+	 * @param nivelEscolar
+	 * @param idGrado
+	 * @param idSeccion
+	 * @return
+	 */
+	List<Estudiante> findByPeriodoEscolarIdPeriodoEscolarAndNivelEscolarAndGradoAlumnoIdGradoAndSeccionAlumnoIdSeccion(
+			int periodoEscolar, String nivelEscolar, int idGrado, int idSeccion);
+	
+//	List<Estudiante> findByPeriodoEscolarIdPeriodoEscolarAndNivelEscolar(
+//			int periodoEscolar, String nivelEscolar);
+
+}

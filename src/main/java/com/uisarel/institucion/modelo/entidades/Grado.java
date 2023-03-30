@@ -14,8 +14,8 @@ public class Grado {
 	private int idGrado;
 	
 	
-	private int grado;
+	private String gradoDescripcion;
 	
-	private int tipoGrado;	
+	private String tipoGrado;	
 	
 }

@@ -38,4 +38,11 @@ public interface IGradoService {
 	 * @param idgrado
 	 */
 	void onEliminarGrado(int idgrado);
+	
+	/**
+	 * @author JMISERVER13
+	 * @param nivel
+	 * @return
+	 */
+	List<Grado> onListarGradoNivel(String nivel);
 }
