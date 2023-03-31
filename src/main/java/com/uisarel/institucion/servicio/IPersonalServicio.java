@@ -38,4 +38,11 @@ public interface IPersonalServicio {
 	 * @param idpersonal
 	 */
 	void onEliminarDataPersonalID(int idpersonal);
+
+	/**
+	 * @author JMISERVER13
+	 * @param idPersonal
+	 * @return
+	 */
+	Personal onBuscarPersonalGradoSeccionCursoId(int idPersonal);
 }

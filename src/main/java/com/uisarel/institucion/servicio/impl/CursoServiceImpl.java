@@ -24,7 +24,7 @@ public class CursoServiceImpl implements ICursosService {
 	public List<Cursos> onListarCursos(String estado) {
 		List<Cursos> lista = new ArrayList<>();
 		try {
-			lista = repoCurso.findAll();
+			lista = repoCurso.findByEstadoCurso(estado); //repoCurso.findAll();
 		} catch (Exception e) {
 			throw e;
 		}

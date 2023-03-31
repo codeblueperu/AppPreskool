@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{plantilla/plantilla}">
+<head>
+	<title>PreSkool | Personal</title>
+	<link rel="shortcut icon" th:href="@{/themes/assets/img/favicon.png}">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap}" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/feather/feather.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/icons/flags/flags.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/fontawesome.min.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/all.min.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/datatables/datatables.min.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/select2/css/select2.min.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/css/style.css}">
+
+</head>
+
+<body>
+	<div layout:fragment="content" >
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="card card-table comman-shadow">
+					<div class="card-body">
+						<div class="page-header">							
+							<h5>Nuevo Docente</h5>
+						</div>
+						<div class="clear-fixed"></div>
+						<div class="page-body">
+							<div class="row">
+								<input type="hidden" id="idPersonal">
+								<div class="row">
+									<div class="col-12 col-sm-6">
+										<div class="form-group local-forms">
+											<label>Nombre <span class="login-danger">*</span></label>
+											<input class="form-control" type="text" id="nombre">
+										</div>
+									</div>
+									<div class="col-12 col-sm-6">
+										<div class="form-group local-forms">
+											<label>Apellidos <span class="login-danger">*</span> </label>
+											<input class="form-control" type="text" id="apellidos" >
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-12 col-sm-3">
+										<div class="form-group local-forms">
+											<label>N° Documento <span class="login-danger">*</span></label>
+											<input class="form-control" type="text" id="numDocumento">
+										</div>
+									</div>
+									<div class="col-12 col-sm-3">
+										<div class="form-group local-forms">
+											<label>N° Celular <span class="login-danger">*</span> </label>
+											<input class="form-control" type="text" id="ncelular" >
+										</div>
+									</div>
+									<div class="col-12 col-sm-3">
+										<div class="form-group local-forms">
+											<label>Fecha Nacimiento <span class="login-danger">*</span></label>
+											<input class="form-control" type="date" placeholder="DD-MM-YYYY" id="fechaNacimiento">
+										</div>
+									</div>
+									<div class="col-12 col-sm-3">
+										<div class="form-group local-forms">
+											<label>Sexo <span class="login-danger">*</span></label>
+											<select class="form-control" id="sexo">
+												<option value="">---: SELECCIONE :---</option>
+												<option value="MASCULINO">MASCULINO</option>
+												<option value="FEMENINO">FEMENINO</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="row">									
+									<div class="col-12 col-sm-6">
+										<div class="form-group local-forms">
+											<label>Email <span class="login-danger">*</span> </label>
+											<input class="form-control" type="text" id="email" >
+										</div>
+									</div>
+									<div class="col-12 col-sm-6">
+										<div class="form-group local-forms">
+											<label>Dirección <span class="login-danger">*</span></label>
+											<input class="form-control" type="text" autocomplete="off"  id="direccion">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="alert alert-primary" role="alert">
+											  Lista de Cursos
+										</div>
+										<ul id="lstcursos" style="columns: 3">
+											<li><label for="cf"><input type="checkbox" id="cf"> Cursos</label></li>
+										</ul>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="alert alert-success" role="alert">
+											  Lista de Grados
+										</div>
+										<div class="col-md-4">
+											<div class="form-group local-forms">
+												<label>Nivel <span class="login-danger">*</span></label>
+												<select class="form-control" id="nivelEscolar" onchange="onBusarGradoNivel();">
+													<option value="">---: SELECCIONE :---</option>
+													<option value="PRIMARIA">PRIMARIA</option>
+													<option value="SECUNDARIA">SECUNDARIA</option>
+												</select>
+											</div>
+										</div>
+										<ul id="lstgrados" style="columns: 3">
+											
+										</ul>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div class="col-md-12">
+										<div class="alert alert-info" role="alert">
+											  Lista de Secciones
+										</div>
+										<ul id="lstseccion" style="columns: 3">
+											<li th:each="item : ${lstsecciones}">
+											<label th:for="s+${item.idSeccion}" ><input type="checkbox" th:value="${item.idSeccion}" th:id="s+${item.idSeccion}"> <b th:text="${item.descripcionSeccion}"></b></label></li>
+										</ul>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12 text-end float-end ms-auto">
+										<button class="btn btn-danger">Cancelar</button>
+										<button class="btn btn-primary" onclick="onProcesarPersona();">Procesar Registro</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+<script th:src="@{/themes/assets/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/themes/assets/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/themes/assets/js/feather.min.js}"></script>
+<script th:src="@{/themes/assets/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/themes/assets/plugins/apexchart/apexcharts.min.js}"></script>
+<script th:src="@{/themes/assets/plugins/apexchart/chart-data.js}"></script>
+<script th:src="@{/themes/assets/plugins/datatables/datatables.min.js}"></script>
+<script th:src="@{/themes/assets/js/script.js}"></script>
+<script th:src="@{/themes/assets/plugins/sweetalert/sweetalert2.all.min.js}"></script>
+<script th:src="@{/themes/assets/plugins/sweetalert/sweetalerts.min.js}"></script>
+<script th:src="@{/themes/assets/plugins/moment/moment.min.js}"></script>
+<script th:src="@{/themes/assetss/plugins/select2/js/select2.min.js}"></script>
+
+
+<script th:src="@{/themes/assets/js/script.js}"></script>
+	<div layout:fragment="ajax_method">
+		<script th:src="@{/ajax/apiAddPersonal.js}"></script>
+		<script th:src="@{/themes/assets/plugins/select/js/jquery.multiselect.js}"></script>
+		<script th:src="@{/themes/assets/plugins/select/js/main.selected.js}"></script>
+		
+	</div>
+</body>
+
+</html>

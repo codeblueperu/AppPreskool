@@ -9,41 +9,40 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
 import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
+import com.uisarel.institucion.servicio.IPeriodoEscolarService;
 import com.uisarel.institucion.servicio.IPersonalServicio;
 import com.uisarel.institucion.servicio.ISeccionService;
 import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
 
 @Controller
-public class PersonalControlador {
+public class AsistenciaControlador {
 
 	@Autowired
-	private IPersonalServicio srvPersonal;
+	private IPerfilOperacionesServicio srvOperacion;
 
 	@Autowired
 	private ConfiguracionesServiceImp srvSeting;
 
 	@Autowired
-	private IPerfilOperacionesServicio srvOperacion;
-	
+	private IPeriodoEscolarService srvPeriodoEscolar;
+
 	@Autowired
 	private ISeccionService srvSeccion;
 	
+	@Autowired
+	private IPersonalServicio srvDocente;
 
-	@GetMapping("/personal")
-	public String getGradoAll(Model model) {
-	
-		return "mantenimiento/personal";
-	}
-	
-	@GetMapping("/adddocente")
-	public String getNuevoDocenteTemplate(Model model) {
-		model.addAttribute("lstsecciones", srvSeccion.onListarSeccionAll());
-		return "mantenimiento/adddocente";
+	@GetMapping("/addasistencia")
+	public String getCursoAll(Model model) {
+		model.addAttribute("lstdocente",srvDocente.onListarPersonalAll());
+		model.addAttribute("lstperiodo", srvPeriodoEscolar.onListarPeriodoEscolarEstado("APERTURADO"));
+		model.addAttribute("lstseccion",srvSeccion.onListarSeccionAll());
+		return "asistencia/asistencia";
 	}
 
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
-		PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(16, auth);
+		PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(18, auth);
 		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
 		model.addAttribute("cdrSelect", actions.getLeer());
 		model.addAttribute("cdrInsert", actions.getCrear());

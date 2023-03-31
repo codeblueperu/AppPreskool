@@ -36,6 +36,8 @@ public class PersonalServiceImpl implements IPersonalServicio {
 	public Personal onGuardarDatosPersonal(Personal data) {
 		Personal response = new Personal();
 		try {
+			// VALIDAMOS QUE NO EXISTA EL NUMERO DE DOCUMENTO
+
 			response = repoPersonal.save(data);
 		} catch (Exception e) {
 			throw e;
@@ -77,6 +79,21 @@ public class PersonalServiceImpl implements IPersonalServicio {
 			throw e;
 		}
 
+	}
+
+	@Override
+	public Personal onBuscarPersonalGradoSeccionCursoId(int idPersonal) {
+		Personal response = new Personal();
+		try {
+			Optional<Personal> op = repoPersonal.findById(idPersonal);
+			
+			if(op.isPresent()) {
+				response = op.get();
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+		return response;
 	}
 
 }
