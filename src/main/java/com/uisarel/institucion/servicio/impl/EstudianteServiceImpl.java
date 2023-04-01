@@ -69,15 +69,20 @@ public class EstudianteServiceImpl implements IEstudianteService {
 	}
 
 	@Override
-	public Estudiante onBuscarUsuarioId(int idUsuario) {
+	public Estudiante onBuscarEstudianteId(int idUsuario) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Estudiante onUpdateEstudiantePeriodo(Estudiante dataUpdate) {
-		// TODO Auto-generated method stub
-		return null;
+		Estudiante response = new Estudiante();
+		try {
+			response = repoEstudiante.save(dataUpdate);
+		} catch (Exception e) {
+			throw e;
+		}
+		return response;
 	}
 
 	@Override
@@ -98,6 +103,17 @@ public class EstudianteServiceImpl implements IEstudianteService {
 			throw e;
 		}
 		return lista;
+	}
+
+	@Override
+	public Estudiante onBuscarEstudiantePeriodoEscolarId(int idEstudiante, int idperiodoEscolar) {
+		Estudiante response = new Estudiante();
+		try {
+			response = repoEstudiante.findByPeriodoEscolarIdPeriodoEscolarAndIdEstudiante(idperiodoEscolar, idEstudiante);
+		} catch (Exception e) {
+			throw e;
+		}
+		return response;
 	}
 
 }

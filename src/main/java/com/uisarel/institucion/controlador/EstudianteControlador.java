@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
 import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
@@ -38,6 +38,13 @@ public class EstudianteControlador {
 
 	@GetMapping("/viewcreatestudent")
 	public String getViewCreateNewStudiante(Model model) {
+		model.addAttribute("lstperiodo", srvPeriodoEscolar.onListarPeriodoEscolarEstado("APERTURADO"));
+		model.addAttribute("lstseccion",srvSeccion.onListarSeccionAll());
+		return "mantenimiento/newStudent";
+	}
+	
+	@GetMapping("/vieweditstudent")
+	public String getViewEditStudiante(@RequestParam("student") int idestudiante,@RequestParam("periodo") int periodo, Model model) {
 		model.addAttribute("lstperiodo", srvPeriodoEscolar.onListarPeriodoEscolarEstado("APERTURADO"));
 		model.addAttribute("lstseccion",srvSeccion.onListarSeccionAll());
 		return "mantenimiento/newStudent";

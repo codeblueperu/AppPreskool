@@ -1,7 +1,13 @@
-
+//================================ RUTA TOKEN ====================================//
+const urlParams = new URLSearchParams(window.location.search);
+var id_docente = urlParams.get("person");
+//====================================================================//
 
 function init(){
 	onListarCursos();
+	if(id_docente != null){
+	    onBuscarDatosPersonaDocente(id_docente)
+	}
 }
 
 async function onListarCursos(){
@@ -71,6 +77,7 @@ async function onProcesarPersona(){
 		"direccion":$("#direccion").val(),
 		"sexo":$("#sexo").val(),
 		"email":$("#email").val(),
+		"nivelAcademico": $("#nivelEscolar").val(),
 		"lstcursos":lstcursos,
 		"lstGrado": lstGrado,
 		"lstSeccion": lstSeccion
@@ -83,8 +90,11 @@ async function onProcesarPersona(){
 		data: JSON.stringify(jsonData),
 		contentType: "application/json"
 	})
-	.done(function({data}) {
-		getMessageALert('success','Muy Bien!', `El docente ${data.nombre} fue registrado con éxito.`)
+	.done(function({data, message}) {
+		getMessageALert('success','Muy Bien!', message)
+		setTimeout(() => {
+		 window.location.href = "personal"
+		}, 3000);
 	})
 	.fail(function(err) {
 		console.log(err);
@@ -98,6 +108,63 @@ async function onProcesarPersona(){
 	});
 }
 
+async function onBuscarDatosPersonaDocente(idpersona){
+  await $.ajax({
+    url: '/api/v1/mantenimiento/buscarPersonalDocenteID',
+    type: 'GET',
+    dataType: 'JSON',
+    data: {"person": idpersona},
+  })
+  .done(function({data}) {
+    console.log(data);
+    $("#nivelEscolar").val(data.nivelAcademico)
+    $("#idPersonal").val(data.idPersonal)
+    onBusarGradoNivel();
+	$("#nombre").val(data.nombre)
+	$("#apellidos").val(data.apellidos)
+	$("#numDocumento").val(data.numDocumento)
+	$("#fechaNacimiento").val(data.fechaNacimiento)
+	$("#ncelular").val(data.ncelular)
+	$("#direccion").val(data.direccion)
+	$("#sexo").val(data.sexo)
+	$("#email").val(data.email)
+
+
+	setTimeout(() => {
+		$("ul#lstcursos input[type=checkbox]").each(function(){
+			for (var i = 0; i < data.lstcursos.length; i++) {
+				if(this.value == data.lstcursos[i].idCurso){
+					this.setAttribute('checked',true)
+				}			
+			}
+		});
+
+		$("ul#lstseccion input[type=checkbox]").each(function(){
+			for (var i = 0; i < data.lstSeccion.length; i++) {
+				if(this.value == data.lstSeccion[i].idSeccion){
+					this.setAttribute('checked',true)
+				}			
+			}
+		});	
+		$("ul#lstgrados input[type=checkbox]").each(function(){
+			for (var i = 0; i < data.lstGrado.length; i++) {
+				if(this.value == data.lstGrado[i].idGrado){
+					this.setAttribute('checked',true)
+				}			
+			}
+		});
+	}, 500);
+	
+  })
+  .fail(function(err) {
+    console.log(err);
+  });
+  
+}
+
+function check(){
+
+}
 
 function getMessageALert(_icon, _title, _message){
 	Swal.fire({

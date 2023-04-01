@@ -1,3 +1,4 @@
+
 var __table_docente__ = "";
 function init(){
 	__table_docente__ = $("#__table_docente__").DataTable({
@@ -24,7 +25,8 @@ function init(){
       sLoadingRecords: "Cargando...",
     },
   });
-	onListaPersonalAll();
+
+  onListaPersonalAll();	
 }
 
 async function onListaPersonalAll(){
@@ -35,10 +37,13 @@ async function onListaPersonalAll(){
 		data: {nivel: ''},
 	})
 	.done(function({data}) {
-		//console.log(data);
+		console.log(data);
 		__table_docente__.clear().draw();
 		for (let i = 0; i < data.length; i++) {  
-         	           
+    let deletebtn  = `<button onclick="onEliminarEstudiante(${data[i].idPersonal})" class="btn btn-sm bg-success-light me-2" >
+                        <i class="feather-trash-2"></i></button>`   
+    let editbtn = `<a href="/vieweditpersonal?person=${data[i].idPersonal}" class="btn btn-sm bg-danger-light" >
+                        <i class="feather-edit"></i></a>`         	           
           __table_docente__.row
             .add([
               data[i].numDocumento,
@@ -46,7 +51,8 @@ async function onListaPersonalAll(){
               data[i].ncelular,
               data[i].fechaNacimiento,
               data[i].email,              
-              data[i].direccion
+              data[i].direccion,
+              `${editbtn} ${deletebtn}`
             ])
             .draw(false);
         }
@@ -56,13 +62,16 @@ async function onListaPersonalAll(){
 	});
 }
 
+function onEliminarEstudiante(id){
+  getMessageALert('warning','Lo sentimos!', "este accion se encuentra en mantenimiento")
+}
 
 function getMessageALert(_icon, _title, _message){
-	Swal.fire({
-	  icon: _icon,
-	  title: _title,
-	  html: _message
-	})
+  Swal.fire({
+    icon: _icon,
+    title: _title,
+    html: _message
+  })
 }
 
 

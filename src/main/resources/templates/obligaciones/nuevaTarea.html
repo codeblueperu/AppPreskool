@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{plantilla/plantilla}">
+<head>
+	<title>PreSkool | Task</title>
+	<link rel="shortcut icon" th:href="@{/themes/assets/img/favicon.png}">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap}" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/feather/feather.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/icons/flags/flags.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/fontawesome.min.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/all.min.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/datatables/datatables.min.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/css/style.css}">
+
+</head>
+
+<body>
+	<div layout:fragment="content" >
+		<div class="page-header">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="page-sub-header">
+						<h3 class="page-title">Nueva Tarea</h3>
+						<ul class="breadcrumb">
+							<li class="breadcrumb-item active"><a th:href="@{listTask}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Lista Tareas</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="card card-table comman-shadow">
+					<div class="card-body">
+						<div class="page-header">							
+							
+						</div>
+						<div class="clear-fixed"></div>
+						<form th:action="@{/addtask}" method="POST" th:object="${data}"
+						enctype="multipart/form-data">
+							<div class="page-body">
+								<input type="hidden" name="idTarea" value="0">
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group local-forms">
+											<label>Docente <span class="login-danger">*</span></label>
+											<select class="form-control" name="personal"  id="cbodocente" onchange="buscarDatosDocente();onBusarGradoNivel();">
+												<option value="">---: SELECCIONE :---</option>
+												<option th:each="itemdocente : ${lstdocente}"
+												 	th:value="${itemdocente.idPersonal}"
+												 	th:text="${itemdocente.nombre} + ' ' + ${itemdocente.apellidos}">		 		
+												</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group local-forms">
+											<label>Cursos <span class="login-danger">*</span></label>
+											<select class="form-control" id="cbocurso" name="curso">
+												<option value="">---: SELECCIONE :---</option>	
+												<option th:each="itemcurso : ${lstcursos}"
+												 	th:value="${itemcurso.idCurso}"
+												 	th:text="${itemcurso.nombreCurso}">		 		
+												</option>									
+											</select>
+										</div>
+									</div>	
+									<div class="col-md-4">
+										<div class="form-group local-forms">
+											<label>Descripcion Tarea <span class="login-danger">*</span></label>
+											<input type="text"  id="tema" name="tema" class="form-control">
+										</div>
+									</div>								
+								</div>
+								<div class="row">
+									<div class="col-md-3">
+										<div class="form-group local-forms">
+											<label>Nivel <span class="login-danger">*</span></label>
+											<select class="form-control" name="nivelEscolar" id="nivelEscolar" onchange="onBusarGradoNivel();">
+												<option value="">---: SELECCIONE :---</option>
+												<option value="PRIMARIA">PRIMARIA</option>
+												<option value="SECUNDARIA">SECUNDARIA</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group local-forms">
+											<label>Grado <span class="login-danger">*</span></label>
+											<select class="form-control" name="idGrado" id="cboidGrado" onchange="">
+												<option value="">---: SELECCIONE :---</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group local-forms">
+											<label>Seccion <span class="login-danger">*</span></label>
+											<select class="form-control" name="idSeccion" id="cboSeccion" onchange="">
+												<option value="">---: SELECCIONE :---</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group local-forms">
+											<label>Fecha Presentacion <span class="login-danger">*</span></label>
+											<input type="date" id="dtpfecha" name="fechaPresentacion" class="form-control">
+										</div>
+									</div>
+
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group local-forms">
+											<label>Criterios <span class="login-danger">*</span></label>
+											<textarea class="form-control" name="observacion"  cols="30" rows="1"></textarea>
+										</div>
+									</div>																			
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label>Cargar Archivo <span class="login-danger">*</span></label>
+											<input type="file" placeholder="seleccione un archo max 512 mb." id="architarea" class="form-control" name="architarea">
+											<span>seleciones un archivo, maximo 512mb.</span>
+										</div>
+									</div>																			
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										 <button type="submit" class="btn btn-primary">Guardar</button>  
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>			
+		</div>
+
+	</div>
+
+	<script th:src="@{/themes/assets/js/jquery-3.6.0.min.js}"></script>
+	<script th:src="@{/themes/assets/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/themes/assets/js/feather.min.js}"></script>
+	<script th:src="@{/themes/assets/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+	<script th:src="@{/themes/assets/plugins/datatables/datatables.min.js}"></script>
+	<script th:src="@{/themes/assets/plugins/moment/moment.min.js}"></script>
+	<script th:src="@{/themes/assets/js/bootstrap-datetimepicker.min.js}"></script>
+	<div layout:fragment="ajax_method">
+		<script th:src="@{/ajax/apiTareas.js}"></script>
+	</div>
+</body>
+
+</html>

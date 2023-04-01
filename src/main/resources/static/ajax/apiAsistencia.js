@@ -95,7 +95,13 @@ async function buscarDatosDocente(){
 		$("#cboSeccion").html(optionsecciones);
 
 		//GRADOS
-		grados = lstGrado;
+		if(lstGrado.length > 0){
+			grados = lstGrado;
+			onBusarGradoNivel();
+		}else{
+			grados = []
+			$("#cboidGrado").html(`<option value="">---: SELECCIONE :---</option>`);
+		}
 
 	})
 	.fail(function(error) {
@@ -107,8 +113,7 @@ async function buscarDatosDocente(){
 		}else{
 			getMessageALert('error','Error!', err.responseJSON.detail)
 		}
-	});
-	
+	});	
 }
 
 async function onBusarEstudiantes(){

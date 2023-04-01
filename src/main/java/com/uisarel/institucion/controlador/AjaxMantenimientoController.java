@@ -35,11 +35,27 @@ public class AjaxMantenimientoController {
 	@Autowired
 	private IAsistenciaServicio srvAsistencia;
 
+//	RESCONTROLLER ESTUDIANTES
+
 	@RequestMapping(value = "/guardarstudentdata", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<?> pointGuardarDataEstudiante(@RequestBody Estudiante datastudent) {
-		System.err.println(datastudent);
+		// System.err.println(datastudent);
+
+		Estudiante estudiante = new Estudiante();
+		String message = "";
+		if (datastudent.getIdEstudiante() != 0) {
+//			UPDATE 
+			estudiante = srvEstudiante.onUpdateEstudiantePeriodo(datastudent);
+			message = "Los datos del estudiante fuerón actualizados con éxito.";
+		} else {
+//			INSERT
+			estudiante = srvEstudiante.onGuardarEstudianteNuevo(datastudent);
+			message = "Excelente el estudiante fue registrado con éxito en el periodo escolar "
+					+ estudiante.getPeriodoEscolar().getAnioEscolar();
+		}
 		HashMap<String, Object> response = new HashMap<>();
-		response.put("data", srvEstudiante.onGuardarEstudianteNuevo(datastudent));
+		response.put("data", estudiante);
+		response.put("message", message);
 		return ResponseEntity.ok(response);
 	}
 
@@ -54,13 +70,32 @@ public class AjaxMantenimientoController {
 		return ResponseEntity.ok(response);
 	}
 
+	@GetMapping("/buscarEstudinatePeriodoEscolar")
+	public ResponseEntity<?> pointBuscarEstudinatePeriodoEscolar(@RequestParam("periodo") int periodo,
+			@RequestParam("idestudiante") int idestudiante) {
+
+		HashMap<String, Object> response = new HashMap<>();
+		response.put("data", srvEstudiante.onBuscarEstudiantePeriodoEscolarId(idestudiante, periodo));
+		return ResponseEntity.ok(response);
+	}
+
 //	PERSONAL RESPCONTROLLER
 
 	@RequestMapping(value = "/guardarpersonal", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<?> pointGuardarDataPersonal(@RequestBody Personal personal) {
 		System.err.println(personal);
+		Personal person = new Personal();
+		String message = "";
+		if (personal.getIdPersonal() != 0) {
+			person = srvPersona.onUpdateDataPersonal(personal);
+			message = "Los datos del docente fueron modificados correctamente.";
+		} else {
+			person = srvPersona.onGuardarDatosPersonal(personal);
+			message = "Los datos del docente fueron registrados correctamente.";
+		}
 		HashMap<String, Object> response = new HashMap<>();
-		response.put("data", srvPersona.onGuardarDatosPersonal(personal));
+		response.put("data", person);
+		response.put("message", message);
 		return ResponseEntity.ok(response);
 	}
 
@@ -69,6 +104,14 @@ public class AjaxMantenimientoController {
 
 		HashMap<String, Object> response = new HashMap<>();
 		response.put("data", srvPersona.onListarPersonalAll());
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("/buscarPersonalDocenteID")
+	public ResponseEntity<?> pointBuscarPersonalDocenteID(@RequestParam("person") int idpersona) {
+
+		HashMap<String, Object> response = new HashMap<>();
+		response.put("data", srvPersona.onBuscarPersonalId(idpersona));
 		return ResponseEntity.ok(response);
 	}
 

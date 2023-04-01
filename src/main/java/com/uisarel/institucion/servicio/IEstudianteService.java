@@ -25,7 +25,9 @@ public interface IEstudianteService {
 	 * @param idUsuario
 	 * @return
 	 */
-	Estudiante onBuscarUsuarioId(int idUsuario);
+	Estudiante onBuscarEstudianteId(int idUsuario);
+	
+	Estudiante onBuscarEstudiantePeriodoEscolarId(int idEstudiante,int idperiodoEscolar);
 
 	/**
 	 * @author JMISERVER13

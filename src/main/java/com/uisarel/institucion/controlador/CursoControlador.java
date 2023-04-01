@@ -73,7 +73,7 @@ public class CursoControlador {
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
 		PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(18, auth);
-		model.addAttribute("lstdata", srvCurso.onListarCursos(""));
+		model.addAttribute("lstdata", srvCurso.onListarCursos("ALL"));
 		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
 		model.addAttribute("cdrSelect", actions.getLeer());
 		model.addAttribute("cdrInsert", actions.getCrear());

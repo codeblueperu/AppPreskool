@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uisarel.institucion.Exceptions.ConflictException;
 import com.uisarel.institucion.modelo.entidades.Personal;
 import com.uisarel.institucion.modelo.repositorio.IPersonalRepositorio;
 import com.uisarel.institucion.servicio.IPersonalServicio;
@@ -37,6 +38,10 @@ public class PersonalServiceImpl implements IPersonalServicio {
 		Personal response = new Personal();
 		try {
 			// VALIDAMOS QUE NO EXISTA EL NUMERO DE DOCUMENTO
+			if (!repoPersonal.findByNumDocumento(data.getNumDocumento()).isEmpty()) {
+				throw new ConflictException(
+						"El numero de documento <b>" + data.getNumDocumento() + "</b> ya se encuentra registrado.");
+			}
 
 			response = repoPersonal.save(data);
 		} catch (Exception e) {
@@ -86,8 +91,8 @@ public class PersonalServiceImpl implements IPersonalServicio {
 		Personal response = new Personal();
 		try {
 			Optional<Personal> op = repoPersonal.findById(idPersonal);
-			
-			if(op.isPresent()) {
+
+			if (op.isPresent()) {
 				response = op.get();
 			}
 		} catch (Exception e) {

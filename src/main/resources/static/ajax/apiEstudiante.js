@@ -1,3 +1,9 @@
+//================================ RUTA TOKEN ====================================//
+const urlParams = new URLSearchParams(window.location.search);
+var studen_edit = urlParams.get("student");
+var periodo_escolar = urlParams.get("periodo");
+//====================================================================//
+
 var __table_estudiante__ = "";
 
 function init(){
@@ -25,6 +31,10 @@ function init(){
       sLoadingRecords: "Cargando...",
     },
   });
+
+	if(studen_edit != null && periodo_escolar != null){
+		onBuscarDataEstudianteID(studen_edit, periodo_escolar);
+	}
 }
 
 async function onBusarGradoNivel(){
@@ -44,6 +54,13 @@ async function onBusarGradoNivel(){
 	})
 	.fail(function(err) {
 		console.log(err);
+		if(err.status === 409){
+			getMessageALert('warning','Upps!', err.responseJSON.message)
+		}else if(err.status === 404){
+			getMessageALert('warning','No Hay!', err.responseJSON.message)
+		}else{
+			getMessageALert('error','Error!', err.responseJSON.detail)
+		}
 	});
 }
 
@@ -89,8 +106,12 @@ async function onProcesarEstudiante(){
 		data: JSON.stringify(jsonData),
 		contentType: "application/json"
 	})
-	.done(function({data}) {
-		getMessageALert('success','Muy Bien!', `El estudiante ${data.nombreEstudiante} fue registrado con éxito.`)
+	.done(function({data,message}) {
+		getMessageALert('success','Muy Bien!', message)
+		setTimeout(() => {
+		 window.location.href = "estudiantes"
+		}, 3000);
+
 	})
 	.fail(function(err) {
 		console.log(err);
@@ -99,7 +120,7 @@ async function onProcesarEstudiante(){
 		}else if(err.status === 404){
 			getMessageALert('warning','No Hay!', err.responseJSON.message)
 		}else{
-			getMessageALert('error','Error!', err)
+			getMessageALert('error','Error!', err.responseJSON.detail)
 		}
 	});
 	
@@ -122,7 +143,12 @@ async function onBuscarEstudianteNivelGradoSeccionPeriodo(){
 	.done(function({data}) {
 		console.log(data);
 		__table_estudiante__.clear().draw();
-		for (let i = 0; i < data.length; i++) {         
+		for (let i = 0; i < data.length; i++) {      
+
+		let deletebtn  = `<button onclick="onEliminarEstudiante(${data[i].idEstudiante})" class="btn btn-sm bg-success-light me-2" >
+												<i class="feather-trash-2"></i></button>`   
+		let editbtn = `<a href="/vieweditstudent?student=${data[i].idEstudiante}&periodo=${data[i].periodoEscolar.idPeriodoEscolar}" class="btn btn-sm bg-danger-light" >
+												<i class="feather-edit"></i></a>`
          	           
           __table_estudiante__.row
             .add([
@@ -132,18 +158,78 @@ async function onBuscarEstudianteNivelGradoSeccionPeriodo(){
               data[i].nivelEscolar,
               data[i].turno,
               data[i].gradoAlumno.gradoDescripcion + ' ' + data[i].seccionAlumno.descripcionSeccion,              
-              data[i].apoderadoEstudiante.nombre + ' ' + data[i].apoderadoEstudiante.appaterno + ' ' + data[i].apoderadoEstudiante.apmaterno
+              data[i].apoderadoEstudiante.nombre + ' ' + data[i].apoderadoEstudiante.appaterno + ' ' + data[i].apoderadoEstudiante.apmaterno,
+              `${editbtn} ${deletebtn}`
             ])
             .draw(false);
         }
 	})
-	.fail(function() {
-		console.log("error");
-	})
-	.always(function() {
-		console.log("complete");
+	.fail(function(err) {
+		if(err.status === 409){
+			getMessageALert('warning','Upps!', err.responseJSON.message)
+		}else if(err.status === 404){
+			getMessageALert('warning','No Hay!', err.responseJSON.message)
+		}else{
+			getMessageALert('error','Error!', err.responseJSON.detail)
+		}
 	});
 	
+}
+
+async function onBuscarDataEstudianteID(idEstudiante, idperiodoEscolar){
+	await $.ajax({
+		url: '/api/v1/mantenimiento/buscarEstudinatePeriodoEscolar',
+		type: 'GET',
+		dataType: 'JSON',
+		data: {"periodo": idperiodoEscolar, "idestudiante": idEstudiante},
+	})
+	.done(function({data}) {
+		console.log(data);
+		$("#nivelEscolar").val(data.nivelEscolar)		
+		$("#idEstudiante").val(data.idEstudiante)
+		$("#colegioProcencia").val(data.colegioProcencia)
+		$("#observacion").val(data.observacion)
+		onBusarGradoNivel();
+		$("#nombreEstudiante").val(data.nombreEstudiante)
+		$("#apPaternoEstudiante").val(data.apPaterno)
+		$("#apMaternoEStudiante").val(data.apMaterno)
+		$("#numDocumentoEstudiante").val(data.numDocumento)
+		$("#fnacimiento").val(data.fnacimiento)
+		$("#ncelularEstudiante").val(data.ncelular)
+		$("#nivelEscolar").val(data.nivelEscolar)
+		$("#turno").val(data.turno)
+		$("#sexoEstudiante").val(data.sexoEstudiante)		
+		$("#idSeccion").val(data.seccionAlumno.idSeccion)
+		$("#idPeriodoEscolar").val(data.periodoEscolar.idPeriodoEscolar)
+		$("#idApoderado").val(data.apoderadoEstudiante.idApoderado)
+		$("#nombreapoderado").val(data.apoderadoEstudiante.nombre)
+		$("#apmaternoapoderado").val(data.apoderadoEstudiante.apmaterno)
+		$("#appaternoapoderado").val(data.apoderadoEstudiante.appaterno)
+		$("#numDocumentoapoderado").val(data.apoderadoEstudiante.numDocumento)
+		$("#celularapoderado").val(data.apoderadoEstudiante.celular)
+		$("#emailapoderado").val(data.apoderadoEstudiante.email)
+		$("#direccionapoderado").val(data.apoderadoEstudiante.direccion)	
+		setTimeout(() => {
+		 $("#idGrado").val(data.gradoAlumno.idGrado)	
+		}, 400);
+		
+
+	
+	})
+	.fail(function(err) {
+		if(err.status === 409){
+			getMessageALert('warning','Upps!', err.responseJSON.message)
+		}else if(err.status === 404){
+			getMessageALert('warning','No Hay!', err.responseJSON.message)
+		}else{
+			getMessageALert('error','Error!', err.responseJSON.detail)
+		}
+	});
+	
+}
+
+function onEliminarEstudiante(id){
+	getMessageALert('warning','Lo sentimos!', "este accion se encuentra en mantenimiento")
 }
 
 function getMessageALert(_icon, _title, _message){

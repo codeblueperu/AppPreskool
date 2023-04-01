@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
 import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
@@ -36,6 +37,12 @@ public class PersonalControlador {
 	
 	@GetMapping("/adddocente")
 	public String getNuevoDocenteTemplate(Model model) {
+		model.addAttribute("lstsecciones", srvSeccion.onListarSeccionAll());
+		return "mantenimiento/adddocente";
+	}
+	
+	@GetMapping("/vieweditpersonal")
+	public String getEditarDatosPersonalDocente(@RequestParam("person")int idpersona ,Model model) {
 		model.addAttribute("lstsecciones", srvSeccion.onListarSeccionAll());
 		return "mantenimiento/adddocente";
 	}

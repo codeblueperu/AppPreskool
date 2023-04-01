@@ -39,6 +39,9 @@ public class Personal {
 	
 	@Column(length = 70, nullable = true)
 	private String email;
+	
+	@Column(length = 15, nullable = true)
+	private String nivelAcademico;
 
 	@JoinTable(name = "curso_docente", joinColumns = @JoinColumn(name = "idPersonal", nullable = false), inverseJoinColumns = @JoinColumn(name = "idCurso", nullable = false))
 	@ManyToMany(cascade = CascadeType.REFRESH)
