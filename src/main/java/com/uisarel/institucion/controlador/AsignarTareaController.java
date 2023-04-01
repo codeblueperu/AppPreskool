@@ -1,5 +1,9 @@
 package com.uisarel.institucion.controlador;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -17,6 +21,7 @@ import com.uisarel.institucion.servicio.ICursosService;
 import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
 import com.uisarel.institucion.servicio.IPersonalServicio;
 import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
+import com.uisarel.institucion.utils.ConstantApp;
 
 @Controller
 public class AsignarTareaController {
@@ -47,14 +52,30 @@ public class AsignarTareaController {
 	@GetMapping("/formaddtask")
 	public String getTemplateCrearNuevaTareasAsignadasPeriodoEscolarAperturado(Model model) {
 		AsignarTarea tarea = new AsignarTarea();
-		model.addAttribute("data", tarea);		
-		model.addAttribute("lstdocente", srvDocente.onListarPersonalAll());		
+		model.addAttribute("data", tarea);
+		model.addAttribute("lstdocente", srvDocente.onListarPersonalAll());
 		return "obligaciones/nuevaTarea";
 	}
-	
+
 	@PostMapping("/addtask")
-	public String getCrearNuevaTareasAsignadasPeriodoEscolarAperturado(AsignarTarea datos, @RequestParam("architarea") MultipartFile multiPart) {
-			System.err.println(datos);
+	public String getCrearNuevaTareasAsignadasPeriodoEscolarAperturado(AsignarTarea datos,
+			@RequestParam("architarea") MultipartFile multiPart, @RequestParam("fechaPresenta") String fechaPresenta)
+			throws ParseException {
+
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+		Date converFecha = formato.parse(fechaPresenta);
+		
+		datos.setFechaPresentacion(converFecha);
+		
+		if (!multiPart.isEmpty()) {
+			String ruta = "c:/filePreskool/"; 
+			String nombreImagen = ConstantApp.guardarArchivo(multiPart, ruta);
+			if (nombreImagen != null) {
+				datos.setNameDocumento(nombreImagen);
+			}
+		}
+
+		srvAsignarTarea.onGuardarTareaNuevaPeriodoEscolar(datos);
 		return "redirect:/listTask";
 	}
 

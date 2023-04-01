@@ -67,18 +67,28 @@ layout:decorate="~{plantilla/plantilla}">
 						<div class="clear-fixed"></div>
 						<div class="page-body">
 							<div class="table-responsive">
-								<table class="table border-0 star-student table-hover table-center mb-0 table-striped" id="__table_students__">
+								<table class="table border-0 star-student table-hover table-center mb-0 datatable table-striped" id="__table_students__">
 									<thead class="student-thread">
 										<tr >				
 											<th>ID</th>
-											<th>NOMBRES Y APELLIDOS</th>
-											<th>TURNO</th>
+											<th>DOCENTE</th>											
 											<th>NIVEL</th>
 											<th>GRADO</th>
-											<th>SITUACION</th>
+											<th>TAREA</th>
+											<th>FECHA ASIGNACION</th>
+											<th>FECHA PRESENTACION</th>
 										</tr>
 									</thead>
 									<tbody>
+										<tr th:each="item : ${dttareas}" >
+											<td th:text="${item.idTarea}"></td>
+											<td th:text="${item.personal.nombre}+ ' ' + ${item.personal.apellidos}"></td>
+											<td th:text="${item.nivelEscolar}"></td>
+											<td th:text="${item.grado.gradoDescripcion} + ' ' + ${item.seccion.descripcionSeccion}"></td>
+											<td th:text="${item.tema}"></td>
+											<td th:text="${item.fechaAsignacion}"></td>
+											<td th:text="${item.fechaPresentacion}"></td>
+										</tr>
 									</tbody>
 								</table>
 							</div>

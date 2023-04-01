@@ -38,11 +38,13 @@ public class AsignarTarea {
 	
 	private String nivelEscolar;
 	
-	@Column(nullable = false)
-	private int idGrado;
+	@OneToOne
+	@JoinColumn(name = "idGrado")
+	private Grado grado;
 	
-	@Column(nullable = false)
-	private int idSeccion;
+	@OneToOne
+	@JoinColumn(name = "idSeccion")
+	private Seccion seccion;
 	
 	@OneToOne
 	@JoinColumn(name="idCurso")

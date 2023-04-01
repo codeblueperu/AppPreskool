@@ -1,6 +1,7 @@
 package com.uisarel.institucion.servicio.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +50,9 @@ public class AsignarTareaServiceImpl implements IAsignarTareaServicio {
 	public AsignarTarea onGuardarTareaNuevaPeriodoEscolar(AsignarTarea datos) {
 		AsignarTarea response = new AsignarTarea();
 		try {
+			PeriodoEscolar periodo = repoPeriodoEscolar.findByEstado("APERTURADO").get(0);
+			datos.setFechaAsignacion(new Date());
+			datos.setPeriodoEscolar(periodo);
 			response = repoAsignarTarea.save(datos);
 		} catch (Exception e) {
 			throw e;
