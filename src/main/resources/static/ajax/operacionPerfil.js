@@ -39,7 +39,7 @@ async function onSearchOperaciones(){
 	data: {idperfil: $("#idperfil").val(),idmenu: $("#idmenu").val()},
 	})
 	.done(function({data,asigned}) {
-		console.log(asigned)
+		//console.log(asigned)
 		
 		
 		__table_perfil_operation__.clear().draw();

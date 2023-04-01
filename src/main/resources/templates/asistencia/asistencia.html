@@ -44,7 +44,10 @@ layout:decorate="~{plantilla/plantilla}">
 										<label>Docente <span class="login-danger">*</span></label>
 										<select class="form-control" id="cbodocente" onchange="buscarDatosDocente();">
 											<option value="">---: SELECCIONE :---</option>
-											<option th:each="itemdocente : ${lstdocente}" th:value="${itemdocente.idPersonal}" th:text="${itemdocente.nombre} + ' ' + ${itemdocente.apellidos}"></option>
+											<option th:each="itemdocente : ${lstdocente}"
+											 	th:value="${itemdocente.idPersonal}"
+											 	th:text="${itemdocente.nombre} + ' ' + ${itemdocente.apellidos}">		 		
+											</option>
 										</select>
 									</div>
 								</div>
@@ -53,7 +56,12 @@ layout:decorate="~{plantilla/plantilla}">
 										<label>Periodo Escolar <span class="login-danger">*</span></label>
 										<select class="form-control" id="cboperiodo" onchange="">
 											<option value="">---: SELECCIONE :---</option>
-											<option th:each="itemperiodo : ${lstperiodo}" th:value="${itemperiodo.idPeriodoEscolar}" th:text="${itemperiodo.anioEscolar}"></option>
+											<option 
+												th:each="itemperiodo : ${lstperiodo}" 
+												th:selected="${itemperiodo.estado == 'APERTURADO'}"
+												th:value="${itemperiodo.idPeriodoEscolar}" 
+												th:text="${itemperiodo.anioEscolar}">
+											</option>
 										</select>
 									</div>
 								</div>
@@ -67,7 +75,7 @@ layout:decorate="~{plantilla/plantilla}">
 								</div>								
 							</div>
 							<div class="row">
-								<div class="col-md-4">
+								<div class="col-md-3">
 									<div class="form-group local-forms">
 										<label>Nivel <span class="login-danger">*</span></label>
 										<select class="form-control" id="nivelEscolar" onchange="onBusarGradoNivel();">
@@ -77,7 +85,7 @@ layout:decorate="~{plantilla/plantilla}">
 										</select>
 									</div>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-2">
 									<div class="form-group local-forms">
 										<label>Grado <span class="login-danger">*</span></label>
 										<select class="form-control" id="cboidGrado" onchange="">
@@ -85,7 +93,7 @@ layout:decorate="~{plantilla/plantilla}">
 										</select>
 									</div>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-2">
 									<div class="form-group local-forms">
 										<label>Seccion <span class="login-danger">*</span></label>
 										<select class="form-control" id="cboSeccion" onchange="">
@@ -93,11 +101,35 @@ layout:decorate="~{plantilla/plantilla}">
 										</select>
 									</div>
 								</div>
+								<div class="col-md-2">
+									<div class="form-group local-forms">
+										<label>Fechs <span class="login-danger">*</span></label>
+										<input type="date" placeholder="DD-MM-YYYY" id="dtpfecha" class="form-control">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<button onclick="onBusarEstudiantes()" class="btn btn-primary"><i class="fa fa-users" aria-hidden="true"></i> Listar Estudiantes</button>
+								</div>
 							</div>
 						</div>
 						<div class="clear-fixed"></div>
 						<div class="page-body">
-							
+							<div class="table-responsive">
+								<table class="table border-0 star-student table-hover table-center mb-0 table-striped" id="__table_students__">
+									<thead class="student-thread">
+										<tr >				
+											<th>ID</th>
+											<th>NOMBRES Y APELLIDOS</th>
+											<th>TURNO</th>
+											<th>NIVEL</th>
+											<th>GRADO</th>
+											<th>SITUACION</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>

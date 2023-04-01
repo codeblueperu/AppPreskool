@@ -1,5 +1,8 @@
 package com.uisarel.institucion.controlador;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.uisarel.institucion.modelo.entidades.Asistencia;
 import com.uisarel.institucion.modelo.entidades.Estudiante;
 import com.uisarel.institucion.modelo.entidades.Personal;
+import com.uisarel.institucion.servicio.IAsistenciaServicio;
 import com.uisarel.institucion.servicio.IEstudianteService;
 import com.uisarel.institucion.servicio.IPersonalServicio;
 
@@ -26,6 +31,9 @@ public class AjaxMantenimientoController {
 
 	@Autowired
 	private IPersonalServicio srvPersona;
+
+	@Autowired
+	private IAsistenciaServicio srvAsistencia;
 
 	@RequestMapping(value = "/guardarstudentdata", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<?> pointGuardarDataEstudiante(@RequestBody Estudiante datastudent) {
@@ -71,6 +79,32 @@ public class AjaxMantenimientoController {
 
 		HashMap<String, Object> response = new HashMap<>();
 		response.put("data", srvPersona.onBuscarPersonalGradoSeccionCursoId(iddocente));
+		return ResponseEntity.ok(response);
+	}
+
+//	RESCONTROLLER ALUMNO
+
+	@GetMapping("/buscarAlumnosGradoNivelSeccionPeriodo")
+	public ResponseEntity<?> endPointBuscarAlumnosGradoNivelSeccionPeriodo(@RequestParam("idperiodo") int idperiodo,
+			@RequestParam("nivel") String nivel, @RequestParam("idgrado") int idgrado,
+			@RequestParam("idsecion") int idseccion, @RequestParam("idcurso") int idcurso,
+			@RequestParam("fecha") String fecha) throws ParseException {
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+		Date converFecha = formato.parse(fecha);
+		HashMap<String, Object> response = new HashMap<>();
+		response.put("asistencia", srvAsistencia.onListarAsistenciaCursoFecha(idcurso, idseccion, converFecha));
+		response.put("data",
+				srvEstudiante.onListarEstuandePeriodoEscolarGradoSeccionNivel(idperiodo, nivel, idgrado, idseccion));
+		return ResponseEntity.ok(response);
+	}
+
+//	RESCONTROLLER ASISTENCIA
+
+	@RequestMapping(value = "/guardarasistencia", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<?> pointGuardarAsistencia(@RequestBody Asistencia asistencia) {
+		System.err.println(asistencia);
+		HashMap<String, Object> response = new HashMap<>();
+		response.put("data", srvAsistencia.onGuardarAsistenciaCursoFecha(asistencia));
 		return ResponseEntity.ok(response);
 	}
 

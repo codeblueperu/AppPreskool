@@ -44,9 +44,6 @@ async function onBusarGradoNivel(){
 	});
 }
 
-
-
-
 async function onProcesarPersona(){
 	let lstcursos = []
 

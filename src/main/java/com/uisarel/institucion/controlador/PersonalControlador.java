@@ -9,15 +9,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
 import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
-import com.uisarel.institucion.servicio.IPersonalServicio;
 import com.uisarel.institucion.servicio.ISeccionService;
 import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
 
 @Controller
 public class PersonalControlador {
 
-	@Autowired
-	private IPersonalServicio srvPersonal;
+//	@Autowired
+//	private IPersonalServicio srvPersonal;
 
 	@Autowired
 	private ConfiguracionesServiceImp srvSeting;
