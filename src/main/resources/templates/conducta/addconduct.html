@@ -3,7 +3,7 @@
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 layout:decorate="~{plantilla/plantilla}">
 <head>
-	<title>PreSkool | Tarea</title>
+	<title>PreSkool | Conducta</title>
 	<link rel="shortcut icon" th:href="@{/themes/assets/img/favicon.png}">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap}" rel="stylesheet">
 <link rel="stylesheet" th:href="@{/themes/assets/plugins/bootstrap/css/bootstrap.min.css}">
@@ -18,20 +18,23 @@ layout:decorate="~{plantilla/plantilla}">
 
 <body>
 	<div layout:fragment="content" >
-
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="card card-table comman-shadow">
-					<div class="card-body">
-						<div class="page-header">	
-						<div class="row">
-							<div class="col-md-12"><h5>Tarea Estudiante</h5></div>
-						</div>						
+		<div class="col-md-12">
+			<div class="card bg-white">
+				<div class="card-header">
+					<h5 class="card-title">Conducta Estudiante</h5>
+				</div>
+				<div class="card-body">
+					<ul class="nav nav-tabs">
+						<li class="nav-item"><a class="nav-link active" href="#tapaddreport" data-bs-toggle="tab">Crear Reporte</a></li>
+						<li class="nav-item"><a class="nav-link" href="#taplistreport" data-bs-toggle="tab">Lista de Conductas</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane show active" id="tapaddreport">
 							<div class="row">
 								<div class="col-md-5">
 									<div class="form-group local-forms">
 										<label>Docente <span class="login-danger">*</span></label>
-										<select class="form-control" id="cbodocente" onchange="buscarDatosDocente();onBuscarTareaDocente();">
+										<select class="form-control" id="cbodocente" onchange="buscarDatosDocente();onBusarEstudiantes();">
 											<option value="">---: SELECCIONE :---</option>
 											<option th:each="itemdocente : ${lstdocente}"
 											 	th:value="${itemdocente.idPersonal}"
@@ -40,24 +43,10 @@ layout:decorate="~{plantilla/plantilla}">
 										</select>
 									</div>
 								</div>
-								<!-- <div class="col-md-2">
-									<div class="form-group local-forms">
-										<label>Periodo Escolar <span class="login-danger">*</span></label>
-										<select class="form-control" id="cboperiodo" onchange="">
-											<option value="">---: SELECCIONE :---</option>
-											<option 
-												th:each="itemperiodo : ${lstperiodo}" 
-												th:selected="${itemperiodo.estado == 'APERTURADO'}"
-												th:value="${itemperiodo.idPeriodoEscolar}" 
-												th:text="${itemperiodo.anioEscolar}">
-											</option>
-										</select>
-									</div>
-								</div> -->
 								<div class="col-md-4">
 									<div class="form-group local-forms">
 										<label>Cursos <span class="login-danger">*</span></label>
-										<select class="form-control" id="cbocurso" onchange="onBuscarTareaDocente();">
+										<select class="form-control" id="cbocurso" onchange="onBusarEstudiantes();">
 											<option value="">---: SELECCIONE :---</option>										
 										</select>
 									</div>
@@ -77,7 +66,7 @@ layout:decorate="~{plantilla/plantilla}">
 								<div class="col-md-3">
 									<div class="form-group local-forms">
 										<label>Grado <span class="login-danger">*</span></label>
-										<select class="form-control" id="cboidGrado" onchange="onBuscarTareaDocente();">
+										<select class="form-control" id="cboidGrado" onchange="onBusarEstudiantes();">
 											<option value="">---: SELECCIONE :---</option>
 										</select>
 									</div>
@@ -85,49 +74,82 @@ layout:decorate="~{plantilla/plantilla}">
 								<div class="col-md-3">
 									<div class="form-group local-forms">
 										<label>Seccion <span class="login-danger">*</span></label>
-										<select class="form-control" id="cboSeccion" onchange="onBuscarTareaDocente();">
+										<select class="form-control" id="cboSeccion" onchange="onBusarEstudiantes();">
 											<option value="">---: SELECCIONE :---</option>
 										</select>
 									</div>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-6">
 									<div class="form-group local-forms">
-										<label>Tareas <span class="login-danger">*</span></label>
+										<label>Alumno <span class="login-danger">*</span></label>
 										<select class="form-control" id="cbotareas" onchange="">
 											<option value="">---: SELECCIONE :---</option>
 										</select>
 									</div>
 								</div>
-								<div class="col-md-2">
-									<button onclick="onBusarEstudiantes()" class="btn btn-primary"><i class="fa fa-users" aria-hidden="true"></i> Buscar</button>
+							</div>
+							<div class="row">
+								<div class="col-md-3">
+									<div class="form-group local-forms">
+										<label>DNI <span class="login-danger">*</span></label>
+										<input type="text" name="" id="" class="form-control" readonly="" autocomplete="off">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group local-forms">
+										<label>Apoderado <span class="login-danger">*</span></label>
+										<input type="text" name="" id="" class="form-control" readonly="" autocomplete="off">
+									</div>
+								</div>
+							
+								<div class="col-md-3">
+									<div class="form-group local-forms">
+										<label>Celular Apoderado<span class="login-danger">*</span></label>
+										<input type="text" name="" id="" class="form-control" readonly="" autocomplete="off">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group local-forms">
+										<label>Motivo<span class="login-danger">*</span></label>
+										<textarea class="form-control" id="" cols="30" rows="1"></textarea>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<label for="chknotificar"><input type="checkbox" name="chknotificar" id="chknotificar"> Notificar al Apoderado via Email</label>
+								</div>
+								<div class="col-md-6">
+									<button class="btn btn-primary">Procesar</button>
 								</div>
 							</div>
 						</div>
-						<div class="clear-fixed"></div>
-						<div class="page-body">
-							<div class="table-responsive">
-								<table class="table border-0 star-student table-hover table-center mb-0 table-striped" id="__table_students__">
+						<div class="tab-pane" id="taplistreport">
+							<div class="row">
+								<div class="table-responsive">
+									<table class="table border-0 star-student table-hover table-center mb-0 table-striped" id="__table_conducta">
 									<thead class="student-thread">
-										<tr >				
-											<th>ID</th>
-											<th>NOMBRES Y APELLIDOS</th>
-											<th>TURNO</th>
+										<tr >
+											<th>DOCENTE</th>											
 											<th>NIVEL</th>
 											<th>GRADO</th>
-											<th>PRESENTO</th>
-											<th>CALIFICACION</th>
+											<th>CURSO</th>
+											<th>FECHA</th>
+											<th>MOTIVO</th>
 										</tr>
 									</thead>
 									<tbody>
 									</tbody>
 								</table>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>			
+			</div>
 		</div>
-
 	</div>
 
 	<script th:src="@{/themes/assets/js/jquery-3.6.0.min.js}"></script>
@@ -138,7 +160,7 @@ layout:decorate="~{plantilla/plantilla}">
 	<script th:src="@{/themes/assets/plugins/moment/moment.min.js}"></script>
 	<script th:src="@{/themes/assets/js/bootstrap-datetimepicker.min.js}"></script>
 	<div layout:fragment="ajax_method">
-		<script th:src="@{/ajax/ApiTareaAlumno.js}"></script>
+		<script th:src="@{/ajax/ApiConducta.js}"></script>
 	</div>
 </body>
 

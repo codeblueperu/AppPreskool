@@ -28,9 +28,11 @@ public class AsignarTarea {
 	private String observacion;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", locale = "es-PE", timezone = "America/Lima")
+	@Column(nullable = false, columnDefinition = "DATE")
 	private Date fechaAsignacion;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", locale = "es-PE", timezone = "America/Lima")
+	@Column(nullable = false, columnDefinition = "DATE")
 	private Date fechaPresentacion;
 	
 	@Column(length = 180, nullable = true)

@@ -26,6 +26,7 @@ public class Asistencia {
 	private String observacion;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", locale = "es-PE", timezone = "America/Lima")
+	@Column(nullable = false, columnDefinition = "DATE")
 	private Date fecha;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss", locale = "es-PE", timezone = "America/Lima")

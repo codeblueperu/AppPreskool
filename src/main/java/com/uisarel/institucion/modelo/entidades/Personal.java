@@ -26,6 +26,7 @@ public class Personal {
 	private String numDocumento;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", locale = "es-PE", timezone = "America/Lima")
+	@Column(nullable = false, columnDefinition = "DATE")
 	private String fechaNacimiento;
 
 	@Column(length = 12, nullable = true)
