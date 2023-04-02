@@ -40,4 +40,15 @@ public interface IAsignarTareaServicio {
 	 */
 	void onEliminarTareaIdPeridoEscolar(int idtarea);
 
+	/**
+	 * @author JMISERVER13
+	 * @param indocente
+	 * @param idcurso
+	 * @param idgrado
+	 * @param idseccion
+	 * @return
+	 */
+	List<AsignarTarea> onListarTareaPeriodoEscolarAperturadoDocenteCursoGradoSeccion(int indocente, int idcurso,
+			int idgrado, int idseccion);
+
 }

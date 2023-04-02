@@ -32,13 +32,13 @@ public class AsignarTareaServiceImpl implements IAsignarTareaServicio {
 		try {
 			int idperiodoAperturado;
 			Optional<PeriodoEscolar> periodo = repoPeriodoEscolar.findByEstado("APERTURADO").stream().findFirst();
-			
-			if(periodo.isPresent()) {
+
+			if (periodo.isPresent()) {
 				idperiodoAperturado = periodo.get().getIdPeriodoEscolar();
-			}else {
-				idperiodoAperturado= periodo.get().getIdPeriodoEscolar();
+			} else {
+				idperiodoAperturado = periodo.get().getIdPeriodoEscolar();
 			}
-		
+
 			lista = repoAsignarTarea.findByPeriodoEscolarIdPeriodoEscolar(idperiodoAperturado);
 		} catch (Exception e) {
 			throw e;
@@ -93,6 +93,22 @@ public class AsignarTareaServiceImpl implements IAsignarTareaServicio {
 		} catch (Exception e) {
 			throw e;
 		}
+	}
+
+	@Override
+	public List<AsignarTarea> onListarTareaPeriodoEscolarAperturadoDocenteCursoGradoSeccion(int idDocente, int idcurso,
+			int idgrado, int idseccion) {
+		List<AsignarTarea> lista = new ArrayList<>();
+		try {
+			PeriodoEscolar periodo = repoPeriodoEscolar.findByEstado("APERTURADO").get(0);
+
+			lista = repoAsignarTarea
+					.findByPeriodoEscolarIdPeriodoEscolarAndPersonalIdPersonalAndCursoIdCursoAndGradoIdGradoAndSeccionIdSeccion(
+							periodo.getIdPeriodoEscolar(), idDocente, idcurso, idgrado, idseccion);
+		} catch (Exception e) {
+			throw e;
+		}
+		return lista;
 	}
 
 }

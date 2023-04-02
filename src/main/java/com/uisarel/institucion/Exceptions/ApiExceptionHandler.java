@@ -51,7 +51,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler({ SQLException.class, DataAccessException.class })
 	public  ResponseEntity<OtherErrors> databaseError(SQLException exception, WebRequest webRequest) {
-		OtherErrors errorDetalles = new OtherErrors(new Date(), exception.getCause().toString(),
+		OtherErrors errorDetalles = new OtherErrors(new Date(), exception.getMessage(),
 				webRequest.getDescription(false));
 		return new ResponseEntity<>(errorDetalles, HttpStatus.INTERNAL_SERVER_ERROR);
 	}

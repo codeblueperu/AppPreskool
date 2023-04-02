@@ -16,7 +16,7 @@ public interface IPeriodoEscolarRepositorio extends JpaRepository<PeriodoEscolar
 	 * @return
 	 */
 	PeriodoEscolar findByAnioEscolar(int anio);
-	
+
 	/**
 	 * @author JMISERVER13
 	 * @apiNote SELECT * FROM PeriodoEscolar where Estado = ?1
@@ -24,4 +24,5 @@ public interface IPeriodoEscolarRepositorio extends JpaRepository<PeriodoEscolar
 	 * @return
 	 */
 	List<PeriodoEscolar> findByEstado(String estado);
+
 }

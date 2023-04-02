@@ -18,9 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.uisarel.institucion.modelo.entidades.Asistencia;
 import com.uisarel.institucion.modelo.entidades.Estudiante;
 import com.uisarel.institucion.modelo.entidades.Personal;
+import com.uisarel.institucion.modelo.entidades.TareaAlumno;
+import com.uisarel.institucion.servicio.IAsignarTareaServicio;
 import com.uisarel.institucion.servicio.IAsistenciaServicio;
 import com.uisarel.institucion.servicio.IEstudianteService;
 import com.uisarel.institucion.servicio.IPersonalServicio;
+import com.uisarel.institucion.servicio.ITareaAlumnoServicio;
 
 @RestController
 @RequestMapping("/api/v1/mantenimiento")
@@ -34,6 +37,12 @@ public class AjaxMantenimientoController {
 
 	@Autowired
 	private IAsistenciaServicio srvAsistencia;
+
+	@Autowired
+	private IAsignarTareaServicio srvAsignarTarea;
+	
+	@Autowired
+	private ITareaAlumnoServicio srvTareaAlumno;
 
 //	RESCONTROLLER ESTUDIANTES
 
@@ -148,6 +157,39 @@ public class AjaxMantenimientoController {
 		System.err.println(asistencia);
 		HashMap<String, Object> response = new HashMap<>();
 		response.put("data", srvAsistencia.onGuardarAsistenciaCursoFecha(asistencia));
+		return ResponseEntity.ok(response);
+	}
+
+//	RESCONTROLLER ASIGNARTAREA
+
+	@GetMapping("/buscarTareaDocente")
+	public ResponseEntity<?> endPointBuscarTareaDocente(@RequestParam("idgrado") int idgrado,
+			@RequestParam("idsecion") int idseccion, @RequestParam("idcurso") int idcurso,
+			@RequestParam("iddocente") int iddocente) {
+
+		HashMap<String, Object> response = new HashMap<>();
+		response.put("data", srvAsignarTarea.onListarTareaPeriodoEscolarAperturadoDocenteCursoGradoSeccion(iddocente,
+				idcurso, idgrado, idseccion));
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("/buscarAlumnosGradoNivelSeccionTarea")
+	public ResponseEntity<?> endPointBuscarAlumnosGradoNivelSeccionTarea(@RequestParam("nivel") String nivel,
+			@RequestParam("idgrado") int idgrado, @RequestParam("idsecion") int idseccion,
+			@RequestParam("idcurso") int idcurso, @RequestParam("idtarea") int idtarea) {
+		
+		HashMap<String, Object> response = new HashMap<>();
+		response.put("presentaron", srvTareaAlumno.onBuscarTareaAlumno(idgrado, idseccion, idcurso, idtarea));
+		response.put("data",
+				srvEstudiante.onListarEstuandePeriodoEscolarGradoSeccionNivel(2023, nivel, idgrado, idseccion));
+		return ResponseEntity.ok(response);
+	}
+	
+	@RequestMapping(value = "/guardarTareaAlumno", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<?> pointGuardarTareaAlumno(@RequestBody TareaAlumno tareaaluno) {
+		//System.err.println(tareaaluno);
+		HashMap<String, Object> response = new HashMap<>();
+		response.put("data", srvTareaAlumno.onGuardarTareaALumno(tareaaluno));
 		return ResponseEntity.ok(response);
 	}
 

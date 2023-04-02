@@ -96,9 +96,10 @@ public class EstudianteServiceImpl implements IEstudianteService {
 			int idGrado, int idSeccion) {
 		List<Estudiante> lista = new ArrayList<>();
 		try {
+			PeriodoEscolar periodo = repoPeridoEscolar.findByEstado("APERTURADO").get(0);
 			lista = repoEstudiante
 					.findByPeriodoEscolarIdPeriodoEscolarAndNivelEscolarAndGradoAlumnoIdGradoAndSeccionAlumnoIdSeccion(
-							periodoEscolar, nivelEscolar, idGrado, idSeccion);
+							periodo.getIdPeriodoEscolar(), nivelEscolar, idGrado, idSeccion);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -109,7 +110,8 @@ public class EstudianteServiceImpl implements IEstudianteService {
 	public Estudiante onBuscarEstudiantePeriodoEscolarId(int idEstudiante, int idperiodoEscolar) {
 		Estudiante response = new Estudiante();
 		try {
-			response = repoEstudiante.findByPeriodoEscolarIdPeriodoEscolarAndIdEstudiante(idperiodoEscolar, idEstudiante);
+			response = repoEstudiante.findByPeriodoEscolarIdPeriodoEscolarAndIdEstudiante(idperiodoEscolar,
+					idEstudiante);
 		} catch (Exception e) {
 			throw e;
 		}

@@ -19,7 +19,9 @@ import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
 import com.uisarel.institucion.servicio.IAsignarTareaServicio;
 import com.uisarel.institucion.servicio.ICursosService;
 import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
+import com.uisarel.institucion.servicio.IPeriodoEscolarService;
 import com.uisarel.institucion.servicio.IPersonalServicio;
+import com.uisarel.institucion.servicio.ISeccionService;
 import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
 import com.uisarel.institucion.utils.ConstantApp;
 
@@ -40,6 +42,21 @@ public class AsignarTareaController {
 
 	@Autowired
 	private ICursosService srvCursos;
+
+	@Autowired
+	private IPeriodoEscolarService srvPeriodoEscolar;
+
+	@Autowired
+	private ISeccionService srvSeccion;
+	
+
+	@GetMapping("/taskstudent")
+	public String getViewTareasEstudiantesAll(Model model) {
+		model.addAttribute("lstdocente",srvDocente.onListarPersonalAll());
+		model.addAttribute("lstperiodo", srvPeriodoEscolar.onListarPeriodoEscolarEstado("APERTURADO"));
+		model.addAttribute("lstseccion",srvSeccion.onListarSeccionAll());
+		return "obligaciones/taskstudent";
+	}
 
 	@GetMapping("/listTask")
 	public String getListarTareasAsignadasPeriodoEscolarAperturado(Model model) {

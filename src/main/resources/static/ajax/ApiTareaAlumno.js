@@ -116,17 +116,49 @@ async function buscarDatosDocente(){
 	});	
 }
 
-async function onBusarEstudiantes(){
-	
+async function onBuscarTareaDocente(){
+	if($("#cboidGrado").val() == "" || $("#cboSeccion").val() == "" || $("#cbocurso").val() == "" || $("#cbodocente").val() == ""){
+		return false
+	}
 	await $.ajax({
-		url: '/api/v1/mantenimiento/buscarAlumnosGradoNivelSeccionPeriodo',
+		url: '/api/v1/mantenimiento/buscarTareaDocente',
 		type: 'GET',
 		dataType: 'json',
-		data: {"idperiodo": $("#cboperiodo").val(),"nivel": $("#nivelEscolar").val(),
-		"idgrado": $("#cboidGrado").val(),"idsecion": $("#cboSeccion").val(),
-		"idcurso": $("#cbocurso").val(), "fecha": $("#dtpfecha").val()},
+		data: {"idgrado": $("#cboidGrado").val(), "idsecion": $("#cboSeccion").val(),
+		"idcurso": $("#cbocurso").val(), "iddocente": $("#cbodocente").val()},
 	})
-	.done(function({asistencia, data}) {
+	.done(function({data}) {
+		//console.log(grados)
+		let option = `<option value="">---: SELECCIONE :---</option>`
+		for (var i = 0; i < data.length; i++) {			
+			option += `<option value="${data[i].idTarea}">${data[i].tema} </option>`	
+		}
+		$("#cbotareas").html(option);
+	})
+	.fail(function(err) {
+		console.log(err);
+		if(err.status === 409){
+			getMessageALert('warning','Upps!', err.responseJSON.message)
+		}else if(err.status === 404){
+			getMessageALert('warning','No Hay!', err.responseJSON.message)
+		}else{
+			getMessageALert('error','Error!', err.responseJSON.detail)
+		}
+	});	
+}
+
+async function onBusarEstudiantes(){
+	//console.log($("#cboidGrado").val(), $("#cboSeccion").val(),$("#cbocurso").val(), $("#cbotareas").val())
+	await $.ajax({
+		url: '/api/v1/mantenimiento/buscarAlumnosGradoNivelSeccionTarea',
+		type: 'GET',
+		dataType: 'json',
+		data: {"nivel": $("#nivelEscolar").val(),
+		"idgrado": $("#cboidGrado").val(),"idsecion": $("#cboSeccion").val(),
+		"idcurso": $("#cbocurso").val(), "idtarea": $("#cbotareas").val()},
+	})
+	.done(function({data,presentaron}) {
+		console.log(presentaron)
 		__table_students__.clear().draw();
 		if(data.length == 0){
 			getMessageALert('warning','Lo sentimos!','No se encontraron estudiantes inscritos para los parametros de busqueda.')
@@ -134,47 +166,43 @@ async function onBusarEstudiantes(){
 		}
 		
 		for (let i = 0; i < data.length; i++) {         
-         let present = '',tarde = '',ausente = '';
-          if(asistencia.length > 0){
-			  for (let x = 0; x < asistencia.length; x++){
-				  //PRESENTE
-				  if(asistencia[x].estudiante.idEstudiante === data[i].idEstudiante && asistencia[x].descripcion_asistencia == "1"){
-					  present = 'checked'
-				  }	
-				  
-				  //TARDE
-				 if(asistencia[x].estudiante.idEstudiante === data[i].idEstudiante && asistencia[x].descripcion_asistencia == "2"){
-					  tarde = 'checked'
-				 }
-				  				  
-				  //FALTO
-				  if(asistencia[x].estudiante.idEstudiante === data[i].idEstudiante && asistencia[x].descripcion_asistencia == "0"){
-					  ausente = 'checked'
-				  }
-				  		  
-		  	 }
-		  }
+         	let presento = '',nopresento = '';
+
+         	let nota_alumno = ""
+          	if(presentaron.length > 0){
+			  	for (let x = 0; x < presentaron.length; x++){
+				  	//PRESENTE
+					if(presentaron[x].alumno.idEstudiante === data[i].idEstudiante && presentaron[x].estadoPresenta == "SI"){
+						presento = 'checked'
+						nota_alumno = presentaron[x].nota
+					}	
+					  
+					//TARDE
+					if(presentaron[x].alumno.idEstudiante === data[i].idEstudiante && presentaron[x].estadoPresenta == "NO"){
+						nopresento = 'checked'
+						nota_alumno = presentaron[x].nota
+					}	
+
+								  		  
+		  	 	}
+		 	 }
 
 		   let situacion = `<div class="col-lg-9">
 					<div class="form-check form-check-inline">
-						<input class="form-check-input rbnstatus" type="radio" name="status${data[i].idEstudiante}" value="1" id="p${data[i].idEstudiante}" ${present}>
+						<input class="form-check-input rbnstatus" type="radio" name="status${data[i].idEstudiante}" value="SI" id="p${data[i].idEstudiante}" ${presento}>
 						<label class="form-check-label" for="p${data[i].idEstudiante}">
-						Presente
+						SI
 						</label>
 					</div>
 					<div class="form-check form-check-inline">
-						<input class="form-check-input rbnstatus" type="radio" name="status${data[i].idEstudiante}" value="2" id="t${data[i].idEstudiante}"  ${tarde}>
+						<input class="form-check-input rbnstatus" type="radio" name="status${data[i].idEstudiante}" value="NO" id="t${data[i].idEstudiante}" ${nopresento}>
 						<label class="form-check-label" for="t${data[i].idEstudiante}">
-						Tarde
-						</label>
-					</div>
-					<div class="form-check form-check-inline">
-						<input class="form-check-input rbnstatus" type="radio" name="status${data[i].idEstudiante}" value="0" id="a${data[i].idEstudiante}" ${ausente}>
-						<label class="form-check-label" for="a${data[i].idEstudiante}">
-						Ausente
+						NO
 						</label>
 					</div>
 				</div>`
+
+			let input = `<input type="number" min="0" style="width:90px" id="txtnota" value="${nota_alumno}">`
           
           __table_students__.row
             .add([
@@ -183,7 +211,8 @@ async function onBusarEstudiantes(){
               data[i].turno,
               data[i].nivelEscolar,
               data[i].gradoAlumno.gradoDescripcion + ' ' + data[i].seccionAlumno.descripcionSeccion,
-              situacion
+              situacion,
+              input
             ])
             .draw(false);
         }
@@ -201,40 +230,62 @@ async function onBusarEstudiantes(){
 	});
 }
 
-$("#__table_students__ tbody").on("click", ".rbnstatus", async function () {
+$("#__table_students__ tbody").on("click", ".rbnstatus", function () {
 	
-  	let fecha = moment($("#dtpfecha").val()).format('yyyy-MM-DD')
-  	let hora = moment($("#dtpfecha").val()).format('H:mm:ss')
-  	let estado_asistencia =  $(this).parents("tr").find("td").eq(5).find("input:radio:checked").val()
-
+  	let fecha = moment(new Date()).format('yyyy-MM-DD')
+  	let hora = moment(new Date()).format('H:mm:ss')
+  	let estado_presenta =  $(this).parents("tr").find("td").eq(5).find("input:radio:checked").val()
 	let jsonData = {
-		"idAsistencia": null,
-		"descripcion_asistencia": estado_asistencia,
-		"observacion": "-",
-		"fecha": $("#dtpfecha").val(),
-		"hora": hora,
-		"estudiante": {
+		"idTareaAlumno": null,
+		"estadoPresenta": estado_presenta,
+		"nota": $(this).parents("tr").find("td").eq(6).find("input").val(),
+		"alumno": {
 			"idEstudiante": $(this).parents("tr").find("td").eq(0).html(),
 		},
-		"curso":{
-			"idCurso": $("#cbocurso").val()
+		"tarea":{
+			"idTarea": $("#cbotareas").val()
 		}
 	}
-	console.log(jsonData)
+	onGuardarTareaAlumno(jsonData,estado_presenta);	
+});
+
+$("#__table_students__ tbody").on("keypress", "#txtnota", function (e) {
+	if (e.keyCode === 13 && !e.shiftKey) {
+	  	let fecha = moment(new Date()).format('yyyy-MM-DD')
+	  	let hora = moment(new Date()).format('H:mm:ss')
+	  	let estado_presenta =  $(this).parents("tr").find("td").eq(5).find("input:radio:checked").val()
+	  	if(estado_presenta == "" || estado_presenta == null){
+	  		setToast('bottom-end','error','Seleccione SI o NO')
+	  		return false
+	  	}
+		let jsonData = {
+			"idTareaAlumno": null,
+			"estadoPresenta": estado_presenta,
+			"nota": $(this).parents("tr").find("td").eq(6).find("input").val(),
+			"alumno": {
+				"idEstudiante": $(this).parents("tr").find("td").eq(0).html(),
+			},
+			"tarea":{
+				"idTarea": $("#cbotareas").val()
+			}
+		}
+		onGuardarTareaAlumno(jsonData,estado_presenta);	
+	}
+});
+
+async function onGuardarTareaAlumno(jsonData,estado_presenta){
 	await $.ajax({
-		url: '/api/v1/mantenimiento/guardarasistencia',
+		url: '/api/v1/mantenimiento/guardarTareaAlumno',
 		type: 'POST',
 		dataType: 'JSON',
 		data: JSON.stringify(jsonData),
 		contentType: "application/json"
 	})
 	.done(function({data}) {
-		if(estado_asistencia == '1'){
-			setToast('top-end','success','Alumno Presente')
-		}else if(estado_asistencia == '2'){
-			setToast('top-end','warning','Alumno Tarde')
+		if(estado_presenta == 'SI'){
+			setToast('top-end','success','SI Presento')
 		}else{
-			setToast('top-end','error','Alumno Ausente')
+			setToast('top-end','warning','No Presento')
 		}
 		
 	})
@@ -245,12 +296,10 @@ $("#__table_students__ tbody").on("click", ".rbnstatus", async function () {
 		}else if(err.status === 404){
 			getMessageALert('warning','No Hay!', err.responseJSON.message)
 		}else{
-			getMessageALert('error','Error!', err.responseJSON.detail)
+			getMessageALert('error','Error!', err.responseJSON.mensaje)
 		}
-	});
-    	
-  	
-});
+	}); 
+}
 
 
 function getMessageALert(_icon, _title, _message){
