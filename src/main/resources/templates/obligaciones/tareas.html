@@ -76,6 +76,7 @@ layout:decorate="~{plantilla/plantilla}">
 											<th>TAREA</th>
 											<th>FECHA ASIGNACION</th>
 											<th>FECHA PRESENTACION</th>
+											<th></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -86,6 +87,9 @@ layout:decorate="~{plantilla/plantilla}">
 											<td th:text="${item.tema}"></td>
 											<td th:text="${#calendars.format(item.fechaAsignacion,'dd/MM/yyyy')}"></td>
 											<td th:text="${#calendars.format(item.fechaPresentacion,'dd/MM/yyyy')}"></td>
+											<td><a th:href="@{/viewtaskedit?id=} + ${item.idTarea}" class="btn btn-sm bg-danger-light" >
+												<i class="feather-edit"></i>
+												</a></td>
 										</tr>
 									</tbody>
 								</table>

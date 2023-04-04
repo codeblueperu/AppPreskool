@@ -1,7 +1,16 @@
+//================================ RUTA TOKEN ====================================//
+const urlParams = new URLSearchParams(window.location.search);
+var id_tarea = urlParams.get("id");
+//====================================================================//
+
 var grados = [];
 
 function init(){
-	$("#dtpfecha").val(moment(new Date()).format('yyyy-MM-DD'));
+	//$("#dtpfecha").val(moment(new Date()).format('yyyy-MM-DD'));
+
+	if(id_tarea != null){
+		onCargarDatosEditTarea(id_tarea)
+	}
 }
 
 
@@ -79,6 +88,44 @@ async function buscarDatosDocente(){
 			grados = []
 			$("#cboidGrado").html(`<option value="">---: SELECCIONE :---</option>`);
 		}
+		
+
+	})
+	.fail(function(error) {
+		console.log(err);
+		if(err.status === 409){
+			getMessageALert('warning','Upps!', err.responseJSON.message)
+		}else if(err.status === 404){
+			getMessageALert('warning','No Hay!', err.responseJSON.message)
+		}else{
+			getMessageALert('error','Error!', err.responseJSON.detail)
+		}
+	});	
+}
+
+async function onCargarDatosEditTarea(id){
+	
+	await $.ajax({
+		url: '/api/v1/mantenimiento/buscarDatosTareaId',
+		type: 'GET',
+		dataType: 'JSON',
+		data: {"idtarea": id},
+	})
+	.done(function({data}) {
+		console.log(data);
+		$("#idTarea").val(data.idTarea);
+		$("#cbodocente").val(data.personal.idPersonal);
+
+		buscarDatosDocente();
+		$("#nivelEscolar").val(data.nivelEscolar);
+		$("#tema").val(data.tema);		
+		$("#dtpfecha").val(data.fechaPresentacion);
+		$("#txtcriterios").val(data.observacion)
+		setTimeout(() => {
+			$("#cboidGrado").val(data.grado.idGrado);
+			$("#cboSeccion").val(data.seccion.idSeccion);
+			$("#cbocurso").val(data.curso.idCurso);
+		}, 400);
 		
 
 	})

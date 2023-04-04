@@ -1,9 +1,10 @@
 var grados = [];
-var __table_conducta = "";
+var students = [];
 
+var __table_conducta__ = "";
 
 function init(){
-	__table_conducta = $("#__table_conducta").DataTable({
+	__table_conducta__ = $("#__table_conducta__").DataTable({
 	    paging: true,
 	    lengthChange: true,
 	    searching: false,
@@ -117,21 +118,80 @@ async function buscarDatosDocente(){
 }
 
 async function onBusarEstudiantes(){
-	if($("#cboidGrado").val()  == "" || $("#cboSeccion").val() == "" || $("#cbocurso").val() == ""  ||  $("#cbotareas").val() == ""){
+	if($("#nivelEscolar").val() == "" || $("#cboidGrado").val() == ""  || $("#cboSeccion").val() == ""){
 		return false;
 	}
 	await $.ajax({
-		url: '/api/v1/mantenimiento/buscarAlumnosGradoNivelSeccionTarea',
+		url: '/api/v1/mantenimiento/buscarEstudiantePeriodoNivelGradoSeccion',
 		type: 'GET',
-		dataType: 'json',
-		data: {"nivel": $("#nivelEscolar").val(),
-		"idgrado": $("#cboidGrado").val(),"idsecion": $("#cboSeccion").val(),
-		"idcurso": $("#cbocurso").val(), "idtarea": $("#cbotareas").val()},
+		dataType: 'JSON',
+		data: {"periodo": 2023,
+		 "nivel": $("#nivelEscolar").val(),
+		 "grado": $("#cboidGrado").val(),
+		 "seccion": $("#cboSeccion").val()
+		},
 	})
 	.done(function({data}) {
-		console.log(presentaron)
-		
+		students = data;
+		let option = `<option value="">---: SELECCIONE :---</option>`
+		for (let i = 0; i < data.length; i++) {
+			option += `<option value="${data[i].idEstudiante}">${data[i].apPaterno} ${data[i].apMaterno} ${data[i].nombreEstudiante}</option>`			
+		}
+		$("#cboalumnos").html(option)
+	})
+	.fail(function(err) {
+		if(err.status === 409){
+			getMessageALert('warning','Upps!', err.responseJSON.message)
+		}else if(err.status === 404){
+			getMessageALert('warning','No Hay!', err.responseJSON.message)
+		}else{
+			getMessageALert('error','Error!', err.responseJSON.detail)
+		}
+	});
 	
+}
+
+function onMostrardatosAdicionales(){
+	let id = $("#cboalumnos").val()
+	for (let x = 0; x < students.length; x++) {
+		if(students[x].idEstudiante == id){
+			$("#txtdnistudents").val(students[x].numDocumento)
+			$("#txtapoderado").val(students[x].apoderadoEstudiante.nombre + ' ' + students[x].apoderadoEstudiante.appaterno + ' ' + students[x].apoderadoEstudiante.apmaterno)
+			$("#txtceluapoderado").val(students[x].apoderadoEstudiante.celular)
+			break;
+		}		
+	}
+	onListarSancionesAlumno();
+}
+
+async function onProcesarConducta(){
+	let fecha = moment(new Date()).format('yyyy-MM-DD')
+	let jsonData = {
+		"idConducta": $("#idConducta").val(),
+		"descripcion": $("#txtmotivo").val(),
+		"fechaRegistra": fecha,
+		"notificarAPoderadoEmail": ($('#chknotificar').prop('checked') ? 'SI' : 'NO'),
+		"estudiante":{
+			"idEstudiante": $("#cboalumnos").val(),
+		},
+		"personal": {
+			"idPersonal": $("#cbodocente").val(),
+		},
+		"curso":{
+			"idCurso":$("#cbocurso").val()
+		}
+	}
+
+	await $.ajax({
+		url: '/api/v1/mantenimiento/guardarConductaAlumno',
+		type: 'POST',
+		dataType: 'JSON',
+		data: JSON.stringify(jsonData),
+		contentType: "application/json"
+	})
+	.done(function({data,message}) {
+		getMessageALert('success','Bien echo!', message)
+		onListarSancionesAlumno();
 	})
 	.fail(function(err) {
 		console.log(err);
@@ -145,6 +205,83 @@ async function onBusarEstudiantes(){
 	});
 }
 
+async function onListarSancionesAlumno(){
+	if($("#cbocurso").val() == "" || $("#cboalumnos").val() == ""  || $("#cbodocente").val() == ""){
+		return false;
+	}
+
+	await $.ajax({
+		url: '/api/v1/mantenimiento/buscarConductaAlumnoGradoSeccionNivel',
+		type: 'GET',
+		dataType: 'JSON',
+		data: {
+		 "idcurso": $("#cbocurso").val(),
+		 "idalumno": $("#cboalumnos").val(),
+		 "iddocente": $("#cbodocente").val()
+		},
+	})
+	.done(function({data}) {
+		console.log(data);
+		__table_conducta__.clear().draw();
+		for (let i = 0; i < data.length; i++){
+			let btndelete = `<button onclick="onEliminarConducta(${data[i].idConducta})" class="btn btn-sm bg-success-light me-2" >
+			<i class="feather-trash-2"></i></button>`  
+			__table_conducta__.row
+            .add([
+              data[i].personal.apellidos + ' ' + data[i].personal.nombre,
+              data[i].curso.nombreCurso,
+              data[i].fechaRegistra,
+              data[i].descripcion,
+			  btndelete
+            ])
+            .draw(false);
+		}
+	})
+	.fail(function(err) {
+		if(err.status === 409){
+			getMessageALert('warning','Upps!', err.responseJSON.message)
+		}else if(err.status === 404){
+			getMessageALert('warning','No Hay!', err.responseJSON.message)
+		}else{
+			getMessageALert('error','Error!', err.responseJSON.detail)
+		}
+	});
+	
+}
+
+async function onEliminarConducta(id){
+	await Swal.fire({
+		title: 'Estas seguro de Eliminar?',
+		text: "una vez eliminado no se podra recuperar!",
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'Si, eliminar'
+	  }).then((result) => {
+		if (result.isConfirmed) {
+			$.ajax({
+				url: '/api/v1/mantenimiento/eliminarConductaAlumnoGradoSeccionNivel',
+				type: 'DELETE',
+				dataType: 'JSON',
+				data: {"idconducta": id},
+			})
+			.done(function({message}) {
+				getMessageALert('success','Bien echo!', message)
+				onListarSancionesAlumno();
+			})
+			.fail(function(err) {
+				if(err.status === 409){
+					getMessageALert('warning','Upps!', err.responseJSON.message)
+				}else if(err.status === 404){
+					getMessageALert('warning','No Hay!', err.responseJSON.message)
+				}else{
+					getMessageALert('error','Error!', err.responseJSON.detail)
+				}
+			});
+		}
+	  })
+}
 function getMessageALert(_icon, _title, _message){
 	Swal.fire({
 	  icon: _icon,

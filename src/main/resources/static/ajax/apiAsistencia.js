@@ -104,7 +104,7 @@ async function buscarDatosDocente(){
 		}
 
 	})
-	.fail(function(error) {
+	.fail(function(err) {
 		console.log(err);
 		if(err.status === 409){
 			getMessageALert('warning','Upps!', err.responseJSON.message)
@@ -204,7 +204,7 @@ async function onBusarEstudiantes(){
 $("#__table_students__ tbody").on("click", ".rbnstatus", async function () {
 	
   	let fecha = moment($("#dtpfecha").val()).format('yyyy-MM-DD')
-  	let hora = moment($("#dtpfecha").val()).format('H:mm:ss')
+  	let hora = moment(new Date()).format('H:mm:ss')
   	let estado_asistencia =  $(this).parents("tr").find("td").eq(5).find("input:radio:checked").val()
 
 	let jsonData = {
@@ -220,7 +220,6 @@ $("#__table_students__ tbody").on("click", ".rbnstatus", async function () {
 			"idCurso": $("#cbocurso").val()
 		}
 	}
-	console.log(jsonData)
 	await $.ajax({
 		url: '/api/v1/mantenimiento/guardarasistencia',
 		type: 'POST',

@@ -43,7 +43,7 @@ layout:decorate="~{plantilla/plantilla}">
 						<form th:action="@{/addtask}" method="POST" th:object="${data}"
 						enctype="multipart/form-data">
 							<div class="page-body">
-								<input type="hidden" name="idTarea" value="0">
+								<input type="hidden" name="idTarea" id="idTarea" value="0">
 								<div class="row">
 									<div class="col-md-4">
 										<div class="form-group local-forms">
@@ -115,7 +115,7 @@ layout:decorate="~{plantilla/plantilla}">
 									<div class="col-md-12">
 										<div class="form-group local-forms">
 											<label>Criterios <span class="login-danger">*</span></label>
-											<textarea class="form-control" name="observacion"  cols="30" rows="1"></textarea>
+											<textarea class="form-control" name="observacion" id="txtcriterios" cols="30" rows="1"></textarea>
 										</div>
 									</div>																			
 								</div>
