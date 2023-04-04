@@ -59,8 +59,7 @@ public class AjaxMantenimientoController {
 		} else {
 //			INSERT
 			estudiante = srvEstudiante.onGuardarEstudianteNuevo(datastudent);
-			message = "Excelente el estudiante fue registrado con éxito en el periodo escolar "
-					+ estudiante.getPeriodoEscolar().getAnioEscolar();
+			message = "Excelente el estudiante fue registrado con éxito"; 
 		}
 		HashMap<String, Object> response = new HashMap<>();
 		response.put("data", estudiante);
