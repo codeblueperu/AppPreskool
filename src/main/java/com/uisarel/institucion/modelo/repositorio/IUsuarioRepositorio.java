@@ -18,4 +18,11 @@ public interface IUsuarioRepositorio extends JpaRepository<Usuario, Integer>{
 	 */
 	Usuario findByUsuarioCorreo(String username);
 	
+	/**
+	 * @author SOPORTE
+	 * @param documento
+	 * @return
+	 */
+	Usuario findByCI(String documento);
+	
 }

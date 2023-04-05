@@ -122,7 +122,7 @@ async function onBusarEstudiantes(){
 		url: '/api/v1/mantenimiento/buscarAlumnosGradoNivelSeccionPeriodo',
 		type: 'GET',
 		dataType: 'json',
-		data: {"idperiodo": $("#cboperiodo").val(),"nivel": $("#nivelEscolar").val(),
+		data: {"idperiodo": 1,"nivel": $("#nivelEscolar").val(),
 		"idgrado": $("#cboidGrado").val(),"idsecion": $("#cboSeccion").val(),
 		"idcurso": $("#cbocurso").val(), "fecha": $("#dtpfecha").val()},
 	})

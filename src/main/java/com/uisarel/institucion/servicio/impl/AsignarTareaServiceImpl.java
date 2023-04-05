@@ -13,6 +13,7 @@ import com.uisarel.institucion.modelo.entidades.PeriodoEscolar;
 import com.uisarel.institucion.modelo.repositorio.IAsignarTareaRepositorio;
 import com.uisarel.institucion.modelo.repositorio.IPeriodoEscolarRepositorio;
 import com.uisarel.institucion.servicio.IAsignarTareaServicio;
+import com.uisarel.institucion.utils.ConstantApp;
 
 import jakarta.transaction.Transactional;
 
@@ -30,16 +31,17 @@ public class AsignarTareaServiceImpl implements IAsignarTareaServicio {
 	public List<AsignarTarea> onListarTareaPeriodoEscolarAperturado(int idPeriodoEscolar) {
 		List<AsignarTarea> lista = new ArrayList<>();
 		try {
-			int idperiodoAperturado;
-			Optional<PeriodoEscolar> periodo = repoPeriodoEscolar.findByEstado("APERTURADO").stream().findFirst();
-
-			if (periodo.isPresent()) {
-				idperiodoAperturado = periodo.get().getIdPeriodoEscolar();
-			} else {
-				idperiodoAperturado = periodo.get().getIdPeriodoEscolar();
+			
+			PeriodoEscolar periodo = repoPeriodoEscolar.findByEstado("APERTURADO").get(0);			
+			if(ConstantApp.ROL_LOGIN.compareTo("ADMINISTRADOR") == 0) {
+				lista = repoAsignarTarea.findByPeriodoEscolarIdPeriodoEscolar(periodo.getIdPeriodoEscolar());
+			}else {
+				/**
+				 * @author DOCENTE PROFILES
+				 */
+				lista = repoAsignarTarea.findByPeriodoEscolarIdPeriodoEscolarAndPersonalEmail(periodo.getIdPeriodoEscolar(),ConstantApp.getuserLogin());
 			}
-
-			lista = repoAsignarTarea.findByPeriodoEscolarIdPeriodoEscolar(idperiodoAperturado);
+			
 		} catch (Exception e) {
 			throw e;
 		}

@@ -78,6 +78,8 @@ async function onProcesarEstudiante(){
 		"nivelEscolar": $("#nivelEscolar").val(),
 		"turno": $("#turno").val(),
 		"sexoEstudiante": $("#sexoEstudiante").val(),
+		"direccionEstudiante": $("#direccionEstudiante").val(),
+		"emailEstudiante":$("#emailEstudiante").val(),
 		"gradoAlumno": {
 			"idGrado": $("#idGrado").val()
 		},
@@ -195,8 +197,10 @@ async function onBuscarDataEstudianteID(idEstudiante, idperiodoEscolar){
 		$("#apMaternoEStudiante").val(data.apMaterno)
 		$("#numDocumentoEstudiante").val(data.numDocumento)
 		$("#fnacimiento").val(data.fnacimiento)
+		$("#emailEstudiante").val(data.emailEstudiante)
 		$("#ncelularEstudiante").val(data.ncelular)
 		$("#nivelEscolar").val(data.nivelEscolar)
+		$("#direccionEstudiante").val(data.direccionEstudiante)
 		$("#turno").val(data.turno)
 		$("#sexoEstudiante").val(data.sexoEstudiante)		
 		$("#idSeccion").val(data.seccionAlumno.idSeccion)

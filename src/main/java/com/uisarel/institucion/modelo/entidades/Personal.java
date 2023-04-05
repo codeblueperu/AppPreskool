@@ -1,6 +1,7 @@
 package com.uisarel.institucion.modelo.entidades;
 
 
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -27,7 +28,7 @@ public class Personal {
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", locale = "es-PE", timezone = "America/Lima")
 	@Column(nullable = false, columnDefinition = "DATE")
-	private String fechaNacimiento;
+	private Date fechaNacimiento;
 
 	@Column(length = 12, nullable = true)
 	private String ncelular;

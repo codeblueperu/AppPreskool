@@ -21,11 +21,13 @@ public interface IConductaService {
 	Conducta onGuardarConducta(Conducta data);
 
 	/**
-	 * @author JMISERVER13
+	 * @author SOPORTE
 	 * @param idconducta
+	 * @param idcurso
+	 * @param iddocente
 	 * @return
 	 */
-	Conducta onBuscarConductaAlumnoID(int idconducta);
+	List<Conducta> onBuscarConductaAlumnoID(int idconducta, int idcurso, int iddocente);
 
 	/**
 	 * @author JMISERVER13

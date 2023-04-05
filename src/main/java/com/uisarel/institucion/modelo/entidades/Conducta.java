@@ -38,4 +38,8 @@ public class Conducta {
 	@OneToOne
 	@JoinColumn(name = "idPersonal")
 	private Personal personal;
+	
+	@OneToOne
+	@JoinColumn(name = "idCurso")
+	private Cursos curso;
 }

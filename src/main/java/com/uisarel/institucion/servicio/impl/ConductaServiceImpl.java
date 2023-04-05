@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.uisarel.institucion.modelo.entidades.Conducta;
 import com.uisarel.institucion.modelo.repositorio.IConductaRepositorio;
 import com.uisarel.institucion.servicio.IConductaService;
+import com.uisarel.institucion.utils.ConstantApp;
 
 import jakarta.transaction.Transactional;
 
@@ -42,10 +43,14 @@ public class ConductaServiceImpl implements IConductaService {
 	}
 
 	@Override
-	public Conducta onBuscarConductaAlumnoID(int idconducta) {
-		Conducta response = new Conducta();
+	public List<Conducta> onBuscarConductaAlumnoID(int idconducta, int idcurso, int iddocente) {
+		List<Conducta> response = new ArrayList<>();
 		try {
-			response = repoConducta.findById(idconducta).get();
+			if(ConstantApp.ROL_LOGIN.compareTo("ADMINISTRADOR") == 0) {
+				response = repoConducta.findByEstudianteIdEstudiante(idconducta);
+			}else {
+				response = repoConducta.findByEstudianteIdEstudianteAndCursoIdCursoAndPersonalIdPersonal(idconducta,idcurso,iddocente);
+			}
 		} catch (Exception e) {
 			throw e;
 		}

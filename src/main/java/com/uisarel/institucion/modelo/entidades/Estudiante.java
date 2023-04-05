@@ -58,6 +58,12 @@ public class Estudiante {
 
 	@Column(length = 25, nullable = false)
 	private String sexoEstudiante;
+	
+	@Column(length = 70, nullable = false)
+	private String direccionEstudiante;
+	
+	@Column(length = 70, nullable = false)
+	private String emailEstudiante;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "IdGrado", referencedColumnName = "IdGrado", nullable = false)

@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uisarel.institucion.modelo.entidades.Asistencia;
+import com.uisarel.institucion.modelo.entidades.Conducta;
 import com.uisarel.institucion.modelo.entidades.Estudiante;
 import com.uisarel.institucion.modelo.entidades.Personal;
 import com.uisarel.institucion.modelo.entidades.TareaAlumno;
 import com.uisarel.institucion.servicio.IAsignarTareaServicio;
 import com.uisarel.institucion.servicio.IAsistenciaServicio;
+import com.uisarel.institucion.servicio.IConductaService;
 import com.uisarel.institucion.servicio.IEstudianteService;
 import com.uisarel.institucion.servicio.IPersonalServicio;
 import com.uisarel.institucion.servicio.ITareaAlumnoServicio;
@@ -40,9 +43,12 @@ public class AjaxMantenimientoController {
 
 	@Autowired
 	private IAsignarTareaServicio srvAsignarTarea;
-	
+
 	@Autowired
 	private ITareaAlumnoServicio srvTareaAlumno;
+
+	@Autowired
+	private IConductaService srvConducta;
 
 //	RESCONTROLLER ESTUDIANTES
 
@@ -59,7 +65,7 @@ public class AjaxMantenimientoController {
 		} else {
 //			INSERT
 			estudiante = srvEstudiante.onGuardarEstudianteNuevo(datastudent);
-			message = "Excelente el estudiante fue registrado con éxito"; 
+			message = "Excelente el estudiante fue registrado con éxito";
 		}
 		HashMap<String, Object> response = new HashMap<>();
 		response.put("data", estudiante);
@@ -74,7 +80,7 @@ public class AjaxMantenimientoController {
 
 		HashMap<String, Object> response = new HashMap<>();
 		response.put("data",
-				srvEstudiante.onListarEstuandePeriodoEscolarGradoSeccionNivel(periodo, nivel, grado, seccion));
+				srvEstudiante.onListarEstuandePeriodoEscolarGradoSeccionNivel(2023, nivel, grado, seccion));
 		return ResponseEntity.ok(response);
 	}
 
@@ -145,7 +151,7 @@ public class AjaxMantenimientoController {
 		HashMap<String, Object> response = new HashMap<>();
 		response.put("asistencia", srvAsistencia.onListarAsistenciaCursoFecha(idcurso, idseccion, converFecha));
 		response.put("data",
-				srvEstudiante.onListarEstuandePeriodoEscolarGradoSeccionNivel(idperiodo, nivel, idgrado, idseccion));
+				srvEstudiante.onListarEstuandePeriodoEscolarGradoSeccionNivel(2023, nivel, idgrado, idseccion));
 		return ResponseEntity.ok(response);
 	}
 
@@ -176,7 +182,7 @@ public class AjaxMantenimientoController {
 	public ResponseEntity<?> endPointBuscarAlumnosGradoNivelSeccionTarea(@RequestParam("nivel") String nivel,
 			@RequestParam("idgrado") int idgrado, @RequestParam("idsecion") int idseccion,
 			@RequestParam("idcurso") int idcurso, @RequestParam("idtarea") int idtarea) {
-		
+
 		HashMap<String, Object> response = new HashMap<>();
 		response.put("presentaron", srvTareaAlumno.onBuscarTareaAlumno(idgrado, idseccion, idcurso, idtarea));
 		response.put("data",
@@ -184,11 +190,57 @@ public class AjaxMantenimientoController {
 		return ResponseEntity.ok(response);
 	}
 	
+	@GetMapping("/buscarDatosTareaId")
+	public ResponseEntity<?> endPointBuscarDatosTareaId(@RequestParam("idtarea") int idtarea) {
+
+		HashMap<String, Object> response = new HashMap<>();
+		
+		response.put("data",srvAsignarTarea.onBuscarTareaIdPeriodoAprturado(idtarea));
+		return ResponseEntity.ok(response);
+	}
+
 	@RequestMapping(value = "/guardarTareaAlumno", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<?> pointGuardarTareaAlumno(@RequestBody TareaAlumno tareaaluno) {
-		//System.err.println(tareaaluno);
 		HashMap<String, Object> response = new HashMap<>();
 		response.put("data", srvTareaAlumno.onGuardarTareaALumno(tareaaluno));
+		return ResponseEntity.ok(response);
+	}
+
+//	RESCONTROLLER CONDUCTA
+
+	@RequestMapping(value = "/guardarConductaAlumno", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<?> pointGuardarConductaAlumno(@RequestBody Conducta dataconducta) {
+
+		Conducta conducta = new Conducta();
+		HashMap<String, Object> response = new HashMap<>();
+		String message = "";
+		if (dataconducta.getIdConducta() != 0) {
+			conducta = srvConducta.onUpdateConductaEstudiante(dataconducta);
+			message = "Datos Actualizados correctamente";
+		} else {
+			conducta = srvConducta.onGuardarConducta(dataconducta);
+			message = "El informe de conducta fue registrado correctamente";
+		}
+
+		response.put("message", message);
+		response.put("data", conducta);
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("/buscarConductaAlumnoGradoSeccionNivel")
+	public ResponseEntity<?> endPointBuscarConductaAlumnoGradoSeccionNivel(@RequestParam("idcurso") int idcurso,
+			@RequestParam("idalumno") int idalumno, @RequestParam("iddocente") int iddocente) {
+
+		HashMap<String, Object> response = new HashMap<>();
+		response.put("data", srvConducta.onBuscarConductaAlumnoID(idalumno,idcurso,iddocente));
+		return ResponseEntity.ok(response);
+	}
+	
+	@DeleteMapping("/eliminarConductaAlumnoGradoSeccionNivel")
+	public ResponseEntity<?> endPointEliminarConductaAlumnoGradoSeccionNivel(@RequestParam("idconducta") int idconducta) {
+		srvConducta.onEliminarConducta(idconducta);
+		HashMap<String, Object> response = new HashMap<>();
+		response.put("message", "registro eliminado correctamente");
 		return ResponseEntity.ok(response);
 	}
 

@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.uisarel.institucion.modelo.entidades.AsignarTarea;
 import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
 import com.uisarel.institucion.servicio.IAsignarTareaServicio;
-import com.uisarel.institucion.servicio.ICursosService;
 import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
 import com.uisarel.institucion.servicio.IPeriodoEscolarService;
 import com.uisarel.institucion.servicio.IPersonalServicio;
@@ -40,8 +39,8 @@ public class AsignarTareaController {
 	@Autowired
 	private IPersonalServicio srvDocente;
 
-	@Autowired
-	private ICursosService srvCursos;
+//	@Autowired
+//	private ICursosService srvCursos;
 
 	@Autowired
 	private IPeriodoEscolarService srvPeriodoEscolar;
@@ -60,14 +59,25 @@ public class AsignarTareaController {
 
 	@GetMapping("/listTask")
 	public String getListarTareasAsignadasPeriodoEscolarAperturado(Model model) {
-		model.addAttribute("lstdocente", srvDocente.onListarPersonalAll());
-		model.addAttribute("lstcursos", srvCursos.onListarCursos("VIGENTE"));
+		//model.addAttribute("lstdocente", srvDocente.onListarPersonalAll());
+		//model.addAttribute("lstcursos", srvCursos.onListarCursos("VIGENTE"));
 		model.addAttribute("dttareas", srvAsignarTarea.onListarTareaPeriodoEscolarAperturado(0));
+		
+		System.err.println(srvAsignarTarea.onListarTareaPeriodoEscolarAperturado(0));
+		
 		return "obligaciones/tareas";
 	}
 
 	@GetMapping("/formaddtask")
 	public String getTemplateCrearNuevaTareasAsignadasPeriodoEscolarAperturado(Model model) {
+		AsignarTarea tarea = new AsignarTarea();
+		model.addAttribute("data", tarea);
+		model.addAttribute("lstdocente", srvDocente.onListarPersonalAll());
+		return "obligaciones/nuevaTarea";
+	}
+	
+	@GetMapping("/viewtaskedit")
+	public String getTemplateEditTareasAsignadasPeriodoEscolarAperturado(@RequestParam("id")int idtarea ,Model model) {
 		AsignarTarea tarea = new AsignarTarea();
 		model.addAttribute("data", tarea);
 		model.addAttribute("lstdocente", srvDocente.onListarPersonalAll());
@@ -91,7 +101,7 @@ public class AsignarTareaController {
 				datos.setNameDocumento(nombreImagen);
 			}
 		}
-
+		
 		srvAsignarTarea.onGuardarTareaNuevaPeriodoEscolar(datos);
 		return "redirect:/listTask";
 	}

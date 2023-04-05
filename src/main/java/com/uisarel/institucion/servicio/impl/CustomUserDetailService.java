@@ -43,9 +43,8 @@ public class CustomUserDetailService implements UserDetailsService {
 		Set<GrantedAuthority> listOfgrantedAuthorities = new HashSet<>();
 		GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(listaroles.get(0).getFkPerfil().getNombre());
 		listOfgrantedAuthorities.add(grantedAuthority);
-
-		//System.err.println(listaroles);
-
+		
+		
 		String email = user.getUsuarioCorreo();
 		String password = user.getContrasenia();
 

@@ -26,10 +26,28 @@ public class indexControlador {
 	public String verPrincipal(Authentication auth,Model model) {
 		for (GrantedAuthority rol : auth.getAuthorities()) {
 			ConstantApp.ROL_LOGIN = 	rol.getAuthority();
-			System.err.println(ConstantApp.ROL_LOGIN);
 		}
+		String template=  "";
+		if(ConstantApp.ROL_LOGIN.compareTo("ADMINISTRADOR") == 0) {
+			template = "/dashboard/admindashboard";
+		}else {
+			template = "/dashboard/teacherdashboard";
+		}
+		
 		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
-		return"/plantilla/plantilla";
+		return template;
+	}
+	
+	@GetMapping("/admindashboard")
+	public String verPrincipalAdmin(Authentication auth,Model model) {
+		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
+		return "/dashboard/admindashboard";
+	}
+	
+	@GetMapping("/teacherdashboard")
+	public String verPrincipalTeachers(Authentication auth,Model model) {
+		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
+		return "/dashboard/teacherdashboard";
 	}
 	
 	@GetMapping("/login")

@@ -17,5 +17,14 @@ public interface IConductaRepositorio extends JpaRepository<Conducta, Integer> {
 	 * @return
 	 */
 	List<Conducta> findByEstudianteIdEstudiante(int idEstudiante);
+	
+	/**
+	 * @author SOPORTE
+	 * @param idEstudiante
+	 * @param idcurso
+	 * @param idpersonal
+	 * @return
+	 */
+	List<Conducta> findByEstudianteIdEstudianteAndCursoIdCursoAndPersonalIdPersonal(int idEstudiante, int idcurso, int idpersonal);
 
 }

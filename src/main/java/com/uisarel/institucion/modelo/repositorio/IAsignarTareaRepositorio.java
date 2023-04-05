@@ -17,6 +17,13 @@ public interface IAsignarTareaRepositorio extends JpaRepository<AsignarTarea, In
 	 * @return
 	 */
 	List<AsignarTarea> findByPeriodoEscolarIdPeriodoEscolar(int idPeriodoEscolar);
+	/**
+	 * @author SOPORTE
+	 * @param idPeriodoEscolar
+	 * @param personalLogin
+	 * @return
+	 */
+	List<AsignarTarea> findByPeriodoEscolarIdPeriodoEscolarAndPersonalEmail(int idPeriodoEscolar,String personalLogin);
 
 	/**
 	 * @author JMISERVER13
