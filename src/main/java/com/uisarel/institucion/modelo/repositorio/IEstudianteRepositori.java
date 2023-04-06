@@ -16,6 +16,14 @@ public interface IEstudianteRepositori extends JpaRepository<Estudiante, Integer
 	 * @param periodoEscolar
 	 * @return
 	 */
+	Estudiante findByEmailEstudianteAndPeriodoEscolarIdPeriodoEscolar(String emailEstudiante, int periodoEscolar);
+
+	/**
+	 * @author JMISERVER13
+	 * @param numDocumento
+	 * @param periodoEscolar
+	 * @return
+	 */
 	Estudiante findByNumDocumentoAndPeriodoEscolarIdPeriodoEscolar(String numDocumento, int periodoEscolar);
 
 	/**
@@ -28,7 +36,7 @@ public interface IEstudianteRepositori extends JpaRepository<Estudiante, Integer
 	 */
 	List<Estudiante> findByPeriodoEscolarIdPeriodoEscolarAndNivelEscolarAndGradoAlumnoIdGradoAndSeccionAlumnoIdSeccion(
 			int periodoEscolar, String nivelEscolar, int idGrado, int idSeccion);
-	
+
 	/**
 	 * @author JMISERVER13
 	 * @param idPeriodoEscolar
@@ -37,4 +45,11 @@ public interface IEstudianteRepositori extends JpaRepository<Estudiante, Integer
 	 */
 	Estudiante findByPeriodoEscolarIdPeriodoEscolarAndIdEstudiante(int idPeriodoEscolar, int idEstudiante);
 
+	/**
+	 * @author JMISERVER13
+	 * @param periodoEscolar
+	 * @return
+	 */
+	List<Estudiante> findByPeriodoEscolarIdPeriodoEscolar(int periodoEscolar);
+	
 }

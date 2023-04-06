@@ -52,5 +52,4 @@ public interface IEstudianteService {
 	 */
 	List<Estudiante> onListarEstuandePeriodoEscolarGradoSeccionNivel(int periodoEscolar, String nivelEscolar,
 			int idGrado, int idSeccion);
-
 }

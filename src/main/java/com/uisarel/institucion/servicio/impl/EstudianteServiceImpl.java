@@ -49,8 +49,10 @@ public class EstudianteServiceImpl implements IEstudianteService {
 
 	@Override
 	public List<Estudiante> onListarEstuandePeriodoEscolar(int periodoEscolar) {
+		PeriodoEscolar periodo = repoPeridoEscolar.findByEstado("APERTURADO").get(0);
+		
 
-		return repoEstudiante.findAll();
+		return repoEstudiante.findByPeriodoEscolarIdPeriodoEscolar(periodo.getIdPeriodoEscolar());
 	}
 
 	@Override
@@ -98,10 +100,10 @@ public class EstudianteServiceImpl implements IEstudianteService {
 							perfilUser.setFechaCreacionPerfil(new Date());
 							perfilUser.setFkPerfil(perfil);
 							repoPerfil.save(perfilUser);
-							srvNotifications.sendMensajeChasqui(
-									"CREACION DE CUENTA DE ACCESO AL SISTEMA ESCOLAR AF-2023",
-									"SE REMITE CONTRASEÑA DE ACCESO AL SISITEMA ESCOLAR SU CLAVE ES : " + claveString,
-									response.getEmailEstudiante(), false, "");
+//							srvNotifications.sendMensajeChasqui(
+//									"CREACION DE CUENTA DE ACCESO AL SISTEMA ESCOLAR AF-2023",
+//									"SE REMITE CONTRASEÑA DE ACCESO AL SISITEMA ESCOLAR SU CLAVE ES : " + claveString,
+//									response.getEmailEstudiante(), false, "");
 						}
 
 					} else {
@@ -209,5 +211,4 @@ public class EstudianteServiceImpl implements IEstudianteService {
 		}
 		return response;
 	}
-
 }

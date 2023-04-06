@@ -13,61 +13,48 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
 import com.uisarel.institucion.utils.ConstantApp;
 
-
-
 @Controller
 public class indexControlador {
-	
-	
+
 	@Autowired
 	private ConfiguracionesServiceImp srvSeting;
-	
+
 	@GetMapping("/dashboard")
-	public String verPrincipal(Authentication auth,Model model) {
+	public String verPrincipal(Authentication auth, Model model) {
 		for (GrantedAuthority rol : auth.getAuthorities()) {
-			ConstantApp.ROL_LOGIN = 	rol.getAuthority();
+			ConstantApp.ROL_LOGIN = rol.getAuthority();
 		}
-		String template=  "";
-		if(ConstantApp.ROL_LOGIN.compareTo("ADMINISTRADOR") == 0) {
+		String template = "";
+		if (ConstantApp.ROL_LOGIN.compareTo("ADMINISTRADOR") == 0) {
 			template = "/dashboard/admindashboard";
-		}else {
+		} else if (ConstantApp.ROL_LOGIN.compareTo("ESTUDIANTE") == 0) {
+			template = "/dashboard/studentdashboard";
+		} else {
 			template = "/dashboard/teacherdashboard";
 		}
-		
+
 		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
 		return template;
 	}
-	
-	@GetMapping("/admindashboard")
-	public String verPrincipalAdmin(Authentication auth,Model model) {
-		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
-		return "/dashboard/admindashboard";
-	}
-	
-	@GetMapping("/teacherdashboard")
-	public String verPrincipalTeachers(Authentication auth,Model model) {
-		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
-		return "/dashboard/teacherdashboard";
-	}
-	
+
 	@GetMapping("/login")
 	public String verLogin() {
 		return "Login";
 	}
-	
+
 	@GetMapping("/logout")
 	public String logout(jakarta.servlet.http.HttpServletRequest request) {
-		
+
 		SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
-		
+
 		logoutHandler.logout(request, null, null);
 		return "redirect:/";
 	}
-	
+
 	@PreAuthorize("isAuthenticated()")
 	@ModelAttribute
-	public void setGenericos(Authentication auth,Model model) {
-		
+	public void setGenericos(Authentication auth, Model model) {
+
 	}
-	
+
 }

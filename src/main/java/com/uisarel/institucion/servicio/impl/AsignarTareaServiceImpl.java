@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uisarel.institucion.modelo.entidades.AsignarTarea;
+import com.uisarel.institucion.modelo.entidades.Estudiante;
 import com.uisarel.institucion.modelo.entidades.PeriodoEscolar;
 import com.uisarel.institucion.modelo.repositorio.IAsignarTareaRepositorio;
+import com.uisarel.institucion.modelo.repositorio.IEstudianteRepositori;
 import com.uisarel.institucion.modelo.repositorio.IPeriodoEscolarRepositorio;
 import com.uisarel.institucion.servicio.IAsignarTareaServicio;
 import com.uisarel.institucion.utils.ConstantApp;
@@ -27,21 +29,33 @@ public class AsignarTareaServiceImpl implements IAsignarTareaServicio {
 	@Autowired
 	private IPeriodoEscolarRepositorio repoPeriodoEscolar;
 
+	@Autowired
+	private IEstudianteRepositori repoEstudiante;
+
 	@Override
 	public List<AsignarTarea> onListarTareaPeriodoEscolarAperturado(int idPeriodoEscolar) {
 		List<AsignarTarea> lista = new ArrayList<>();
 		try {
-			
-			PeriodoEscolar periodo = repoPeriodoEscolar.findByEstado("APERTURADO").get(0);			
-			if(ConstantApp.ROL_LOGIN.compareTo("ADMINISTRADOR") == 0) {
+//			OBTENER EL PERIODO ESCOLAR ACTUAL
+			PeriodoEscolar periodo = repoPeriodoEscolar.findByEstado("APERTURADO").get(0);
+			if (ConstantApp.ROL_LOGIN.compareTo("ADMINISTRADOR") == 0) {
 				lista = repoAsignarTarea.findByPeriodoEscolarIdPeriodoEscolar(periodo.getIdPeriodoEscolar());
-			}else {
+			} else if (ConstantApp.ROL_LOGIN.compareTo("ESTUDIANTE") == 0) {
+//				BUSCAR DATOS DEL ALUMNO
+				Estudiante studentLogin = repoEstudiante.findByEmailEstudianteAndPeriodoEscolarIdPeriodoEscolar(
+						ConstantApp.getuserLogin(), periodo.getIdPeriodoEscolar());
+//				OBTENER TODA LAS TAREAS DEL ALUMNO LOGUEADO ES DECIR POR GRADO Y SECCION
+				lista = repoAsignarTarea.findByPeriodoEscolarIdPeriodoEscolarAndGradoIdGradoAndSeccionIdSeccion(
+						periodo.getIdPeriodoEscolar(), studentLogin.getGradoAlumno().getIdGrado(),
+						studentLogin.getSeccionAlumno().getIdSeccion());
+			} else {
 				/**
 				 * @author DOCENTE PROFILES
 				 */
-				lista = repoAsignarTarea.findByPeriodoEscolarIdPeriodoEscolarAndPersonalEmail(periodo.getIdPeriodoEscolar(),ConstantApp.getuserLogin());
+				lista = repoAsignarTarea.findByPeriodoEscolarIdPeriodoEscolarAndPersonalEmail(
+						periodo.getIdPeriodoEscolar(), ConstantApp.getuserLogin());
 			}
-			
+
 		} catch (Exception e) {
 			throw e;
 		}
