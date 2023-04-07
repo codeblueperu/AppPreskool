@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{plantilla/plantilla}">
+
+<head>
+    <title>PreSkool | Setting</title>
+    <link rel="shortcut icon" th:href="@{/themes/assets/img/favicon.png}">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap}"
+        rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/themes/assets/plugins/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/themes/assets/plugins/feather/feather.css}">
+    <link rel="stylesheet" th:href="@{/themes/assets/plugins/icons/flags/flags.css}">
+    <link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/themes/assets/plugins/datatables/datatables.min.css}">
+    <link rel="stylesheet" th:href="@{/themes/assets/css/style.css}">
+
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="page-sub-header">
+                        <h3 class="page-title">Administracion Template</h3>
+                        <ul class="breadcrumb">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-table comman-shadow">
+                    <div class="card-body">
+                        <div class="page-header">
+
+                        </div>
+                        <div class="clear-fixed"></div>
+                        <div class="page-body">
+                            <form th:action="@{/guardarsetting}" th:object="${data}" method="POST" enctype="multipart/form-data">
+                                <div class="row">
+                                    <input type="hidden" name="idProyecto" th:field="*{idProyecto}">
+                                    <div class="col-md-6">
+                                        <label for="descripcionPeriodo">Nombre del Sistema</label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon2"><i class="fa fa-table"
+                                                    aria-hidden="true"></i></span>
+                                            <input type="text" class="form-control" name="nameSistema"
+                                                th:field="*{nameSistema}" aria-describedby="basic-addon2"
+                                                autocomplete="off" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="descripcionPeriodo">Estilos Button Toggle</label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon2"><i class="fa fa-table"
+                                                    aria-hidden="true"></i></span>
+                                            <input type="text" class="form-control" name="colorButtonMenu"
+                                                th:field="*{colorButtonMenu}" aria-describedby="basic-addon2"
+                                                autocomplete="off" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="descripcionPeriodo">Estilos Botton Primary</label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon2"><i class="fa fa-table"
+                                                    aria-hidden="true"></i></span>
+                                            <input type="text" class="form-control" name="coloresButtons"
+                                                th:field="*{coloresButtons}" aria-describedby="basic-addon2"
+                                                autocomplete="off" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="descripcionPeriodo">Estilos Button Danger</label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon2"><i class="fa fa-table"
+                                                    aria-hidden="true"></i></span>
+                                            <input type="text" class="form-control" name="coloresButtonsCancel"
+                                                th:field="*{coloresButtonsCancel}" aria-describedby="basic-addon2"
+                                                autocomplete="off" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="descripcionPeriodo">Logo Sistema</label>
+                                        <div class="input-group mb-3">
+                                            <input type="file" name="logoApp" id="logoApp" class="form-control">
+                                        </div>
+                                        <img th:src="@{/fltask/img/{logapp} (logapp=${data.logoSistema})}" width="150px" alt="NOT_FOUND">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="descripcionPeriodo">Icono Sistema</label>
+                                        <div class="input-group mb-3">
+                                            <input type="file" name="iconoApp" id="iconoApp" class="form-control">
+                                        </div>
+                                        <img th:src="@{/fltask/img/{iconapp} (iconapp=${data.iconoSistema})}" width="70px" alt="NOT_FOUND">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="descripcionPeriodo">Banner Login</label>
+                                        <div class="input-group mb-3">
+                                            <input type="file" name="bannerApp" id="bannerApp" class="form-control">
+                                        </div>
+                                        <img th:src="@{/fltask/img/{bnrapp} (bnrapp=${data.bannerLogin})}" width="100px" alt="NOT_FOUND">
+                                    </div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="" style="display: flex; gap:15px">
+                                        <button type="submit" class="btn btn-primary btn-xs">Guardar Cambios</button>
+                                    </div>
+                                   
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script th:src="@{/themes/assets/js/jquery-3.6.0.min.js}"></script>
+    <script th:src="@{/themes/assets/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/themes/assets/js/feather.min.js}"></script>
+    <script th:src="@{/themes/assets/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+    <script th:src="@{/themes/assets/plugins/datatables/datatables.min.js}"></script>
+    <!-- <script th:src="@{/themes/assets/plugins/select2/js/select2.min.js}"></script> -->
+    <script th:src="@{/themes/assets/plugins/moment/moment.min.js}"></script>
+    <script th:src="@{/themes/assets/js/bootstrap-datetimepicker.min.js}"></script>
+    <div layout:fragment="ajax_method"></div>
+</body>
+
+</html>

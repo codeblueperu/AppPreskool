@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.uisarel.institucion.modelo.entidades.Operaciones;
+import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IOperacionesServicio;
 import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
 
@@ -25,6 +26,9 @@ public class OperacionesControlador {
 	
 	@Autowired
 	private ConfiguracionesServiceImp srvSeting;
+	
+	@Autowired
+	private IAdminTemplateService srvAdminTemplate;
 	
 	//ListarPerfiles
 	@GetMapping("/listaOperaciones")
@@ -83,6 +87,7 @@ public class OperacionesControlador {
 	
 	@ModelAttribute
 	public void setGenericos(Authentication auth,Model model) {
+		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
 		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
 	}
 

@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
 import com.uisarel.institucion.modelo.entidades.PeriodoEscolar;
+import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
 import com.uisarel.institucion.servicio.IPeriodoEscolarService;
 import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
@@ -29,6 +30,9 @@ public class PeriodoEscolarControlador {
 
 	@Autowired
 	private IPerfilOperacionesServicio srvOperacion;
+
+	@Autowired
+	private IAdminTemplateService srvAdminTemplate;
 
 	@GetMapping("/periodoescolar")
 	public String getPeriodoEscolar(Model model) {
@@ -79,6 +83,8 @@ public class PeriodoEscolarControlador {
 
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
+
+		model.addAttribute("setting", srvAdminTemplate.onMostrarDataTemplateAdmin());
 		PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(14, auth);
 		model.addAttribute("lstdata", srvPeriodo.onListarPeriodoEscolarAll());
 		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));

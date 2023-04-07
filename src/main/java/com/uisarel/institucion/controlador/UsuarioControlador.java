@@ -16,6 +16,7 @@ import com.uisarel.institucion.modelo.entidades.Perfil;
 import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
 import com.uisarel.institucion.modelo.entidades.Usuario;
 import com.uisarel.institucion.modelo.entidades.UsuarioPerfil;
+import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
 import com.uisarel.institucion.servicio.IPerfilServicio;
 import com.uisarel.institucion.servicio.IUsuarioPerfilServicio;
@@ -37,6 +38,9 @@ public class UsuarioControlador {
 
 	@Autowired
 	private IPerfilOperacionesServicio srvOperacion;
+	
+	@Autowired
+	private IAdminTemplateService srvAdminTemplate;
 
 	// ListarUsuarios
 	@GetMapping("/listaUsuarios")
@@ -107,6 +111,7 @@ public class UsuarioControlador {
 
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
+		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
 		PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(2,auth);
 		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
 		model.addAttribute("cdrSelect", actions.getLeer());

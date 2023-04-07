@@ -8,7 +8,7 @@ import com.uisarel.institucion.modelo.entidades.Asistencia;
 public interface IAsistenciaServicio {
 
 	/**
-	 * @author JMISERVER13
+	 * @author CodeBluePeru
 	 * @param idcurso
 	 * @param fecha
 	 * @return
@@ -16,24 +16,32 @@ public interface IAsistenciaServicio {
 	List<Asistencia> onListarAsistenciaCursoFecha(int idcurso, int idseccion, Date fecha);
 
 	/**
-	 * @author JMISERVER13
+	 * @author CodeBluePeru
 	 * @param idasistencia
 	 * @return
 	 */
 	Asistencia onBuscarAsistenciaCursoFechaId(int idasistencia);
 
 	/**
-	 * @author JMISERVER13
+	 * @author CodeBluePeru
 	 * @param data
 	 * @return
 	 */
 	Asistencia onGuardarAsistenciaCursoFecha(Asistencia data);
 
 	/**
-	 * @author JMISERVER13
+	 * @author CodeBluePeru
 	 * @param idasistencia
 	 * @param idcurso
 	 * @param fechaAsistencia
 	 */
 	void onEliminarAsistenciaCursoFecha(int idasistencia);
+	
+	/**
+	 * @author CodeBluePeru
+	 * @param idEstudiante
+	 * @param estadoAsistencia
+	 * @return
+	 */
+	List<Asistencia> onDataDashBoardStudent(int idEstudiante, String estadoAsistencia);
 }

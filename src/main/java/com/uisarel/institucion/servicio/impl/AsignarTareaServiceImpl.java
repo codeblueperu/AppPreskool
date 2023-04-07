@@ -127,4 +127,26 @@ public class AsignarTareaServiceImpl implements IAsignarTareaServicio {
 		return lista;
 	}
 
+	@Override
+	public List<AsignarTarea> onListarTareasActivas(int idGrado, int idseccion, String nivelEscolar,
+			Date fechaVigente) {
+		List<AsignarTarea> lista = new ArrayList<>();
+		try {
+//			PERIODO ESCOLAR APERTURADO
+			PeriodoEscolar periodo = repoPeriodoEscolar.findByEstado("APERTURADO").get(0);
+//			DATOS DEL USUARIO LOGUEADO
+			Estudiante studentLogin = repoEstudiante.findByEmailEstudianteAndPeriodoEscolarIdPeriodoEscolar(
+					ConstantApp.getuserLogin(), periodo.getIdPeriodoEscolar());
+//			DATA TASK RETURN
+			lista = repoAsignarTarea.findByNivelEscolarAndGradoIdGradoAndSeccionIdSeccionAndFechaPresentacionAfter(
+					studentLogin.getNivelEscolar(), studentLogin.getGradoAlumno().getIdGrado(),
+					studentLogin.getSeccionAlumno().getIdSeccion(), new Date());
+
+		} catch (Exception e) {
+			throw e;
+		}
+		return lista;
+	}
+
+
 }

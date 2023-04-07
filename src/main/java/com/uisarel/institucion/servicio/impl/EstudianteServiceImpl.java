@@ -22,6 +22,7 @@ import com.uisarel.institucion.modelo.repositorio.IUsuarioPerfilRepositorio;
 import com.uisarel.institucion.modelo.repositorio.IUsuarioRepositorio;
 import com.uisarel.institucion.servicio.IEstudianteService;
 import com.uisarel.institucion.servicio.INotificacionesService;
+import com.uisarel.institucion.utils.ConstantApp;
 
 import jakarta.transaction.Transactional;
 
@@ -50,7 +51,6 @@ public class EstudianteServiceImpl implements IEstudianteService {
 	@Override
 	public List<Estudiante> onListarEstuandePeriodoEscolar(int periodoEscolar) {
 		PeriodoEscolar periodo = repoPeridoEscolar.findByEstado("APERTURADO").get(0);
-		
 
 		return repoEstudiante.findByPeriodoEscolarIdPeriodoEscolar(periodo.getIdPeriodoEscolar());
 	}
@@ -210,5 +210,24 @@ public class EstudianteServiceImpl implements IEstudianteService {
 			throw e;
 		}
 		return response;
+	}
+
+	@Override
+	public List<Estudiante> onListarEstuandePeriodoEscolarGradoSeccionNivelTurno(int periodoEscolar,
+			String nivelEscolar, int idGrado, int idSeccion, String turno) {
+		List<Estudiante> lista = new ArrayList<>();
+		try {
+			PeriodoEscolar periodo = repoPeridoEscolar.findByEstado("APERTURADO").get(0);
+			Estudiante studentLogin = repoEstudiante.findByEmailEstudianteAndPeriodoEscolarIdPeriodoEscolar(
+					ConstantApp.getuserLogin(), periodo.getIdPeriodoEscolar());
+			lista = repoEstudiante
+					.findByPeriodoEscolarIdPeriodoEscolarAndNivelEscolarAndGradoAlumnoIdGradoAndSeccionAlumnoIdSeccionAndTurno(
+							periodo.getIdPeriodoEscolar(), studentLogin.getNivelEscolar(),
+							studentLogin.getGradoAlumno().getIdGrado(), studentLogin.getSeccionAlumno().getIdSeccion(),
+							studentLogin.getTurno());
+		} catch (Exception e) {
+			throw e;
+		}
+		return lista;
 	}
 }

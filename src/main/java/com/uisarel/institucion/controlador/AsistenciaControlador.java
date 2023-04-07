@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
+import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
 import com.uisarel.institucion.servicio.IPeriodoEscolarService;
 import com.uisarel.institucion.servicio.IPersonalServicio;
@@ -31,6 +32,9 @@ public class AsistenciaControlador {
 	
 	@Autowired
 	private IPersonalServicio srvDocente;
+	
+	@Autowired
+	private IAdminTemplateService srvAdminTemplate;
 
 	@GetMapping("/addasistencia")
 	public String getCursoAll(Model model) {
@@ -42,6 +46,7 @@ public class AsistenciaControlador {
 
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
+		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
 		PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(18, auth);
 		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
 		model.addAttribute("cdrSelect", actions.getLeer());

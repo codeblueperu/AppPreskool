@@ -21,7 +21,7 @@ public class Asistencia {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idAsistencia;
 
-	private String descripcion_asistencia;
+	private String estadoAsistencia;
 
 	private String observacion;
 

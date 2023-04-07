@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IMenuServicio;
 import com.uisarel.institucion.servicio.IPerfilServicio;
 import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
@@ -25,6 +26,9 @@ public class PerfilMenuControlador {
 	
 	@Autowired
 	private IPerfilServicio servicioPerfil;
+	
+	@Autowired
+	private IAdminTemplateService srvAdminTemplate;
 
 	@GetMapping("/perfilmenu")
 	public String getShowTemplatePerfilMenu(Model model) {
@@ -48,6 +52,7 @@ public class PerfilMenuControlador {
 	
 	@ModelAttribute
 	public void setGenericos(Authentication auth,Model model) {
+		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
 		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
 	}
 

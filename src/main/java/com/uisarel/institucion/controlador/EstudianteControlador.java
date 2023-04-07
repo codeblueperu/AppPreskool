@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
+import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
 import com.uisarel.institucion.servicio.IPeriodoEscolarService;
 import com.uisarel.institucion.servicio.ISeccionService;
@@ -28,6 +29,9 @@ public class EstudianteControlador {
 	
 	@Autowired
 	private ISeccionService srvSeccion;
+	
+	@Autowired
+	private IAdminTemplateService srvAdminTemplate;
 
 	@GetMapping("/estudiantes")
 	public String getGradoAll(Model model) {
@@ -52,6 +56,7 @@ public class EstudianteControlador {
 	
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
+		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
 		PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(16, auth);
 		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
 		model.addAttribute("cdrSelect", actions.getLeer());

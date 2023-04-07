@@ -1,38 +1,145 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-layout:decorate="~{plantilla/plantilla}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{plantilla/plantilla}">
+
 <head>
 	<title>PreSkool | Obligaciones</title>
 	<link rel="shortcut icon" th:href="@{/themes/assets/img/favicon.png}">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap}" rel="stylesheet">
-<link rel="stylesheet" th:href="@{/themes/assets/plugins/bootstrap/css/bootstrap.min.css}">
-<link rel="stylesheet" th:href="@{/themes/assets/plugins/feather/feather.css}">
-<link rel="stylesheet" th:href="@{/themes/assets/plugins/icons/flags/flags.css}">
-<link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/fontawesome.min.css}">
-<link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/all.min.css}">
-<link rel="stylesheet" th:href="@{/themes/assets/plugins/datatables/datatables.min.css}">
-<link rel="stylesheet" th:href="@{/themes/assets/css/style.css}">
+	<link
+		href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap}"
+		rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/themes/assets/plugins/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/themes/assets/plugins/feather/feather.css}">
+	<link rel="stylesheet" th:href="@{/themes/assets/plugins/icons/flags/flags.css}">
+	<link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/fontawesome.min.css}">
+	<link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/all.min.css}">
+	<link rel="stylesheet" th:href="@{/themes/assets/plugins/datatables/datatables.min.css}">
+	<link rel="stylesheet" th:href="@{/themes/assets/css/style.css}">
 
 </head>
 
 <body>
-	<div layout:fragment="content" >
+	<div layout:fragment="content">
 		<div class="page-header">
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="page-sub-header">
 						<h3 class="page-title">DASHBOARD</h3>
 						<ul class="breadcrumb">
-							
+
 						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
-		
-
-	
+		<div class="row">
+			<div class="col-xl-3 col-sm-6 col-12 d-flex">
+				<div class="card bg-comman w-100">
+					<div class="card-body">
+						<div class="db-widgets d-flex justify-content-between align-items-center">
+							<div class="db-info">
+								<h6>Total Aulas</h6>
+								<h3 id="ctclases"></h3>
+							</div>
+							<div class="db-icon">
+								<img th:src="@{themes/assets/img/icons/teacher-icon-01.svg}" alt="Dashboard Icon">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-3 col-sm-6 col-12 d-flex">
+				<div class="card bg-comman w-100">
+					<div class="card-body">
+						<div class="db-widgets d-flex justify-content-between align-items-center">
+							<div class="db-info">
+								<h6>Total Estudiantes</h6>
+								<h3 id="ctalumnos">0</h3>
+							</div>
+							<div class="db-icon">
+								<img th:src="@{themes/assets/img/icons/dash-icon-01.svg}" alt="Dashboard Icon">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-3 col-sm-6 col-12 d-flex">
+				<div class="card bg-comman w-100">
+					<div class="card-body">
+						<div class="db-widgets d-flex justify-content-between align-items-center">
+							<div class="db-info">
+								<h6>Total Tares</h6>
+								<h3 id="cttareas">0</h3>
+							</div>
+							<div class="db-icon">
+								<img th:src="@{themes/assets/img/icons/teacher-icon-02.svg}" alt="Dashboard Icon">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-3 col-sm-6 col-12 d-flex">
+				<div class="card bg-comman w-100">
+					<div class="card-body">
+						<div class="db-widgets d-flex justify-content-between align-items-center">
+							<div class="db-info">
+								<h6>Grados</h6>
+								<h3 id="ctgrados">0</h3>
+							</div>
+							<div class="db-icon">
+								<img th:src="@{themes/assets/img/icons/teacher-icon-03.svg}" alt="Dashboard Icon">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="card card-chart">
+					<div class="card-header">
+						<h5 class="card-title">GRADOS</h5>
+					</div>
+					<div class="card-body">
+						<table
+							class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
+							<thead class="student-thread">
+								<tr>
+									<th>#</th>
+									<th>Nivel</th>
+									<th>Grado</th>
+								</tr>
+							</thead>
+							<tbody id="__grados___">
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="card card-chart">
+					<div class="card-header">
+						<h5 class="card-title">CURSOS</h5>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table
+								class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
+								<thead class="student-thread">
+									<tr>
+										<th>#</th>
+										<th>CURSO</th>
+										<th>ESTADO</th>
+									</tr>
+								</thead>
+								<tbody id="__cursos___">
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<script th:src="@{/themes/assets/js/jquery-3.6.0.min.js}"></script>
@@ -43,7 +150,7 @@ layout:decorate="~{plantilla/plantilla}">
 	<script th:src="@{/themes/assets/plugins/moment/moment.min.js}"></script>
 	<script th:src="@{/themes/assets/js/bootstrap-datetimepicker.min.js}"></script>
 	<div layout:fragment="ajax_method">
-		<script th:src="@{/ajax/apiTareas.js}"></script>
+		<script th:src="@{/ajax/apiDashboardTeacher.js}"></script>
 	</div>
 </body>
 

@@ -1,48 +1,161 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-layout:decorate="~{plantilla/plantilla}">
-<head>
-	<title>PreSkool | Dashboard</title>
-	<link rel="shortcut icon" th:href="@{/themes/assets/img/favicon.png}">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap}" rel="stylesheet">
-<link rel="stylesheet" th:href="@{/themes/assets/plugins/bootstrap/css/bootstrap.min.css}">
-<link rel="stylesheet" th:href="@{/themes/assets/plugins/feather/feather.css}">
-<link rel="stylesheet" th:href="@{/themes/assets/plugins/icons/flags/flags.css}">
-<link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/fontawesome.min.css}">
-<link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/all.min.css}">
-<link rel="stylesheet" th:href="@{/themes/assets/plugins/datatables/datatables.min.css}">
-<link rel="stylesheet" th:href="@{/themes/assets/css/style.css}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{plantilla/plantilla}">
 
+<head>
+  <title>PreSkool | Dashboard</title>
+  <link rel="shortcut icon" th:href="@{/themes/assets/img/favicon.png}" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap}"
+    rel="stylesheet" />
+  <link rel="stylesheet" th:href="@{/themes/assets/plugins/bootstrap/css/bootstrap.min.css}" />
+  <link rel="stylesheet" th:href="@{/themes/assets/plugins/feather/feather.css}" />
+  <link rel="stylesheet" th:href="@{/themes/assets/plugins/icons/flags/flags.css}" />
+  <link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/fontawesome.min.css}" />
+  <link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/all.min.css}" />
+  <link rel="stylesheet" th:href="@{/themes/assets/plugins/datatables/datatables.min.css}" />
+  <link rel="stylesheet" th:href="@{/themes/assets/css/style.css}" />
 </head>
 
 <body>
-	<div layout:fragment="content" >
-		<div class="page-header">
-			<div class="row">
-				<div class="col-sm-12">
-					<div class="page-sub-header">
-						<h3 class="page-title">Estudiante DASHBOARD</h3>
-						<ul class="breadcrumb">
-							
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	
-	</div>
+  <div layout:fragment="content">
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="page-sub-header">
+            <h3 class="page-title">DASHBOARD</h3>
+            <ul class="breadcrumb"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
 
-	<script th:src="@{/themes/assets/js/jquery-3.6.0.min.js}"></script>
-	<script th:src="@{/themes/assets/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
-	<script th:src="@{/themes/assets/js/feather.min.js}"></script>
-	<script th:src="@{/themes/assets/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
-	<script th:src="@{/themes/assets/plugins/datatables/datatables.min.js}"></script>
-	<script th:src="@{/themes/assets/plugins/moment/moment.min.js}"></script>
-	<script th:src="@{/themes/assets/js/bootstrap-datetimepicker.min.js}"></script>
-	<div layout:fragment="ajax_method">
-		<script th:src="@{/ajax/apiTareas.js}"></script>
-	</div>
+    <div class="row">
+      <div class="col-xl-3 col-sm-6 col-12 d-flex">
+        <div class="card bg-comman w-100">
+          <div class="card-body">
+            <div class="db-widgets d-flex justify-content-between align-items-center">
+              <div class="db-info">
+                <h6>ESTUDIANTES</h6>
+                <h3 id="ctstudent">0</h3>
+              </div>
+              <div class="db-icon">
+                <img th:src="@{/themes/assets/img/icons/dash-icon-01.svg}" alt="Dashboard Icon" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 col-12 d-flex">
+        <div class="card bg-comman w-100">
+          <div class="card-body">
+            <div class="db-widgets d-flex justify-content-between align-items-center">
+              <div class="db-info">
+                <h6>DOCENTES</h6>
+                <h3 id="ctteacher">0</h3>
+              </div>
+              <div class="db-icon">
+                <img th:src="@{/themes/assets/img/icons/teacher-icon-01.svg}" alt="Dashboard Icon" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 col-12 d-flex">
+        <div class="card bg-comman w-100">
+          <div class="card-body">
+            <div class="db-widgets d-flex justify-content-between align-items-center">
+              <div class="db-info">
+                <h6>TAREAS REALIZADAS</h6>
+                <h3 id="cttareasi">0</h3>
+              </div>
+              <div class="db-icon">
+                <img th:src="@{/themes/assets/img/icons/teacher-icon-02.svg}" alt="Dashboard Icon" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 col-12 d-flex">
+        <div class="card bg-comman w-100">
+          <div class="card-body">
+            <div class="db-widgets d-flex justify-content-between align-items-center">
+              <div class="db-info">
+                <h6>INASISTENCIAS</h6>
+                <h3 id="ctfalto">0</h3>
+              </div>
+              <div class="db-icon">
+                <img th:src="@{/themes/assets/img/icons/teacher-icon-03.svg}" alt="Dashboard Icon" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card card-chart">
+          <div class="card-header">
+            <h5 class="card-title">TAREAS PENDIENTES</h5>
+          </div>
+          <div class="card-body">
+            <div class="activity-groups">
+              <div th:each="item : ${lsttareas}" class="activity-awards">
+                <div class="award-boxs">
+                  <img th:src="@{/themes/assets/img/icons/student-icon-01.svg}" alt="Award" />
+                </div>
+                <div class="award-list-outs">
+                  <h4 th:text="${item.tema}">Tema</h4>
+                  <h5><i class="fa fa-user"></i> <span th:text="${item.personal.nombre} + ' ' + ${item.personal.apellidos}"></span></h5>
+                  <h5><i class="fa fa-book"></i> <span th:text="${item.curso.nombreCurso}"></span></h5>
+                  <h5><i class="fa fa-align-left"></i> <span th:text="${item.observacion}" style="text-align: justify;font-size: 9px;"></span></h5>
+                </div>
+                <div class="award-time-list">
+                  <span><i class="fa fa-calendar"></i> <b th:text="${#calendars.format(item.fechaPresentacion,'dd/MM/yyyy')}"></b></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>        
+      </div>
+      <div class="col-md-6">
+        <div class="card card-chart">
+          <div class="card-header">
+            <h5 class="card-title">REPORTE DE CONDUCTA</h5>
+          </div>
+          <div class="card-body">
+            <div class="activity-groups">
+              <div th:each="item : ${lstconducta}" class="activity-awards">
+                <div class="award-boxs">
+                  <img th:src="@{/themes/assets/img/icons/lesson-icon-01.svg}" alt="Award" />
+                </div>
+                <div class="award-list-outs">
+                  <h4><i class="fa fa-user"></i> <span th:text="${item.personal.nombre} + ' ' + ${item.personal.apellidos}"></span></h4>
+                  <h5><i class="fa fa-book"></i> <span th:text="${item.curso.nombreCurso}"></span></h5>
+                  <h5><i class="fa fa-times-circle"></i> <span th:text="${item.descripcion}" style="text-align: justify;font-size: 9px;"></span></h5>
+                </div>
+                <div class="award-time-list">
+                  <span><i class="fa fa-calendar"></i> <b th:text="${#calendars.format(item.fechaRegistra,'dd/MM/yyyy')}"></b></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+ </div>
+    <script th:src="@{/themes/assets/js/jquery-3.6.0.min.js}"></script>
+    <script th:src="@{/themes/assets/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/themes/assets/js/feather.min.js}"></script>
+    <script th:src="@{/themes/assets/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+    <script th:src="@{/themes/assets/plugins/datatables/datatables.min.js}"></script>
+    <script th:src="@{/themes/assets/plugins/moment/moment.min.js}"></script>
+    <script th:src="@{/themes/assets/js/bootstrap-datetimepicker.min.js}"></script>
+    <div layout:fragment="ajax_method">
+      <script th:src="@{/ajax/apiDasboardEstudiante.js}"></script>
+    </div>
+   
 </body>
 
 </html>

@@ -12,7 +12,13 @@ public class ConstantApp {
 
 	public static String ROL_LOGIN = "";
 	
-	public static String USERNAME_LOGIN = "";
+	public static String FILE_DIRECTORY = "";
+	
+	static {
+		FILE_DIRECTORY = "c://appinstitucion";
+	}
+	
+	
 	
 	public static String guardarArchivo(MultipartFile multiPart, String ruta) {
 		String nombreOriginal = multiPart.getOriginalFilename();
@@ -20,7 +26,7 @@ public class ConstantApp {
 		String nombreRandom = nombreOriginal;
 		try {
 			
-			File imageFile = new File(ruta + nombreRandom);
+			File imageFile = new File(ruta +"//"+ nombreRandom);
 			
 			multiPart.transferTo(imageFile);
 			return nombreRandom;

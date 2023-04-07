@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
+import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
 import com.uisarel.institucion.servicio.ISeccionService;
 import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
@@ -24,31 +25,35 @@ public class PersonalControlador {
 
 	@Autowired
 	private IPerfilOperacionesServicio srvOperacion;
-	
+
 	@Autowired
 	private ISeccionService srvSeccion;
-	
+
+	@Autowired
+	private IAdminTemplateService srvAdminTemplate;
 
 	@GetMapping("/personal")
 	public String getGradoAll(Model model) {
-	
+
 		return "mantenimiento/personal";
 	}
-	
+
 	@GetMapping("/adddocente")
 	public String getNuevoDocenteTemplate(Model model) {
 		model.addAttribute("lstsecciones", srvSeccion.onListarSeccionAll());
 		return "mantenimiento/adddocente";
 	}
-	
+
 	@GetMapping("/vieweditpersonal")
-	public String getEditarDatosPersonalDocente(@RequestParam("person")int idpersona ,Model model) {
+	public String getEditarDatosPersonalDocente(@RequestParam("person") int idpersona, Model model) {
 		model.addAttribute("lstsecciones", srvSeccion.onListarSeccionAll());
 		return "mantenimiento/adddocente";
 	}
 
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
+
+		model.addAttribute("setting", srvAdminTemplate.onMostrarDataTemplateAdmin());
 		PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(16, auth);
 		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
 		model.addAttribute("cdrSelect", actions.getLeer());

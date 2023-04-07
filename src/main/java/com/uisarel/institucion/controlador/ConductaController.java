@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
+import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
 import com.uisarel.institucion.servicio.IPersonalServicio;
 import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
@@ -24,6 +25,9 @@ public class ConductaController {
 	@Autowired
 	private IPerfilOperacionesServicio srvOperacion;
 	
+	@Autowired
+	private IAdminTemplateService srvAdminTemplate;
+	
 	@GetMapping("/addconduct")
 	public String getCursoAll(Model model) {
 		model.addAttribute("lstdocente",srvDocente.onListarPersonalAll());
@@ -33,6 +37,7 @@ public class ConductaController {
 	
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
+		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
 		PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(18, auth);
 		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
 		model.addAttribute("cdrSelect", actions.getLeer());

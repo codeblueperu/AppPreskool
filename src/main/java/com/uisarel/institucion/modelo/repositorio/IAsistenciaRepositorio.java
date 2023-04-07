@@ -12,7 +12,7 @@ import com.uisarel.institucion.modelo.entidades.Asistencia;
 public interface IAsistenciaRepositorio extends JpaRepository<Asistencia, Integer> {
 	
 	/**
-	 * @author JMISERVER13
+	 * @author CodeBluePeru
 	 * @param idcurso
 	 * @param fecha
 	 * @return
@@ -20,12 +20,20 @@ public interface IAsistenciaRepositorio extends JpaRepository<Asistencia, Intege
 	List<Asistencia> findByCursoIdCursoAndEstudianteSeccionAlumnoIdSeccionAndFecha(int idcurso,int idseccion, Date fecha);
 	
 	/**
-	 * @author JMISERVER13
+	 * @author CodeBluePeru
 	 * @param fecha
 	 * @param idestudiante
 	 * @param idcurso
 	 * @return
 	 */
 	Asistencia findByFechaAndEstudianteIdEstudianteAndCursoIdCurso(Date fecha, int idestudiante, int idcurso);
+	
+	/**
+	 * @author CodeBluePeru
+	 * @param estadoAsistencia
+	 * @param idEstudiante
+	 * @return
+	 */
+	List<Asistencia> findByEstadoAsistenciaAndEstudianteIdEstudiante(String estadoAsistencia,int idEstudiante);
 
 }

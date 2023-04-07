@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
+import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IMenuServicio;
 import com.uisarel.institucion.servicio.IPerfilServicio;
 import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
@@ -24,6 +25,9 @@ public class PerfilOperacionesControlador {
 	
 	@Autowired
 	private ConfiguracionesServiceImp srvSeting;
+	
+	@Autowired
+	private IAdminTemplateService srvAdminTemplate;
 
 	@GetMapping("/listaPerfilesOperaciones")
 	public String listarPerfilOperaciones(Model model) {
@@ -54,6 +58,7 @@ public class PerfilOperacionesControlador {
 	
 	@ModelAttribute
 	public void setGenericos(Authentication auth,Model model) {
+		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
 		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
 	}
 

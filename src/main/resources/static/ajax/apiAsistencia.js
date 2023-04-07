@@ -138,17 +138,17 @@ async function onBusarEstudiantes(){
           if(asistencia.length > 0){
 			  for (let x = 0; x < asistencia.length; x++){
 				  //PRESENTE
-				  if(asistencia[x].estudiante.idEstudiante === data[i].idEstudiante && asistencia[x].descripcion_asistencia == "1"){
+				  if(asistencia[x].estudiante.idEstudiante === data[i].idEstudiante && asistencia[x].estadoAsistencia == "1"){
 					  present = 'checked'
 				  }	
 				  
 				  //TARDE
-				 if(asistencia[x].estudiante.idEstudiante === data[i].idEstudiante && asistencia[x].descripcion_asistencia == "2"){
+				 if(asistencia[x].estudiante.idEstudiante === data[i].idEstudiante && asistencia[x].estadoAsistencia == "2"){
 					  tarde = 'checked'
 				 }
 				  				  
 				  //FALTO
-				  if(asistencia[x].estudiante.idEstudiante === data[i].idEstudiante && asistencia[x].descripcion_asistencia == "0"){
+				  if(asistencia[x].estudiante.idEstudiante === data[i].idEstudiante && asistencia[x].estadoAsistencia == "0"){
 					  ausente = 'checked'
 				  }
 				  		  
@@ -209,7 +209,7 @@ $("#__table_students__ tbody").on("click", ".rbnstatus", async function () {
 
 	let jsonData = {
 		"idAsistencia": null,
-		"descripcion_asistencia": estado_asistencia,
+		"estadoAsistencia": estado_asistencia,
 		"observacion": "-",
 		"fecha": $("#dtpfecha").val(),
 		"hora": hora,

@@ -41,14 +41,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <div class="header-left">
 <a th:href="@{/dashboard}" class="logo">
-<img src="/themes/assets/img/logo.png" alt="Logo">
+<img th:src="@{/fltask/img/{namelogo} (namelogo=${setting.logoSistema})}" alt="Logo">
 </a>
 <a href="index.html" class="logo logo-small">
 <img src="/themes/assets/img/logo-small.png" alt="Logo" width="30" height="30">
 </a>
 </div>
 <div class="menu-toggle">
-<a href="javascript:void(0);" id="toggle_btn">
+<a href="javascript:void(0);" id="toggle_btn" th:style="${setting.colorButtonMenu}">
 <i class="fas fa-bars"></i>
 </a>
 </div>

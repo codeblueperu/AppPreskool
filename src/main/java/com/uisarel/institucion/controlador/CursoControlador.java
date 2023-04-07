@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.uisarel.institucion.modelo.entidades.Cursos;
 import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
+import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.ICursosService;
 import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
 import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
@@ -28,6 +29,9 @@ public class CursoControlador {
 
 	@Autowired
 	private IPerfilOperacionesServicio srvOperacion;
+	
+	@Autowired
+	private IAdminTemplateService srvAdminTemplate;
 
 	@GetMapping("/curso")
 	public String getCursoAll(Model model) {
@@ -72,6 +76,7 @@ public class CursoControlador {
 
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
+		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
 		PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(18, auth);
 		model.addAttribute("lstdata", srvCurso.onListarCursos("ALL"));
 		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));

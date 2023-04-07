@@ -12,11 +12,25 @@ import com.uisarel.institucion.modelo.entidades.Personal;
 public interface IPersonalRepositorio extends JpaRepository<Personal, Integer> {
 
 	/**
-	 * @author JMISERVER13
+	 * @author CodeBluePeru
 	 * @param numDocumento
 	 * @return
 	 */
 	Optional<Personal> findByNumDocumento(String numDocumento);
 	
+	/**
+	 * @author CodeBluePeru
+	 * @param email_login
+	 * @return
+	 */
 	List<Personal> findByEmail(String email_login);
+	/**
+	 * @author CodeBluePeru
+	 * @param nivelAcademico
+	 * @param idGrado
+	 * @param idSeccion
+	 * @return
+	 */
+	List<Personal> findByNivelAcademicoAndLstGradoIdGradoAndLstSeccionIdSeccion(String nivelAcademico,int idGrado,int idSeccion);
+	
 }

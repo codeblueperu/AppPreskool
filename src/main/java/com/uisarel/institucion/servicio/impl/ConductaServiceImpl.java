@@ -7,7 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uisarel.institucion.modelo.entidades.Conducta;
+import com.uisarel.institucion.modelo.entidades.Estudiante;
+import com.uisarel.institucion.modelo.entidades.PeriodoEscolar;
 import com.uisarel.institucion.modelo.repositorio.IConductaRepositorio;
+import com.uisarel.institucion.modelo.repositorio.IEstudianteRepositori;
+import com.uisarel.institucion.modelo.repositorio.IPeriodoEscolarRepositorio;
 import com.uisarel.institucion.servicio.IConductaService;
 import com.uisarel.institucion.utils.ConstantApp;
 
@@ -19,12 +23,29 @@ public class ConductaServiceImpl implements IConductaService {
 
 	@Autowired
 	private IConductaRepositorio repoConducta;
+	
+	@Autowired
+	private IEstudianteRepositori repoEstudiante;
+
+	@Autowired
+	private IPeriodoEscolarRepositorio repoPeridoEscolar;
 
 	@Override
 	public List<Conducta> onListarConductaEstudiante(int idestudiante) {
 		List<Conducta> lista = new ArrayList<>();
 		try {
-			lista = repoConducta.findByEstudianteIdEstudiante(idestudiante);
+			if(ConstantApp.ROL_LOGIN.compareTo("ESTUDIANTE") == 0) {
+//				PERIODO ESCOLAR
+				PeriodoEscolar periodo = repoPeridoEscolar.findByEstado("APERTURADO").get(0);
+//				DATOS DEL ESTUDIANTE LOGUEADO
+				Estudiante studentLogin = repoEstudiante.findByEmailEstudianteAndPeriodoEscolarIdPeriodoEscolar(
+						ConstantApp.getuserLogin(), periodo.getIdPeriodoEscolar());
+				lista = repoConducta.findByEstudianteIdEstudiante(studentLogin.getIdEstudiante());
+				
+			}else {
+				lista = repoConducta.findByEstudianteIdEstudiante(idestudiante);
+			}
+			
 		} catch (Exception e) {
 			throw e;
 		}

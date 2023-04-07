@@ -1,5 +1,7 @@
 package com.uisarel.institucion.servicio;
 
+
+import java.util.Date;
 import java.util.List;
 
 import com.uisarel.institucion.modelo.entidades.AsignarTarea;
@@ -7,41 +9,41 @@ import com.uisarel.institucion.modelo.entidades.AsignarTarea;
 public interface IAsignarTareaServicio {
 
 	/**
-	 * @author JMISERVER13
+	 * @author CodeBluePeru
 	 * @param idPeriodoEscolar
 	 * @return
 	 */
 	List<AsignarTarea> onListarTareaPeriodoEscolarAperturado(int idPeriodoEscolar);
 
 	/**
-	 * @author JMISERVER13
+	 * @author CodeBluePeru
 	 * @param datos
 	 * @return
 	 */
 	AsignarTarea onGuardarTareaNuevaPeriodoEscolar(AsignarTarea datos);
 
 	/**
-	 * @author JMISERVER13
+	 * @author CodeBluePeru
 	 * @param idTarea
 	 * @return
 	 */
 	AsignarTarea onBuscarTareaIdPeriodoAprturado(int idTarea);
 
 	/**
-	 * @author JMISERVER13
+	 * @author CodeBluePeru
 	 * @param datosupdate
 	 * @return
 	 */
 	AsignarTarea onUpdateTareaPeriodoEscolar(AsignarTarea datosupdate);
 
 	/**
-	 * @author JMISERVER13
+	 * @author CodeBluePeru
 	 * @param idtarea
 	 */
 	void onEliminarTareaIdPeridoEscolar(int idtarea);
 
 	/**
-	 * @author JMISERVER13
+	 * @author CodeBluePeru
 	 * @param indocente
 	 * @param idcurso
 	 * @param idgrado
@@ -50,5 +52,15 @@ public interface IAsignarTareaServicio {
 	 */
 	List<AsignarTarea> onListarTareaPeriodoEscolarAperturadoDocenteCursoGradoSeccion(int indocente, int idcurso,
 			int idgrado, int idseccion);
+	
+	/**
+	 * @author CodeBluePeru
+	 * @param idGrado
+	 * @param idseccion
+	 * @param nivelEscolar
+	 * @param fechaVigente
+	 * @return
+	 */
+	List<AsignarTarea> onListarTareasActivas(int idGrado, int idseccion, String nivelEscolar, Date fechaVigente);
 
 }

@@ -45,4 +45,14 @@ public interface IPersonalServicio {
 	 * @return
 	 */
 	Personal onBuscarPersonalGradoSeccionCursoId(int idPersonal);
+	
+	/**
+	 * @author CodeBluePeru
+	 * @param grado
+	 * @param seccion
+	 * @param nivel
+	 * @param periodoescolar
+	 * @return
+	 */
+	List<Personal> onListarDataDashboardAlumno(int grado, int seccion, String nivel,int periodoescolar);
 }

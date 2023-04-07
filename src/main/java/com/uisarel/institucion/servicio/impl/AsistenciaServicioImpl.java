@@ -10,8 +10,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.uisarel.institucion.modelo.entidades.Asistencia;
+import com.uisarel.institucion.modelo.entidades.Estudiante;
+import com.uisarel.institucion.modelo.entidades.PeriodoEscolar;
 import com.uisarel.institucion.modelo.repositorio.IAsistenciaRepositorio;
+import com.uisarel.institucion.modelo.repositorio.IEstudianteRepositori;
+import com.uisarel.institucion.modelo.repositorio.IPeriodoEscolarRepositorio;
 import com.uisarel.institucion.servicio.IAsistenciaServicio;
+import com.uisarel.institucion.utils.ConstantApp;
 
 @Service
 @Transactional
@@ -19,6 +24,12 @@ public class AsistenciaServicioImpl implements IAsistenciaServicio {
 
 	@Autowired
 	private IAsistenciaRepositorio repoAsistencia;
+	
+	@Autowired
+	private IEstudianteRepositori repoEstudiante;
+
+	@Autowired
+	private IPeriodoEscolarRepositorio repoPeridoEscolar;
 
 	@Override
 	public List<Asistencia> onListarAsistenciaCursoFecha(int idcurso, int idseccion, Date fecha) {
@@ -74,6 +85,23 @@ public class AsistenciaServicioImpl implements IAsistenciaServicio {
 			throw e;
 		}
 
+	}
+
+	@Override
+	public List<Asistencia> onDataDashBoardStudent(int idEstudiante, String estadoAsistencia) {
+		List<Asistencia> asistencia = new ArrayList<>();
+		try {
+//			PERIODO ESCOLAR
+			PeriodoEscolar periodo = repoPeridoEscolar.findByEstado("APERTURADO").get(0);
+//			DATOS DEL ESTUDIANTE LOGUEADO
+			Estudiante studentLogin = repoEstudiante.findByEmailEstudianteAndPeriodoEscolarIdPeriodoEscolar(
+					ConstantApp.getuserLogin(), periodo.getIdPeriodoEscolar());
+//			BUSCAR DATA SEGUN FILTROS
+			asistencia = repoAsistencia.findByEstadoAsistenciaAndEstudianteIdEstudiante(estadoAsistencia, studentLogin.getIdEstudiante());
+		} catch (Exception e) {
+			throw e;
+		}
+		return asistencia;
 	}
 
 }

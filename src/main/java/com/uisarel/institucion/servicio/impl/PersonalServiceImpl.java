@@ -10,10 +10,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.uisarel.institucion.Exceptions.ConflictException;
+import com.uisarel.institucion.modelo.entidades.Estudiante;
 import com.uisarel.institucion.modelo.entidades.Perfil;
+import com.uisarel.institucion.modelo.entidades.PeriodoEscolar;
 import com.uisarel.institucion.modelo.entidades.Personal;
 import com.uisarel.institucion.modelo.entidades.Usuario;
 import com.uisarel.institucion.modelo.entidades.UsuarioPerfil;
+import com.uisarel.institucion.modelo.repositorio.IEstudianteRepositori;
+import com.uisarel.institucion.modelo.repositorio.IPeriodoEscolarRepositorio;
 import com.uisarel.institucion.modelo.repositorio.IPersonalRepositorio;
 import com.uisarel.institucion.modelo.repositorio.IUsuarioPerfilRepositorio;
 import com.uisarel.institucion.modelo.repositorio.IUsuarioRepositorio;
@@ -37,6 +41,12 @@ public class PersonalServiceImpl implements IPersonalServicio {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private IEstudianteRepositori repoEstudiante;
+
+	@Autowired
+	private IPeriodoEscolarRepositorio repoPeridoEscolar;
 
 	@Override
 	public List<Personal> onListarPersonalAll() {
@@ -187,6 +197,23 @@ public class PersonalServiceImpl implements IPersonalServicio {
 			throw e;
 		}
 		return response;
+	}
+
+	@Override
+	public List<Personal> onListarDataDashboardAlumno(int grado, int seccion, String nivel, int periodoescolar) {
+		List<Personal> lista = new ArrayList<>();
+		try {
+//			PERIODO ESCOLAR
+			PeriodoEscolar periodo = repoPeridoEscolar.findByEstado("APERTURADO").get(0);
+//			DATOS DEL ESTUDIANTE LOGUEADO
+			Estudiante studentLogin = repoEstudiante.findByEmailEstudianteAndPeriodoEscolarIdPeriodoEscolar(
+					ConstantApp.getuserLogin(), periodo.getIdPeriodoEscolar());
+//			BUSCAR DATA SEGUN FILTROS
+			lista = repoPersonal.findByNivelAcademicoAndLstGradoIdGradoAndLstSeccionIdSeccion(studentLogin.getNivelEscolar(),studentLogin.getGradoAlumno().getIdGrado(),studentLogin.getSeccionAlumno().getIdSeccion());
+		} catch (Exception e) {
+			throw e;
+		}
+		return lista;
 	}
 
 }

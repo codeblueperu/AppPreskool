@@ -5,7 +5,7 @@ function init(){
 
 async function onListarDashboardCount(){
 	await $.ajax({
-		url: '/api/v1/serices/countStudentTeacherSeccionCurse',
+		url: '/api/v1/serices/dataDashboardAdmin',
 		type: 'GET',
 		dataType: 'JSON',
 		data: {"code": 'Alls'},
@@ -26,7 +26,25 @@ async function onListarDashboardCount(){
 		for (var i = 0; i < groupsecundaria.length; i++) {
 			gsecundaria.push(groupsecundaria[i].total)
 		}
+    let masculinodocente = 0, femeninodocente = 0;
+    for (let x = 0; x < docentes.length; x++) {
+      if(docentes[x].sexo == "FEMENINO"){
+        femeninodocente++
+      }else{
+        masculinodocente++
+      }      
+    }
+    let masculino_estudintes = 0, femenino_estudiantes = 0;
+    for (let x = 0; x < estudiante.length; x++) {
+      if(estudiante[x].sexoEstudiante == "Femenino"){
+        femenino_estudiantes++
+      }else{
+        masculino_estudintes++
+      }      
+    }
 		chartPrimariaGrados(gprimary,gsecundaria)
+    charGeneroDocente(masculinodocente,femeninodocente)
+    charGeneroAlumnos(masculino_estudintes,femenino_estudiantes)
 
 	})
 	.fail(function(err) {
@@ -107,6 +125,56 @@ function chartPrimariaGrados(gprimary,gsecundaria){
 
         var chart = new ApexCharts(document.querySelector("#chartprimarygroup"), options);
         chart.render();
+}
+
+function charGeneroDocente(masculino, femenino){
+   var options = {
+          series: [masculino, femenino],
+          chart: {
+          width: 380,
+          type: 'pie',
+        },
+        labels: ['MASCULINO', 'FEMENINO'],
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }]
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chardocentegenero"), options);
+        chart.render();
+}
+
+function charGeneroAlumnos(masculino, femenino){
+  var options = {
+         series: [masculino, femenino],
+         chart: {
+         width: 380,
+         type: 'pie',
+       },
+       labels: ['MASCULINO', 'FEMENINO'],
+       responsive: [{
+         breakpoint: 480,
+         options: {
+           chart: {
+             width: 200
+           },
+           legend: {
+             position: 'bottom'
+           }
+         }
+       }]
+       };
+
+       var chart = new ApexCharts(document.querySelector("#charalumnosgenero"), options);
+       chart.render();
 }
 
 init();

@@ -37,7 +37,7 @@ public class DataWebSecurity {
 	                .httpBasic()
 	                .and()
 	                .authorizeHttpRequests()	                
-	                .requestMatchers("/themes/**").permitAll()	                
+	                .requestMatchers("/themes/**","/files/**").permitAll()	                
 	                .anyRequest().authenticated()
 	                .and()
 	                .formLogin()
@@ -48,6 +48,7 @@ public class DataWebSecurity {
 					.and().logout()
 					.permitAll()
 					.logoutSuccessUrl("/login?logout");
+	        http.headers().frameOptions().disable();
 
 	        return http.build();
 	    }

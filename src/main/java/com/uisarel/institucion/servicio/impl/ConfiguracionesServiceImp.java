@@ -66,5 +66,4 @@ public class ConfiguracionesServiceImp {
 		}
 		return listamenu;
 	}
-
 }

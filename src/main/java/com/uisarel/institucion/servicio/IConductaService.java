@@ -41,5 +41,4 @@ public interface IConductaService {
 	 * @param idConducta
 	 */
 	void onEliminarConducta(int idConducta);
-
 }

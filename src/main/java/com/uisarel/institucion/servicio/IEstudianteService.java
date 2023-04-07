@@ -52,4 +52,7 @@ public interface IEstudianteService {
 	 */
 	List<Estudiante> onListarEstuandePeriodoEscolarGradoSeccionNivel(int periodoEscolar, String nivelEscolar,
 			int idGrado, int idSeccion);
+	
+	List<Estudiante> onListarEstuandePeriodoEscolarGradoSeccionNivelTurno(int periodoEscolar, String nivelEscolar,
+			int idGrado, int idSeccion,String turno);
 }

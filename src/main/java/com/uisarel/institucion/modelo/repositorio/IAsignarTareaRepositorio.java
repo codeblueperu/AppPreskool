@@ -1,5 +1,6 @@
 package com.uisarel.institucion.modelo.repositorio;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,7 +12,7 @@ import com.uisarel.institucion.modelo.entidades.AsignarTarea;
 public interface IAsignarTareaRepositorio extends JpaRepository<AsignarTarea, Integer> {
 
 	/**
-	 * @author JMISERVER13
+	 * @author CodeBluePeru
 	 * @apiNote SELECT * FROM AsignarTarea WHERE idPeriodoEscolar = ?1
 	 * @param idPeriodoEscolar
 	 * @return
@@ -19,7 +20,7 @@ public interface IAsignarTareaRepositorio extends JpaRepository<AsignarTarea, In
 	List<AsignarTarea> findByPeriodoEscolarIdPeriodoEscolar(int idPeriodoEscolar);
 	
 	/**
-	 * @author JMISERVER13
+	 * @author CodeBluePeru
 	 * @param idPeriodoEscolar
 	 * @param idgrado
 	 * @param idseccion
@@ -27,7 +28,7 @@ public interface IAsignarTareaRepositorio extends JpaRepository<AsignarTarea, In
 	 */
 	List<AsignarTarea> findByPeriodoEscolarIdPeriodoEscolarAndGradoIdGradoAndSeccionIdSeccion(int idPeriodoEscolar,int idgrado, int idseccion);
 	/**
-	 * @author SOPORTE
+	 * @author CodeBluePeru
 	 * @param idPeriodoEscolar
 	 * @param personalLogin
 	 * @return
@@ -35,7 +36,7 @@ public interface IAsignarTareaRepositorio extends JpaRepository<AsignarTarea, In
 	List<AsignarTarea> findByPeriodoEscolarIdPeriodoEscolarAndPersonalEmail(int idPeriodoEscolar,String personalLogin);
 
 	/**
-	 * @author JMISERVER13
+	 * @author CodeBluePeru
 	 * @apiNote SELECT * FROM AsignarTarea WHERE idPeriodoEscolar = ?1 AND
 	 *          idPersonal = ?2 AND idCurso = ?3 AND idGrado = ?4 AND idSeccion = ?
 	 *          5
@@ -48,5 +49,15 @@ public interface IAsignarTareaRepositorio extends JpaRepository<AsignarTarea, In
 	 */
 	List<AsignarTarea> findByPeriodoEscolarIdPeriodoEscolarAndPersonalIdPersonalAndCursoIdCursoAndGradoIdGradoAndSeccionIdSeccion(
 			int idPeriodoEscolar, int idpersonal, int idcurso, int idgrado, int idseccion);
+	
+	/**
+	 * @author CodeBluePeru
+	 * @param nivelEscolar
+	 * @param idGrado
+	 * @param idSeccion
+	 * @param fechaPresentacion
+	 * @return
+	 */
+	List<AsignarTarea> findByNivelEscolarAndGradoIdGradoAndSeccionIdSeccionAndFechaPresentacionAfter(String nivelEscolar, int idGrado, int idSeccion,Date fechaPresentacion);
 
 }

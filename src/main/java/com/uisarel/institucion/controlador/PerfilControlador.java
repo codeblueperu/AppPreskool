@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.uisarel.institucion.modelo.entidades.Perfil;
 import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
+import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
 import com.uisarel.institucion.servicio.IPerfilServicio;
 import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
@@ -29,6 +30,9 @@ public class PerfilControlador {
 	
 	@Autowired
 	private IPerfilOperacionesServicio srvOperacion;
+	
+	@Autowired
+	private IAdminTemplateService srvAdminTemplate;
 	
 	//ListarPerfiles
 	@GetMapping("/listaPerfiles")
@@ -91,6 +95,7 @@ public class PerfilControlador {
 		
 		@ModelAttribute
 		public void setGenericos(Authentication auth,Model model) {
+			model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
 			PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(3,auth);
 			model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
 			model.addAttribute("cdrSelect", actions.getLeer());

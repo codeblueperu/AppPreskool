@@ -7,9 +7,9 @@ var grados = [];
 
 function init(){
 	//$("#dtpfecha").val(moment(new Date()).format('yyyy-MM-DD'));
-
+	$("#contfile").css("display","none")
 	if(id_tarea != null){
-		onCargarDatosEditTarea(id_tarea)
+		onCargarDatosEditTarea(id_tarea)		
 	}
 }
 
@@ -121,6 +121,9 @@ async function onCargarDatosEditTarea(id){
 		$("#tema").val(data.tema);		
 		$("#dtpfecha").val(data.fechaPresentacion);
 		$("#txtcriterios").val(data.observacion)
+		if(data.nameDocumento != null || data.nameDocumento != ""){
+			$("#contfile").css("display","block")
+		}
 		setTimeout(() => {
 			$("#cboidGrado").val(data.grado.idGrado);
 			$("#cboSeccion").val(data.seccion.idSeccion);

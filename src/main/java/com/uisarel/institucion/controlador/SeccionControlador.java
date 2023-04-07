@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
 import com.uisarel.institucion.modelo.entidades.Seccion;
+import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
 import com.uisarel.institucion.servicio.ISeccionService;
 import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
@@ -27,6 +28,9 @@ public class SeccionControlador {
 
 	@Autowired
 	private IPerfilOperacionesServicio srvOperacion;
+	
+	@Autowired
+	private IAdminTemplateService srvAdminTemplate;
 
 	@GetMapping("/seccion")
 	public String getSeccionAll(Model model) {
@@ -71,6 +75,7 @@ public class SeccionControlador {
 
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
+		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
 		PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(15, auth);
 		model.addAttribute("lstdata", srvSeccion.onListarSeccionAll());
 		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));

@@ -52,4 +52,8 @@ public interface IEstudianteRepositori extends JpaRepository<Estudiante, Integer
 	 */
 	List<Estudiante> findByPeriodoEscolarIdPeriodoEscolar(int periodoEscolar);
 	
+	List<Estudiante> findByPeriodoEscolarIdPeriodoEscolarAndNivelEscolarAndGradoAlumnoIdGradoAndSeccionAlumnoIdSeccionAndTurno(
+			int periodoEscolar, String nivelEscolar, int idGrado, int idSeccion,String turno);
+	
+	
 }
