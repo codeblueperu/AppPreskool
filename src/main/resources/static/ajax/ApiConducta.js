@@ -165,6 +165,17 @@ function onMostrardatosAdicionales(){
 }
 
 async function onProcesarConducta(){
+	if($("#txtmotivo").val() == "" || $("#cboalumnos").val() == "" 
+		|| $("#cbodocente").val()  == ""|| $("#cbocurso").val() == ""){
+		getMessageALert('warning','Lo sentimos!', "Todo los campos son requerido :(")
+		return false;
+	}
+	$("#btnsave").attr("disabled", true);
+	$("#btncancel").css("visibility", "hidden");
+    $("#btnsave").html(
+      `<i class="fa fa-spinner fa-spin fa-fw"></i> Procesando....`
+    );
+
 	let fecha = moment(new Date()).format('yyyy-MM-DD')
 	let jsonData = {
 		"idConducta": $("#idConducta").val(),
@@ -190,10 +201,16 @@ async function onProcesarConducta(){
 		contentType: "application/json"
 	})
 	.done(function({data,message}) {
+		$("#btnsave").removeAttr("disabled");
+		$("#btncancel").css("visibility", "visible");
+		$("#btnsave").html('Procesar Registro');
 		getMessageALert('success','Bien echo!', message)
 		onListarSancionesAlumno();
 	})
 	.fail(function(err) {
+		$("#btnsave").removeAttr("disabled");
+		$("#btncancel").css("visibility", "visible");
+		$("#btnsave").html('Procesar Registro');
 		console.log(err);
 		if(err.status === 409){
 			getMessageALert('warning','Upps!', err.responseJSON.message)

@@ -1,6 +1,7 @@
 package com.uisarel.institucion.controlador;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,17 +13,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IAsignarTareaServicio;
 import com.uisarel.institucion.servicio.IConductaService;
-import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
+import com.uisarel.institucion.servicio.IMenuServicio;
 import com.uisarel.institucion.utils.ConstantApp;
 
 @Controller
 public class indexControlador {
-
-	@Autowired
-	private ConfiguracionesServiceImp srvSeting;
 	
 	@Autowired
 	private IAsignarTareaServicio srvAsignarTareas;
@@ -32,6 +31,9 @@ public class indexControlador {
 	
 	@Autowired
 	private IAdminTemplateService srvAdminTemplate;
+	
+	@Autowired
+	private IMenuServicio servicioMenu;
 	
 	@GetMapping("/dashboard")
 	public String verPrincipal(Authentication auth, Model model) {
@@ -49,7 +51,9 @@ public class indexControlador {
 			template = "/dashboard/teacherdashboard";
 		}
 
-		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
+		List<Menu> menu = servicioMenu.listarMenu();
+		model.addAttribute("listaMenu", menu);
+		//model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
 		return template;
 	}
 

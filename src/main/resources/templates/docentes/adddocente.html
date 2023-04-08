@@ -132,8 +132,8 @@ layout:decorate="~{plantilla/plantilla}">
 								</div>
 								<div class="row">
 									<div class="col-md-12 text-end float-end ms-auto">
-										<button class="btn btn-danger">Cancelar</button>
-										<button class="btn btn-primary" onclick="onProcesarPersona();">Procesar Registro</button>
+										<a th:href="@{/personal}" id="btncancel" class="btn btn-danger">Cancelar</a>
+										<button id="btnsave" class="btn btn-primary" onclick="onProcesarPersona();">Procesar Registro</button>
 									</div>
 								</div>
 							</div>

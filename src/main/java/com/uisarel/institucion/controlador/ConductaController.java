@@ -1,5 +1,8 @@
 package com.uisarel.institucion.controlador;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -7,11 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
+import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.servicio.IAdminTemplateService;
-import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
+import com.uisarel.institucion.servicio.IMenuServicio;
 import com.uisarel.institucion.servicio.IPersonalServicio;
-import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
 
 @Controller
 public class ConductaController {
@@ -20,13 +22,12 @@ public class ConductaController {
 	private IPersonalServicio srvDocente;
 	
 	@Autowired
-	private ConfiguracionesServiceImp srvSeting;
-
-	@Autowired
-	private IPerfilOperacionesServicio srvOperacion;
+	private IAdminTemplateService srvAdminTemplate;
 	
 	@Autowired
-	private IAdminTemplateService srvAdminTemplate;
+	private IMenuServicio servicioMenu;
+
+	List<Menu> lstMenuAcceso = new ArrayList<>();
 	
 	@GetMapping("/addconduct")
 	public String getCursoAll(Model model) {
@@ -37,13 +38,9 @@ public class ConductaController {
 	
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
+		lstMenuAcceso = servicioMenu.listarMenu();
+		model.addAttribute("listaMenu", lstMenuAcceso);
 		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
-		PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(18, auth);
-		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
-		model.addAttribute("cdrSelect", actions.getLeer());
-		model.addAttribute("cdrInsert", actions.getCrear());
-		model.addAttribute("cdrUpdate", actions.getActualizar());
-		model.addAttribute("cdrDelete", actions.getEliminar());
 	}
 
 }

@@ -51,6 +51,19 @@ async function onBusarGradoNivel(){
 }
 
 async function onProcesarPersona(){
+	if($("#nombre").val() == "" || $("#apellidos").val() == "" || $("#numDocumento").val() == "" 
+	|| $("#fechaNacimiento").val() == "" || $("#ncelular").val() == "" || $("#direccion").val() == ""
+	|| $("#sexo").val() == "" || $("#email").val() == "" || $("#nivelEscolar").val() == "" ){
+		getMessageALert('warning','Lo sentimos!', "Todos los datos personales del docente son requeridos :(")
+		return false;
+	}
+
+	$("#btnsave").attr("disabled", true);
+	$("#btncancel").css("display", "none");
+    $("#btnsave").html(
+      `<i class="fa fa-spinner fa-spin fa-fw"></i> Procesando....`
+    );
+
 	let lstcursos = []
 
 	$("ul#lstcursos input[type=checkbox]:checked").each(function(){
@@ -91,12 +104,18 @@ async function onProcesarPersona(){
 		contentType: "application/json"
 	})
 	.done(function({data, message}) {
+		$("#btnsave").removeAttr("disabled");
+		$("#btncancel").css("display", "block");
+		$("#btnsave").html('Procesar Registro');
 		getMessageALert('success','Muy Bien!', message)
 		setTimeout(() => {
 		 window.location.href = "personal"
 		}, 3000);
 	})
 	.fail(function(err) {
+		$("#btnsave").removeAttr("disabled");
+		$("#btncancel").css("display", "block");
+		$("#btnsave").html('Procesar Registro');
 		console.log(err);
 		if(err.status === 409){
 			getMessageALert('warning','Upps!', err.responseJSON.message)

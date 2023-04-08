@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{plantilla/plantilla}">
+
+<head>
+  <title>Registro Usuario-Perfil</title>
+
+</head>
+
+<body>
+  <div layout:fragment="content">
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col-sm-12">
+          <div class="page-sub-header">
+            <h3 class="page-title">Registro Usuario-Perfil</h3>
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a th:href="@{/listaUsuariosPerfiles}">Registro Usuario-Perfil</a></li>
+              <li class="breadcrumb-item active">Registro Usuario-Perfil</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card comman-shadow">
+          <div class="card-body">
+            <form th:action="@{/usuarioperfil}" th:object="${nuevoUsuarioPerfil}" method="post">
+              <div class="row">
+                <div class="col-12">
+                  <h5 class="form-title student-info">Registro Usuario-Perfil <span><a href="javascript:;"><i
+                          class="feather-more-vertical"></i></a></span></h5>
+                </div>
+                <div class="col-12 col-sm-4">
+                  <div class="form-group local-forms">
+                    <label>Usuario<span class="login-danger">*</span></label>
+                    <select class="form-control select" th:name="fkUsuario">
+                      <option value="">Seleccione Usuario</option>
+                      <option th:each="usuario: ${listaUsuarios}" th:value="${usuario.idUsuario}"
+                        th:text="${usuario.nombres}"></option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-12 col-sm-4">
+                  <div class="form-group local-forms">
+                    <label>Perfil<span class="login-danger">*</span></label>
+                    <select class="form-control select" th:name="fkPerfil">
+                      <option value="">Seleccione Perfil</option>
+                      <option th:each="perfil: ${listaPerfiles}" th:value="${perfil.idPerfil}"
+                        th:text="${perfil.nombre}"></option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-12 col-sm-4">
+                  <div class="form-group local-forms">
+                    <label>Estado <span class="login-danger">*</span></label>
+                    <select class="form-control select" th:value="${estado}" id="txtEstado" th:name="estado" required
+                      autofocus="autofocus">
+                      <option value="">Seleccione Estado </option>
+                      <option th:value="Activo">Activo</option>
+                      <option th:value="Inactivo">Inactivo</option>
+                    </select>
+                  </div>
+                </div>
+
+
+                <!--<input type="hidden" th:field="*{idUsuario}"> -->
+                <div class="col-12">
+                  <div class="student-submit">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+</body>
+
+</html>

@@ -48,7 +48,7 @@ layout:decorate="~{plantilla/plantilla}">
 									<div class="col-md-4">
 										<div class="form-group local-forms">
 											<label>Docente <span class="login-danger">*</span></label>
-											<select class="form-control" name="personal"  id="cbodocente" onchange="buscarDatosDocente();onBusarGradoNivel();">
+											<select class="form-control" required name="personal"  id="cbodocente" onchange="buscarDatosDocente();onBusarGradoNivel();">
 												<option value="">---: SELECCIONE :---</option>
 												<option th:each="itemdocente : ${lstdocente}"
 												 	th:value="${itemdocente.idPersonal}"
@@ -60,7 +60,7 @@ layout:decorate="~{plantilla/plantilla}">
 									<div class="col-md-4">
 										<div class="form-group local-forms">
 											<label>Cursos <span class="login-danger">*</span></label>
-											<select class="form-control" id="cbocurso" name="curso">
+											<select class="form-control" required id="cbocurso" name="curso">
 												<option value="">---: SELECCIONE :---</option>	
 												<option th:each="itemcurso : ${lstcursos}"
 												 	th:value="${itemcurso.idCurso}"
@@ -72,7 +72,7 @@ layout:decorate="~{plantilla/plantilla}">
 									<div class="col-md-4">
 										<div class="form-group local-forms">
 											<label>Descripcion Tarea <span class="login-danger">*</span></label>
-											<input type="text"  id="tema" name="tema" class="form-control"  autocomplete="off">
+											<input type="text" required id="tema" name="tema" class="form-control"  autocomplete="off">
 										</div>
 									</div>								
 								</div>
@@ -80,7 +80,7 @@ layout:decorate="~{plantilla/plantilla}">
 									<div class="col-md-3">
 										<div class="form-group local-forms">
 											<label>Nivel <span class="login-danger">*</span></label>
-											<select class="form-control" name="nivelEscolar" id="nivelEscolar" onchange="onBusarGradoNivel();">
+											<select class="form-control" required name="nivelEscolar" id="nivelEscolar" onchange="onBusarGradoNivel();">
 												<option value="">---: SELECCIONE :---</option>
 												<option value="PRIMARIA">PRIMARIA</option>
 												<option value="SECUNDARIA">SECUNDARIA</option>
@@ -90,7 +90,7 @@ layout:decorate="~{plantilla/plantilla}">
 									<div class="col-md-3">
 										<div class="form-group local-forms">
 											<label>Grado <span class="login-danger">*</span></label>
-											<select class="form-control" name="grado" id="cboidGrado" onchange="">
+											<select class="form-control" required name="grado" id="cboidGrado" onchange="">
 												<option value="">---: SELECCIONE :---</option>
 											</select>
 										</div>
@@ -98,7 +98,7 @@ layout:decorate="~{plantilla/plantilla}">
 									<div class="col-md-3">
 										<div class="form-group local-forms">
 											<label>Seccion <span class="login-danger">*</span></label>
-											<select class="form-control" name="seccion" id="cboSeccion" onchange="">
+											<select class="form-control" required name="seccion" id="cboSeccion" onchange="">
 												<option value="">---: SELECCIONE :---</option>
 											</select>
 										</div>
@@ -106,7 +106,7 @@ layout:decorate="~{plantilla/plantilla}">
 									<div class="col-md-3">
 										<div class="form-group local-forms">
 											<label>Fecha Presentacion <span class="login-danger">*</span></label>
-											<input type="date" id="dtpfecha" name="fechaPresenta"  class="form-control">
+											<input type="date" id="dtpfecha" required name="fechaPresenta"  class="form-control">
 										</div>
 									</div>
 
@@ -115,7 +115,7 @@ layout:decorate="~{plantilla/plantilla}">
 									<div class="col-md-12">
 										<div class="form-group local-forms">
 											<label>Criterios <span class="login-danger">*</span></label>
-											<textarea class="form-control" name="observacion" id="txtcriterios" cols="30" rows="1"></textarea>
+											<textarea class="form-control" required name="observacion" id="txtcriterios" cols="30" rows="1"></textarea>
 										</div>
 									</div>																			
 								</div>

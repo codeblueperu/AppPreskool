@@ -65,6 +65,21 @@ async function onBusarGradoNivel(){
 }
 
 async function onProcesarEstudiante(){
+	if($("#nombreEstudiante").val() == "" || $("#apPaternoEstudiante").val() == "" || $("#apMaternoEStudiante").val() == ""
+	|| $("#numDocumentoEstudiante").val() == "" || $("#fnacimiento").val() == "" || $("#ncelularEstudiante").val() == ""
+	|| $("#nivelEscolar").val() == "" || $("#turno").val() == "" || $("#sexoEstudiante").val() == ""
+	|| $("#direccionEstudiante").val() == "" || $("#emailEstudiante").val() == "" || $("#idGrado").val() == ""
+	|| $("#idSeccion").val() == "" || $("#idPeriodoEscolar").val() == "" || $("#nombreapoderado").val() == ""
+	|| $("#apmaternoapoderado").val() == "" || $("#appaternoapoderado").val() == "" || $("#numDocumentoapoderado").val() == ""
+	|| $("#celularapoderado").val() == "" || $("#emailapoderado").val() == "" || $("#direccionapoderado").val() == ""){
+		getMessageALert('warning','Lo sentimos!', "Todo los campos son requerido :(")
+		return false;
+	}
+	$("#btnsave").attr("disabled", true);
+	$("#btncancel").css("display", "none");
+    $("#btnsave").html(
+      `<i class="fa fa-spinner fa-spin fa-fw"></i> Procesando....`
+    );
 	let jsonData = {
 		"idEstudiante": $("#idEstudiante").val(),
 		"colegioProcencia": $("#colegioProcencia").val(),
@@ -109,6 +124,9 @@ async function onProcesarEstudiante(){
 		contentType: "application/json"
 	})
 	.done(function({data,message}) {
+		$("#btnsave").removeAttr("disabled");
+		$("#btncancel").css("display", "block");
+		$("#btnsave").html('Procesar Registro');
 		getMessageALert('success','Muy Bien!', message)
 		setTimeout(() => {
 		 window.location.href = "estudiantes"
@@ -116,6 +134,9 @@ async function onProcesarEstudiante(){
 
 	})
 	.fail(function(err) {
+		$("#btnsave").removeAttr("disabled");
+		$("#btncancel").css("display", "block");
+		$("#btnsave").html('Procesar Registro');
 		console.log(err);
 		if(err.status === 409){
 			getMessageALert('warning','Upps!', err.responseJSON.message)

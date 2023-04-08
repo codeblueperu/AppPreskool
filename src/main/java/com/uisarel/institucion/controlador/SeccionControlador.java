@@ -1,5 +1,8 @@
 package com.uisarel.institucion.controlador;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -11,12 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
+import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.modelo.entidades.Seccion;
 import com.uisarel.institucion.servicio.IAdminTemplateService;
-import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
+import com.uisarel.institucion.servicio.IMenuServicio;
 import com.uisarel.institucion.servicio.ISeccionService;
-import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
 
 @Controller
 public class SeccionControlador {
@@ -24,26 +26,25 @@ public class SeccionControlador {
 	private ISeccionService srvSeccion;
 
 	@Autowired
-	private ConfiguracionesServiceImp srvSeting;
-
-	@Autowired
-	private IPerfilOperacionesServicio srvOperacion;
+	private IAdminTemplateService srvAdminTemplate;
 	
 	@Autowired
-	private IAdminTemplateService srvAdminTemplate;
+	private IMenuServicio servicioMenu;
+
+	List<Menu> lstMenuAcceso = new ArrayList<>();
 
 	@GetMapping("/seccion")
 	public String getSeccionAll(Model model) {
 		Seccion datax = new Seccion();
 		model.addAttribute("data", datax);
 
-		return "mantenimiento/seccion";
+		return "estudiantes/seccion";
 	}
 
 	@PostMapping("/guardarseccion")
 	public String postGuardarSeccion(Seccion dataseccion, BindingResult result, RedirectAttributes redirectAttrs) {
 		if (result.hasErrors()) {
-			return "mantenimiento/seccion";
+			return "estudiantes/seccion";
 		}
 		int codeAction = dataseccion.getIdSeccion();
 		if (codeAction != 0) {
@@ -62,7 +63,7 @@ public class SeccionControlador {
 	public String getBuscarSeccionID(@PathVariable(value = "id") int idseccion, Model model) {
 		model.addAttribute("data", srvSeccion.onBuscarSeccionID(idseccion));
 
-		return "mantenimiento/seccion";
+		return "estudiantes/seccion";
 	}
 
 	@GetMapping("/deleteSeccionID/{id}")
@@ -75,13 +76,9 @@ public class SeccionControlador {
 
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
+		lstMenuAcceso = servicioMenu.listarMenu();
+		model.addAttribute("listaMenu", lstMenuAcceso);
 		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
-		PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(15, auth);
 		model.addAttribute("lstdata", srvSeccion.onListarSeccionAll());
-		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
-		model.addAttribute("cdrSelect", actions.getLeer());
-		model.addAttribute("cdrInsert", actions.getCrear());
-		model.addAttribute("cdrUpdate", actions.getActualizar());
-		model.addAttribute("cdrDelete", actions.getEliminar());
 	}
 }

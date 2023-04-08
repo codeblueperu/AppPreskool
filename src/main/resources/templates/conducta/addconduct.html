@@ -122,9 +122,9 @@ layout:decorate="~{plantilla/plantilla}">
 								<div class="col-md-6">
 									<label for="chknotificar"><input type="checkbox" name="chknotificar" id="chknotificar"> Notificar al Apoderado via Email</label>
 								</div>
-								<div class="col-md-6 text-end float-end">
-									<button class="btn btn-danger">Limpiar Todo</button>
-									<button class="btn btn-primary" onclick="onProcesarConducta()" >Procesar</button>
+								<div class="col-md-4" style="display: flex; flex-direction: row; justify-content: space-between;">
+									<a th:href="@{/addconduct}" id="btncancel" class="btn btn-danger">Limpiar Todo</a>
+									<button id="btnsave" class="btn btn-primary" onclick="onProcesarConducta()" >Procesar</button>
 								</div>
 							</div>
 						</div>

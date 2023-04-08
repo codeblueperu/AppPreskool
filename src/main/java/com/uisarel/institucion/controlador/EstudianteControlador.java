@@ -1,5 +1,8 @@
 package com.uisarel.institucion.controlador;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -8,22 +11,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
+import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.servicio.IAdminTemplateService;
-import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
+import com.uisarel.institucion.servicio.IMenuServicio;
 import com.uisarel.institucion.servicio.IPeriodoEscolarService;
 import com.uisarel.institucion.servicio.ISeccionService;
-import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
 
 @Controller
 public class EstudianteControlador {
-	
-	@Autowired
-	private ConfiguracionesServiceImp srvSeting;
-
-	@Autowired
-	private IPerfilOperacionesServicio srvOperacion;
-	
+		
 	@Autowired
 	private IPeriodoEscolarService srvPeriodoEscolar;
 	
@@ -32,36 +28,37 @@ public class EstudianteControlador {
 	
 	@Autowired
 	private IAdminTemplateService srvAdminTemplate;
+	
+	@Autowired
+	private IMenuServicio servicioMenu;
+
+	List<Menu> lstMenuAcceso = new ArrayList<>();
 
 	@GetMapping("/estudiantes")
 	public String getGradoAll(Model model) {
 		model.addAttribute("lstperiodo", srvPeriodoEscolar.onListarPeriodoEscolarEstado("APERTURADO"));
 		model.addAttribute("lstseccion",srvSeccion.onListarSeccionAll());
-		return "mantenimiento/estudiante";
+		return "estudiantes/estudiante";
 	}
 
 	@GetMapping("/viewcreatestudent")
 	public String getViewCreateNewStudiante(Model model) {
 		model.addAttribute("lstperiodo", srvPeriodoEscolar.onListarPeriodoEscolarEstado("APERTURADO"));
 		model.addAttribute("lstseccion",srvSeccion.onListarSeccionAll());
-		return "mantenimiento/newStudent";
+		return "estudiantes/newStudent";
 	}
 	
 	@GetMapping("/vieweditstudent")
 	public String getViewEditStudiante(@RequestParam("student") int idestudiante,@RequestParam("periodo") int periodo, Model model) {
 		model.addAttribute("lstperiodo", srvPeriodoEscolar.onListarPeriodoEscolarEstado("APERTURADO"));
 		model.addAttribute("lstseccion",srvSeccion.onListarSeccionAll());
-		return "mantenimiento/newStudent";
+		return "estudiantes/newStudent";
 	}
 	
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
-		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
-		PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(16, auth);
-		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
-		model.addAttribute("cdrSelect", actions.getLeer());
-		model.addAttribute("cdrInsert", actions.getCrear());
-		model.addAttribute("cdrUpdate", actions.getActualizar());
-		model.addAttribute("cdrDelete", actions.getEliminar());
+		lstMenuAcceso = servicioMenu.listarMenu();
+		model.addAttribute("listaMenu", lstMenuAcceso);
+		model.addAttribute("setting", srvAdminTemplate.onMostrarDataTemplateAdmin());
 	}
 }

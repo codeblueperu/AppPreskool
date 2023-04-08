@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.uisarel.institucion.Exceptions.ConflictException;
+import com.uisarel.institucion.modelo.entidades.AdminTemplate;
 import com.uisarel.institucion.modelo.entidades.Estudiante;
 import com.uisarel.institucion.modelo.entidades.Perfil;
 import com.uisarel.institucion.modelo.entidades.PeriodoEscolar;
@@ -21,6 +22,8 @@ import com.uisarel.institucion.modelo.repositorio.IPeriodoEscolarRepositorio;
 import com.uisarel.institucion.modelo.repositorio.IPersonalRepositorio;
 import com.uisarel.institucion.modelo.repositorio.IUsuarioPerfilRepositorio;
 import com.uisarel.institucion.modelo.repositorio.IUsuarioRepositorio;
+import com.uisarel.institucion.servicio.IAdminTemplateService;
+import com.uisarel.institucion.servicio.INotificacionesService;
 import com.uisarel.institucion.servicio.IPersonalServicio;
 import com.uisarel.institucion.utils.ConstantApp;
 
@@ -41,19 +44,25 @@ public class PersonalServiceImpl implements IPersonalServicio {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	private IEstudianteRepositori repoEstudiante;
 
 	@Autowired
 	private IPeriodoEscolarRepositorio repoPeridoEscolar;
 
+	@Autowired
+	private INotificacionesService srvNotifications;
+
+	@Autowired
+	private IAdminTemplateService srvTemplate;
+
 	@Override
 	public List<Personal> onListarPersonalAll() {
 		List<Personal> lista = new ArrayList<>();
 
 		try {
-			if (ConstantApp.ROL_LOGIN.compareTo("ADMINISTRADOR") == 0) {
+			if (ConstantApp.getuRolUser().compareTo("ADMINISTRADOR") == 0) {
 				lista = repoPersonal.findAll();
 			} else {
 				lista = repoPersonal.findByEmail(ConstantApp.getuserLogin());
@@ -78,7 +87,7 @@ public class PersonalServiceImpl implements IPersonalServicio {
 //			CREAR DOCENTE
 			response = repoPersonal.save(data);
 
-//			CREAR CUENTA USUARIO DOCENTE
+//			BUSCAR CUENTA USUARIO DOCENTE
 			Usuario user = new Usuario();
 			Usuario exists = repoUser.findByCI(response.getNumDocumento().trim());
 			if (exists != null) {
@@ -96,6 +105,7 @@ public class PersonalServiceImpl implements IPersonalServicio {
 			user.setSexo(response.getSexo());
 			user.setContrasenia(passwordEncoder.encode(response.getNumDocumento()));
 
+			String nameTeacher = response.getApellidos() + " " + response.getNombre();
 			user = repoUser.save(user);
 			if (exists == null) {
 				UsuarioPerfil perfilUser = new UsuarioPerfil();
@@ -106,6 +116,23 @@ public class PersonalServiceImpl implements IPersonalServicio {
 				perfilUser.setFechaCreacionPerfil(new Date());
 				perfilUser.setFkPerfil(perfil);
 				repoPerfil.save(perfilUser);
+
+//				SERVICE TEMPLATE
+				AdminTemplate template = srvTemplate.onMostrarDataTemplateAdmin();
+				PeriodoEscolar periodo = repoPeridoEscolar.findByEstadoOrderByEstadoAsc("APERTURADO").get(0);
+
+//				PREPARE TEXT SEND 
+				String charreao = "<div style='width:90%;padding:.3rem;border-left:4px solid #3d5ee1;font-family: Courier, monospace;'> <h1>¡Hola! Bienvenid@ a "
+						+ template.getNameSistema() + "  </h1>" + "<br>Estimado <b>" + nameTeacher
+						+ "</b>, <br> se realizo la creacion de su cuenta a la plataforma escolar" + " para el AF-"
+						+ periodo.getAnioEscolar() + ".<br> sus credenciales de acceso son:<br><br>"
+						+ "<div><b>Usuario:</b> " + response.getEmail().toLowerCase() + "<br>" + "<b>Contraseña:</b> "
+						+ response.getNumDocumento() + "<br><b>Link:</b> <a href='" + template.getLinkAcceso() + "'> "
+						+ template.getLinkAcceso().toLowerCase() + "</a> </div>" + "</div>";
+//				SEND EMAIL
+				srvNotifications.sendMensajeChasqui(
+						"Creacion de cuenta - " + template.getNameSistema() + " AF-" + periodo.getAnioEscolar(),
+						charreao, response.getEmail().toLowerCase(), false, null);
 			}
 
 		} catch (Exception e) {
@@ -204,12 +231,14 @@ public class PersonalServiceImpl implements IPersonalServicio {
 		List<Personal> lista = new ArrayList<>();
 		try {
 //			PERIODO ESCOLAR
-			PeriodoEscolar periodo = repoPeridoEscolar.findByEstado("APERTURADO").get(0);
+			PeriodoEscolar periodo = repoPeridoEscolar.findByEstadoOrderByEstadoAsc("APERTURADO").get(0);
 //			DATOS DEL ESTUDIANTE LOGUEADO
 			Estudiante studentLogin = repoEstudiante.findByEmailEstudianteAndPeriodoEscolarIdPeriodoEscolar(
 					ConstantApp.getuserLogin(), periodo.getIdPeriodoEscolar());
 //			BUSCAR DATA SEGUN FILTROS
-			lista = repoPersonal.findByNivelAcademicoAndLstGradoIdGradoAndLstSeccionIdSeccion(studentLogin.getNivelEscolar(),studentLogin.getGradoAlumno().getIdGrado(),studentLogin.getSeccionAlumno().getIdSeccion());
+			lista = repoPersonal.findByNivelAcademicoAndLstGradoIdGradoAndLstSeccionIdSeccion(
+					studentLogin.getNivelEscolar(), studentLogin.getGradoAlumno().getIdGrado(),
+					studentLogin.getSeccionAlumno().getIdSeccion());
 		} catch (Exception e) {
 			throw e;
 		}

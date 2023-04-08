@@ -24,7 +24,7 @@ public class PeriodoEscolarServiceImpl implements IPeriodoEscolarService {
 	public List<PeriodoEscolar> onListarPeriodoEscolarAll() {
 		List<PeriodoEscolar> dtData = new ArrayList<>();
 		try {
-			dtData = repoPerido.findAll();
+			dtData = repoPerido.findByOrderByEstadoAsc();
 		} catch (Exception e) {
 			System.err.println("Error al listar periodo escolar");
 			throw e;
@@ -96,10 +96,10 @@ public class PeriodoEscolarServiceImpl implements IPeriodoEscolarService {
 	public List<PeriodoEscolar> onListarPeriodoEscolarEstado(String estado) {
 		List<PeriodoEscolar> dtData = new ArrayList<>();
 		try {
-			if(ConstantApp.ROL_LOGIN.compareTo("ADMINISTRADOR") == 0) {
-				dtData = repoPerido.findAll();
+			if(ConstantApp.getuRolUser().compareTo("ADMINISTRADOR") == 0) {
+				dtData = repoPerido.findByOrderByEstadoAsc();
 			}else {
-				dtData = repoPerido.findByEstado("APERTURADO");
+				dtData = repoPerido.findByEstadoOrderByEstadoAsc("APERTURADO");
 			}
 			
 		} catch (Exception e) {

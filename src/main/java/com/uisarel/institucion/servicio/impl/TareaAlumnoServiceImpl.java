@@ -67,7 +67,7 @@ public class TareaAlumnoServiceImpl implements ITareaAlumnoServicio {
 		List<TareaAlumno> lista = new ArrayList<>();
 		try {
 //			PERIODO ESCOLAR
-			PeriodoEscolar periodo = repoPeridoEscolar.findByEstado("APERTURADO").get(0);
+			PeriodoEscolar periodo = repoPeridoEscolar.findByEstadoOrderByEstadoAsc("APERTURADO").get(0);
 //			DATOS DEL ESTUDIANTE LOGUEADO
 			Estudiante studentLogin = repoEstudiante.findByEmailEstudianteAndPeriodoEscolarIdPeriodoEscolar(
 					ConstantApp.getuserLogin(), periodo.getIdPeriodoEscolar());

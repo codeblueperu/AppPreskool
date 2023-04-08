@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{plantilla/plantilla}">
+
+<!--  <head th:replace="~{/plantilla/plantilla :: head}"> -->
+
+<head>
+
+    <title>Editar Menu</title>
+
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col-sm-12">
+                    <div class="page-sub-header">
+                        <h3 class="page-title">Editar Menu</h3>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="students.html">Menu</a></li>
+                            <li class="breadcrumb-item active">Editar Menu</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card comman-shadow">
+                    <div class="card-body">
+                        <form th:action="@{/listaMenu/{idMenu}(id=${menuEditado.idMenu})}" th:object="${menuEditado}"
+                            method="post">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h5 class="form-title student-info">Informacion Menu <span><a href="javascript:;"><i
+                                                    class="feather-more-vertical"></i></a></span></h5>
+                                </div>
+
+                                <div class="col-12 col-sm-4">
+                                    <div class="form-group local-forms">
+                                        <label>Nombre Menu <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="text" th:value="${nombreMenu}"
+                                            id="txtNombreIcono" th:field="*{nombre}" placeholder="Ingrese Nombre"
+                                            required autofocus="autofocus">
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-4">
+                                    <div class="form-group local-forms">
+                                        <label>Icono <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="text" th:value="${nombreIcono}"
+                                            id="txtNombreIcono" th:field="*{icono}" placeholder="Ingrese Icono" required
+                                            autofocus="autofocus">
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-4">
+                                    <div class="form-group local-forms">
+                                        <label>Orden <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="number" th:value="${nombreOrden}"
+                                            id="txtNombreOrden" th:field="*{orden}" placeholder="Orden #" required
+                                            autofocus="autofocus">
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-4">
+                                    <div class="form-group local-forms ">
+                                        <label>Creación <span class="login-danger">*</span></label>
+                                        <input class="form-control datepicker" type="date" th:value="${actulaizacionM}"
+                                            id="txtFechaAM" th:field="*{fechaCreacionMenu}" placeholder="DD-MM-YYYY"
+                                            readonly>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-4">
+                                    <div class="form-group local-forms ">
+                                        <label>Actualizacion <span class="login-danger">*</span></label>
+                                        <input class="form-control datepicker" type="date" th:value="${actulaizacionM}"
+                                            id="txtFechaAM" th:field="*{fechaActualizacionMenu}"
+                                            placeholder="DD-MM-YYYY" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-4">
+                                    <div class="form-group local-forms">
+                                        <label>Estado <span class="login-danger">*</span></label>
+                                        <select class="form-control select2" th:value="${estado}" id="txtEstado"
+                                            th:field="*{estado}" required autofocus="autofocus">
+                                            <option value="">Please Select Estado </option>
+                                            <option th:value="Activo">Activo</option>
+                                            <option th:value="Inactivo">Inactivo</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <input type="hidden" th:field="*{idMenu}">
+
+                                <div class="col-12">
+                                    <div class="student-submit">
+                                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+
+</html>

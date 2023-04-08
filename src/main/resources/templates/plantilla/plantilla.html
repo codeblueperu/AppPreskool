@@ -41,14 +41,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <div class="header-left">
 <a th:href="@{/dashboard}" class="logo">
-<img th:src="@{/fltask/img/{namelogo} (namelogo=${setting.logoSistema})}" alt="Logo">
+<img th:src="@{/themes/assets/img/logo.png}" alt="Logo">
 </a>
 <a href="index.html" class="logo logo-small">
 <img src="/themes/assets/img/logo-small.png" alt="Logo" width="30" height="30">
 </a>
 </div>
 <div class="menu-toggle">
-<a href="javascript:void(0);" id="toggle_btn" th:style="${setting.colorButtonMenu}">
+<a href="javascript:void(0);" id="toggle_btn">
 <i class="fas fa-bars"></i>
 </a>
 </div>
@@ -212,14 +212,36 @@ class="avatar-img rounded-circle">
 	<li class="menu-title">
 		<span>Main Menu</span>
 	</li>
+
 	
-	<li class="submenu" th:each="item: ${menuLista}">
+<!-- **********MEMU DINAMICO_2************** -->
+<li class="menu" th:each="item1 : ${listaMenu}">
+	
+	<a href="#" ><i th:class="${item1.icono}" ></i > <span th:text="${item1.nombre}" > </span> <span class="menu-arrow"></span></a>
+	<ul th:if="${item1.SubMenu}">
+	
+	<li th:each="subItem1 : ${item1.SubMenu}" ><a th:href="${subItem1.url}" th:text="${subItem1.nombre}"></a></li>
+	
+	</ul>
+	</li>
+	<!-- ***********MEMU DINAMICO_2********** -->
+	
+<!-- 	<li class="submenu">
+	<a href="#"><i class="fa fa-cog"></i> <span>Menu</span> <span
+	class="menu-arrow"></span></a>
+	<ul>
+	<li><a th:href="@{/listaMenu}">Menu</a></li>
+	<li><a th:href="@{/listaSubMenu}">Sub-Menu </a> </li>
+	</ul>
+	</li> -->
+	
+	<!-- <li class="submenu" th:each="item: ${menuLista}">
 		<a href="#"><i th:class="${item.iconoMenu}"></i> <span th:text="${item.nombre}"> Dashboard</span> <span
 		class="menu-arrow"></span></a>
 		<ul >
 			<li th:each="subitem: ${item.subMenus}"><a th:href="${subitem.uRL}" class="ae" th:text="${subitem.nombre}">Admin Dashboard</a></li>
 		</ul>
-	</li>
+	</li> -->
 
 <!-- <li sec:authorize="hasRole('USER')" class="submenu active"> -->
 <!-- <a href="#" class="active"><i class="fas fa-graduation-cap"></i> <span>Administrador</span> <span -->

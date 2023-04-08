@@ -26,6 +26,8 @@ public class AdminTemplate {
 	
 	private String colorButtonMenu;
 	
-	private String coloresButtonsCancel;	
+	private String coloresButtonsCancel;
+	
+	private String linkAcceso;
 	
 }

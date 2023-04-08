@@ -24,8 +24,8 @@ layout:decorate="~{plantilla/plantilla}">
 					<div class="page-sub-header">
 						<h3 class="page-title">Lista Docentes</h3>
 						<ul class="breadcrumb">
-							<li class="breadcrumb-item"><a href="students.html">Crear</a></li>
-							<li class="breadcrumb-item active"><a th:href="@{adddocente}">Nuevo Docente</a></li>
+							<li class="breadcrumb-item active"><a href="#">Crear</a></li>
+							<li class="breadcrumb-item"><a th:href="@{adddocente}">Nuevo Docente</a></li>
 						</ul>
 					</div>
 				</div>
@@ -38,7 +38,7 @@ layout:decorate="~{plantilla/plantilla}">
 				<div class="card card-table comman-shadow">
 					<div class="card-body">
 						<div class="page-header">							
-							
+							<!-- <button onclick="enviaremail()">enviar email</button> -->
 						</div>
 						<div class="clear-fixed"></div>
 						<div class="page-body">
@@ -55,7 +55,7 @@ layout:decorate="~{plantilla/plantilla}">
 											<th></th>
 										</tr>
 									</thead>
-									<tbody th:if="${cdrSelect == 1}">
+									<tbody>
 										
 									</tbody>
 								</table>

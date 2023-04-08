@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{plantilla/plantilla}">
+
+<head>
+  <title>Registro Permisos</title>
+</head>
+
+
+
+<body>
+  <div layout:fragment="content">
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="page-sub-header">
+            <h3 th:text="${titulo}" class="page-title">Titulo</h3>
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a th:href="@{/listaPerfilesOperaciones}">Permisos</a></li>
+              <li class="breadcrumb-item active">All Permisos</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="student-group-form">
+      <div class="row">
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-table comman-shadow">
+          <div class="card-body">
+
+
+            <div class="page-header">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="page-title">Permisos Perfil-Operaciones </h3>
+                </div>
+              </div>
+            </div>
+
+            <form th:action="@{/perfilOperacion}" th:object="${nuevoPerfilesOperaciones}" method="post">
+              <div class="col-12 col-sm-4">
+                <div class="form-group local-forms">
+                  <label>Perfil Operaciones<span class="login-danger">*</span></label>
+                  <select class="form-control select2" th:name="fkPerfil" required autofocus="autofocus">
+                    <option th:for="fkPerfil" value="">Seleccione Perfil</option>
+                    <option th:each="perfil: ${listaPerfiles}" th:value="${perfil.idPerfil}" th:text="${perfil.nombre}">
+                      Masculino</option>
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="table-responsive">
+                <table class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
+
+                  <thead class="student-thread">
+                    <tr>
+                      <th>ID</th>
+                      <th>OPERACIONES</th>
+                      <th>CREAR</th>
+                      <th>LEER</th>
+                      <th>ACTUALIZAR</th>
+                      <th>ELIMINAR</th>
+                    </tr>
+                  </thead>
+                  <tbody th:each="tmp:${listaOperaciones}">
+                    <tr th:each="tmpo:${PerfilOperaciones}">
+
+                      <td th:text="${tmp.idOperaciones}"></td>
+
+                      <td>
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" th:value="${tmp.idOperaciones}"
+                            th:text="${tmp.nombre}" th:name="fkOperaciones" checked="checked">
+                        </div>
+                      </td>
+
+                      <td>
+                        <div class="form-check form-switch">
+                          <input th:if="checkbox != null " class="form-check-input" type="checkbox" id="crear"
+                            th:value="1" th:name="crear" th:checked="${crear}">
+                        </div>
+                      </td>
+
+
+                      <td>
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" th:value="1" th:name="leer">
+                        </div>
+                      </td>
+
+                      <td>
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" th:value="1" th:name="actualizar">
+                        </div>
+                      </td>
+
+                      <td>
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" th:value="1" th:name="eliminar">
+                        </div>
+                      </td>
+
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="student-submit">
+                <button onclick="fuction()" class="btn btn-primary">Guardar</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+</body>
+
+
+</html>

@@ -42,7 +42,7 @@ public class NativeQueryJDBC {
 	 * @return
 	 */
 	public List<DtoGroupGradoNivel> onListarGrupoGradoNivelPeriodoEscolar(String nivelEscolar) {
-		PeriodoEscolar periodo = repoPeriodoEscolar.findByEstado("APERTURADO").get(0);
+		PeriodoEscolar periodo = repoPeriodoEscolar.findByEstadoOrderByEstadoAsc("APERTURADO").get(0);
 
 		List<DtoGroupGradoNivel> lista = this.jdbcTemplate.query("select g.grado_descripcion, "
 				+ "(SELECT COUNT(*) FROM estudiante e WHERE e.id_periodo_escolar = " + periodo.getIdPeriodoEscolar()
@@ -76,7 +76,7 @@ public class NativeQueryJDBC {
 	 */
 	public int onTotalAlumnoDocente() {
 		int total = 0;
-		PeriodoEscolar periodo = repoPeriodoEscolar.findByEstado("APERTURADO").get(0);
+		PeriodoEscolar periodo = repoPeriodoEscolar.findByEstadoOrderByEstadoAsc("APERTURADO").get(0);
 		Personal person = srvPersonal.onListarPersonalAll().get(0);
 		total = jdbcTemplate.queryForObject("select count(*) cantidad from estudiante where id_periodo_escolar =   "
 				+ periodo.getIdPeriodoEscolar()

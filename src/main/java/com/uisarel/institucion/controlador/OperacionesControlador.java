@@ -1,6 +1,6 @@
 package com.uisarel.institucion.controlador;
 
-
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,82 +13,89 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.modelo.entidades.Operaciones;
 import com.uisarel.institucion.servicio.IAdminTemplateService;
+import com.uisarel.institucion.servicio.IMenuServicio;
 import com.uisarel.institucion.servicio.IOperacionesServicio;
-import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
 
 @Controller
 public class OperacionesControlador {
-	
+
 	@Autowired
 	private IOperacionesServicio servicioOperaciones;
-	
-	@Autowired
-	private ConfiguracionesServiceImp srvSeting;
-	
+
 	@Autowired
 	private IAdminTemplateService srvAdminTemplate;
-	
-	//ListarPerfiles
+
+	@Autowired
+	private IMenuServicio servicioMenu;
+
+	List<Menu> lstMenuAcceso = new ArrayList<>();
+
+	// ListarPerfiles
 	@GetMapping("/listaOperaciones")
 	public String listarOperaciones(Model model) {
 		List<Operaciones> listaOperaciones = servicioOperaciones.listaOperaciones();
 		model.addAttribute("titulo", "Operaciones");
 		model.addAttribute("listaOperaciones", listaOperaciones);
-		return "operaciones";
+		return "adminOperaciones/operaciones";
 	}
-	
-	//MetodoRegistrarPerfiles
+
+	// MetodoRegistrarPerfiles
 	@GetMapping("/operacion/nuevo")
 	public String registroOperacion(Model modelo) {
 		Operaciones operacion = new Operaciones();
 		modelo.addAttribute("Operaciones", operacion);
-		return "registroOperaciones";
-		}	
-	
+		return "adminOperaciones/registroOperaciones";
+	}
+
 	@PostMapping("/operaciones")
 	public String guardarPerfil(@ModelAttribute("nuevoOperaciones") Operaciones nuevoOperacion) {
 		try {
 			nuevoOperacion.setFechaCreacionOperacion(new Date());
 			servicioOperaciones.insertarOperaciones(nuevoOperacion);
-					
-				} catch (Exception e) {	
-					// TODO: handle exception
-					System.out.print("Error"+e);
-				}return "redirect:/listaOperaciones";
-			}
-			
-	//MetodoActualizarPErfil
-	@GetMapping("/listaOperaciones/editar/{idOperaciones}")
-	public String editarOperaciones(@PathVariable(value="idOperaciones") int idOperaciones,  Model model) {
-		Operaciones existe=null;
-		if(idOperaciones>0) {
-			existe= servicioOperaciones.buscarOperacionesId(idOperaciones); 
-			model.addAttribute("operacionesActualizada",existe);
-		
-		}return "editarOperaciones";
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.print("Error" + e);
 		}
+		return "redirect:/listaOperaciones";
+	}
+
+	// MetodoActualizarPErfil
+	@GetMapping("/listaOperaciones/editar/{idOperaciones}")
+	public String editarOperaciones(@PathVariable(value = "idOperaciones") int idOperaciones, Model model) {
+		Operaciones existe = null;
+		if (idOperaciones > 0) {
+			existe = servicioOperaciones.buscarOperacionesId(idOperaciones);
+			model.addAttribute("operacionesActualizada", existe);
+
+		}
+		return "adminOperaciones/editarOperaciones";
+	}
+
 	@PostMapping("/listaOperaciones/{idOperaciones}")
 	public String actualizarOperaciones(@ModelAttribute("operacionesActualizada") Operaciones operacionesEditado) {
 		operacionesEditado.setFechaModificacionOperacion(new Date());
 		servicioOperaciones.actualizarOperaciones(operacionesEditado);
 		return "redirect:/listaOperaciones";
-		}
-	
-	//EliminarPerfil
+	}
+
+	// EliminarPerfil
 	@GetMapping("/listaOperaciones/eliminar/{idOperaciones}")
 	public String eliminarOperaciones(@PathVariable(value = "idOperaciones") int idOperaciones, Model model) {
-		if(idOperaciones > 0) {
+		if (idOperaciones > 0) {
 			servicioOperaciones.eliminarOperaciones(idOperaciones);
-			}
-		return "redirect:/listaOperaciones";
 		}
-	
+		return "redirect:/listaOperaciones";
+	}
+
 	@ModelAttribute
-	public void setGenericos(Authentication auth,Model model) {
-		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
-		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
+	public void setGenericos(Authentication auth, Model model) {
+		lstMenuAcceso = servicioMenu.listarMenu();
+		model.addAttribute("listaMenu", lstMenuAcceso);
+		model.addAttribute("setting", srvAdminTemplate.onMostrarDataTemplateAdmin());
 	}
 
 }

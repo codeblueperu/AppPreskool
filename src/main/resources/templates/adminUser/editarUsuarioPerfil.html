@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{plantilla/plantilla}">
+
+<head>
+  <title>Editar Usuario-Perfil</title>
+
+</head>
+
+<body>
+  <div layout:fragment="content">
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col-sm-12">
+          <div class="page-sub-header">
+            <h3 class="page-title">Editar Usuario-Perfil</h3>
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a th:href="@{/listaUsuariosPerfiles}">Editar Usuario-Perfil</a></li>
+              <li class="breadcrumb-item active">Editar Usuario-Perfil</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card comman-shadow">
+          <div class="card-body">
+            <form
+              th:action="@{/listaUsuariosPerfiles/{idUsuarioPerfil}(id=${UsuarioPerfilActualizado.idUsuarioPerfil})}"
+              th:object="${UsuarioPerfilActualizado}" method="post">
+              <div class="row">
+                <div class="col-12">
+                  <h5 class="form-title student-info">Registro Usuario-Perfil <span><a href="javascript:;"><i
+                          class="feather-more-vertical"></i></a></span></h5>
+                </div>
+                <div class="col-12 col-sm-4">
+                  <div class="form-group local-forms">
+                    <label>Usuario<span class="login-danger">*</span></label>
+                    <select class="form-control select" th:field="*{fkUsuario}" required autofocus="autofocus">
+                      <option value="">Seleccione Usuario</option>
+                      <option th:each="usuario: ${listaUsuarios}" th:value="${usuario.idUsuario}"
+                        th:text="${usuario.nombres}"></option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-12 col-sm-4">
+                  <div class="form-group local-forms">
+                    <label>Perfil<span class="login-danger">*</span></label>
+                    <select class="form-control select" th:field="*{fkPerfil}" required autofocus="autofocus">
+                      <option value="">Seleccione Perfil</option>
+                      <option th:each="perfil: ${listaPerfiles}" th:value="${perfil.idPerfil}"
+                        th:text="${perfil.nombre}"></option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-12 col-sm-4">
+                  <div class="form-group local-forms">
+                    <label>Estado <span class="login-danger">*</span></label>
+                    <select class="form-control select" th:value="${estado}" id="txtEstado" th:field="*{estado}"
+                      required autofocus="autofocus">
+                      <option value="">Seleccione Estado </option>
+                      <option th:value="Activo">Activo</option>
+                      <option th:value="Inactivo">Inactivo</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-12 col-sm-4">
+                  <div class="form-group local-forms calendar-icon">
+                    <label>Fecha Creacion Perfil <span class="login-danger">*</span></label>
+                    <input class="form-control datetimepicker" type="text" th:value="${fechaCreacionPerfil}"
+                      id="txtFechaCreacionPerfil" th:field="*{fechaCreacionPerfil}" placeholder="DD-MM-YYYY" readonly>
+                  </div>
+                </div>
+
+                <input type="hidden" th:field="*{idUsuarioPerfil}">
+                <div class="col-12">
+                  <div class="student-submit">
+                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+</body>
+
+</html>

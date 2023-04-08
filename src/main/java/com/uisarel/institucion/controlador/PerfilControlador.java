@@ -1,5 +1,6 @@
 package com.uisarel.institucion.controlador;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,27 +13,25 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.modelo.entidades.Perfil;
-import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
 import com.uisarel.institucion.servicio.IAdminTemplateService;
-import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
+import com.uisarel.institucion.servicio.IMenuServicio;
 import com.uisarel.institucion.servicio.IPerfilServicio;
-import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
 
 @Controller
 public class PerfilControlador {
 
 	@Autowired
 	private IPerfilServicio servicioPerfil;
-	
-	@Autowired
-	private ConfiguracionesServiceImp srvSeting;
-	
-	@Autowired
-	private IPerfilOperacionesServicio srvOperacion;
-	
+		
 	@Autowired
 	private IAdminTemplateService srvAdminTemplate;
+	
+	@Autowired
+	private IMenuServicio servicioMenu;
+
+	List<Menu> lstMenuAcceso = new ArrayList<>();
 	
 	//ListarPerfiles
 	@GetMapping("/listaPerfiles")
@@ -40,7 +39,7 @@ public class PerfilControlador {
 		List<Perfil> listaPerfiles = servicioPerfil.listaPerfil();
 		model.addAttribute("titulo", "Perfiles");
 		model.addAttribute("listaPerfiles", listaPerfiles);
-		return "perfiles";
+		return "adminPerfiles/perfiles";
 	}
 	
 	//MetodoRegistrarPerfiles
@@ -48,7 +47,7 @@ public class PerfilControlador {
 		public String registroPerfil(Model modelo) {
 			Perfil perfil = new Perfil();
 			modelo.addAttribute("Perfil", perfil);
-			return "registroPerfil";
+			return "adminPerfiles/registroPerfil";
 		}	
 
 		@PostMapping("/perfil")
@@ -74,7 +73,7 @@ public class PerfilControlador {
 				existe= servicioPerfil.buscarPerfilId(idPerfil);
 				model.addAttribute("nuevo",existe);
 			}
-			return "editarPerfil";
+			return "adminPerfiles/editarPerfil";
 		}
 		
 		@PostMapping("/listaPerfiles/{idPerfil}")
@@ -95,12 +94,8 @@ public class PerfilControlador {
 		
 		@ModelAttribute
 		public void setGenericos(Authentication auth,Model model) {
-			model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
-			PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(3,auth);
-			model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
-			model.addAttribute("cdrSelect", actions.getLeer());
-			model.addAttribute("cdrInsert", actions.getCrear());
-			model.addAttribute("cdrUpdate", actions.getActualizar());
-			model.addAttribute("cdrDelete", actions.getEliminar());
+			lstMenuAcceso = servicioMenu.listarMenu();
+			model.addAttribute("listaMenu", lstMenuAcceso);
+			model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());			
 		}
 }

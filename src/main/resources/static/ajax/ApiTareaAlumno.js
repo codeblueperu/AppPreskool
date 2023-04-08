@@ -104,7 +104,7 @@ async function buscarDatosDocente(){
 		}
 
 	})
-	.fail(function(error) {
+	.fail(function(err) {
 		console.log(err);
 		if(err.status === 409){
 			getMessageALert('warning','Upps!', err.responseJSON.message)
@@ -148,7 +148,10 @@ async function onBuscarTareaDocente(){
 }
 
 async function onBusarEstudiantes(){
-	//console.log($("#cboidGrado").val(), $("#cboSeccion").val(),$("#cbocurso").val(), $("#cbotareas").val())
+	if ($("#nivelEscolar").val() == "" || $("#cbotareas").val() == ""  || $("#cboidGrado").val() == "" || $("#cboSeccion").val() == "" || $("#cbocurso").val() == "") {
+		getMessageALert('warning','Lo sentimos', 'Seleccione las opciones segun su busqueda');
+		return false
+	}
 	await $.ajax({
 		url: '/api/v1/mantenimiento/buscarAlumnosGradoNivelSeccionTarea',
 		type: 'GET',

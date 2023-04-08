@@ -1,5 +1,6 @@
 package com.uisarel.institucion.controlador;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,14 +13,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.modelo.entidades.Perfil;
 import com.uisarel.institucion.modelo.entidades.Usuario;
 import com.uisarel.institucion.modelo.entidades.UsuarioPerfil;
 import com.uisarel.institucion.servicio.IAdminTemplateService;
+import com.uisarel.institucion.servicio.IMenuServicio;
 import com.uisarel.institucion.servicio.IPerfilServicio;
 import com.uisarel.institucion.servicio.IUsuarioPerfilServicio;
 import com.uisarel.institucion.servicio.IUsuarioServicio;
-import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
 
 @Controller
 public class UsuarioPerfilControlador {
@@ -37,7 +39,9 @@ public class UsuarioPerfilControlador {
 	private IAdminTemplateService srvAdminTemplate;
 
 	@Autowired
-	private ConfiguracionesServiceImp srvSeting;
+	private IMenuServicio servicioMenu;
+	
+	List<Menu> lstMenuAcceso = new ArrayList<>();
 
 	// Listar
 	@GetMapping("/listaUsuariosPerfiles")
@@ -45,7 +49,7 @@ public class UsuarioPerfilControlador {
 		List<UsuarioPerfil> listaUsuariosPerfiles = servicioUsuarioPerfil.listaUsuarioPerfil();
 		model.addAttribute("titulo", "UsuariosPerfiles");
 		model.addAttribute("listaUsuariosPerfiles", listaUsuariosPerfiles);
-		return "usuariosPerfiles";
+		return "adminUser/usuariosPerfiles";
 	}
 
 	// MetodoRegistrarUsuarioPerfiles
@@ -59,7 +63,7 @@ public class UsuarioPerfilControlador {
 
 		UsuarioPerfil usuarioperfil = new UsuarioPerfil();
 		modelo.addAttribute("UsuarioPerfil", usuarioperfil);
-		return "registroUsuarioPerfil";
+		return "adminUser/registroUsuarioPerfil";
 	}
 
 	@PostMapping("/usuarioperfil")
@@ -93,7 +97,7 @@ public class UsuarioPerfilControlador {
 			existe = servicioUsuarioPerfil.buscarUsuarioPerfilId(idUsuarioPerfil);
 			modelo.addAttribute("UsuarioPerfilActualizado", existe);
 		}
-		return "editarUsuarioPerfil";
+		return "adminUser/editarUsuarioPerfil";
 
 	}
 
@@ -117,8 +121,9 @@ public class UsuarioPerfilControlador {
 
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
-		model.addAttribute("setting", srvAdminTemplate.onMostrarDataTemplateAdmin());
-		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
+		lstMenuAcceso = servicioMenu.listarMenu();
+		model.addAttribute("listaMenu", lstMenuAcceso);
+		model.addAttribute("setting", srvAdminTemplate.onMostrarDataTemplateAdmin());		
 	}
 
 }

@@ -7,7 +7,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,14 +22,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.uisarel.institucion.modelo.entidades.AsignarTarea;
-import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
+import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IAsignarTareaServicio;
-import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
+import com.uisarel.institucion.servicio.IMenuServicio;
 import com.uisarel.institucion.servicio.IPeriodoEscolarService;
 import com.uisarel.institucion.servicio.IPersonalServicio;
 import com.uisarel.institucion.servicio.ISeccionService;
-import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
 import com.uisarel.institucion.utils.ConstantApp;
 
 @Controller
@@ -37,22 +38,21 @@ public class AsignarTareaController {
 	private IAsignarTareaServicio srvAsignarTarea;
 
 	@Autowired
-	private ConfiguracionesServiceImp srvSeting;
-
-	@Autowired
-	private IPerfilOperacionesServicio srvOperacion;
-
-	@Autowired
 	private IPersonalServicio srvDocente;
-
-	@Autowired
-	private IAdminTemplateService srvAdminTemplate;
 
 	@Autowired
 	private IPeriodoEscolarService srvPeriodoEscolar;
 
 	@Autowired
 	private ISeccionService srvSeccion;
+	
+	@Autowired
+	private IAdminTemplateService srvAdminTemplate;
+	
+	@Autowired
+	private IMenuServicio servicioMenu;
+
+	List<Menu> lstMenuAcceso = new ArrayList<>();
 	
 	
 
@@ -69,9 +69,6 @@ public class AsignarTareaController {
 		// model.addAttribute("lstdocente", srvDocente.onListarPersonalAll());
 		// model.addAttribute("lstcursos", srvCursos.onListarCursos("VIGENTE"));
 		model.addAttribute("dttareas", srvAsignarTarea.onListarTareaPeriodoEscolarAperturado(0));
-
-		System.err.println(srvAsignarTarea.onListarTareaPeriodoEscolarAperturado(0));
-
 		return "obligaciones/tareas";
 	}
 
@@ -79,6 +76,7 @@ public class AsignarTareaController {
 	public String getTemplateCrearNuevaTareasAsignadasPeriodoEscolarAperturado(Model model) {
 		AsignarTarea tarea = new AsignarTarea();
 		model.addAttribute("data", tarea);
+		model.addAttribute("dttarea", tarea);
 		model.addAttribute("lstdocente", srvDocente.onListarPersonalAll());
 		return "obligaciones/nuevaTarea";
 	}
@@ -121,12 +119,8 @@ public class AsignarTareaController {
 
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
+		lstMenuAcceso = servicioMenu.listarMenu();
+		model.addAttribute("listaMenu", lstMenuAcceso);
 		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
-		PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(18, auth);
-		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
-		model.addAttribute("cdrSelect", actions.getLeer());
-		model.addAttribute("cdrInsert", actions.getCrear());
-		model.addAttribute("cdrUpdate", actions.getActualizar());
-		model.addAttribute("cdrDelete", actions.getEliminar());
 	}
 }

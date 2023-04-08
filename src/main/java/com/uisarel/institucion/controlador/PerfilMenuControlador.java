@@ -2,58 +2,154 @@ package com.uisarel.institucion.controlador;
 
 
 
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.uisarel.institucion.servicio.IAdminTemplateService;
+import com.uisarel.institucion.modelo.entidades.Menu;
+import com.uisarel.institucion.modelo.entidades.Perfil;
+import com.uisarel.institucion.modelo.entidades.PerfilMenu;
 import com.uisarel.institucion.servicio.IMenuServicio;
+import com.uisarel.institucion.servicio.IPerfilMenuServicio;
 import com.uisarel.institucion.servicio.IPerfilServicio;
-import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
 
 @Controller
 public class PerfilMenuControlador {
-
 	
 	@Autowired
-	private IMenuServicio srvMenu;
-	
-	@Autowired
-	private ConfiguracionesServiceImp srvSeting;
-	
+	private IPerfilMenuServicio servicoPerfilMenu;
 	@Autowired
 	private IPerfilServicio servicioPerfil;
-	
 	@Autowired
-	private IAdminTemplateService srvAdminTemplate;
+	private IMenuServicio servicioMenu;
 
-	@GetMapping("/perfilmenu")
-	public String getShowTemplatePerfilMenu(Model model) {
+	//LISTAR_PERFIL_MENU
+	@GetMapping("/listaPerfilMenu")
+	public String listarPerfilMenu(Model model) {
 		
-		//LISTA DE PERFILES
-		model.addAttribute("listaPerfiles",servicioPerfil.listaPerfil());
-		//MENU PRINCIPALES
-		model.addAttribute("mnMain",srvMenu.onListarMenuPrincipales("0","1"));
+		//MENU DINAMICO
+		List<Menu> menu = servicioMenu.listarMenu();
+		model.addAttribute("listaMenu", menu);
+		//--
 		
-		return "perfilMenu";
+		List<PerfilMenu> listaPerfilMenu = servicoPerfilMenu.listaPerfilMenu();
+		System.err.println(listaPerfilMenu);
+		model.addAttribute("listaPerfiles", listaPerfilMenu);
+		model.addAttribute("titulo", "Perfil-Menu");
+		
+		return "adminPerfiles/perfilesOperaciones";
+		
 	}
+		
+	//REGISTRAR_PERFIL_MENU
+	@GetMapping("/registroPerfilMenu/nuevo")
+	public String registroPerfileMenu(Model model) {
+		
+		//MENU DINAMICO
+		List<Menu> menu = servicioMenu.listarMenu();
+		model.addAttribute("listaMenu", menu);
+		//--
+		
+		//PERFIL OPERACIONES GUARDAR
+		List<Perfil> listaPerfiles = servicioPerfil.listaPerfil();
+		model.addAttribute("listaPerfiles", listaPerfiles);
+			
+		List<Menu> listaMenus = servicioMenu.listarMenus();
+		model.addAttribute("listaMenus", listaMenus);
+				
+		PerfilMenu perfileMenu = new PerfilMenu();
+		model.addAttribute("PerfilMenu", perfileMenu);
+		
+		model.addAllAttributes(listaMenus);
+		model.addAllAttributes(listaPerfiles);
+			
+		model.addAttribute("perfil", new Perfil());
+		model.addAttribute("menu", new Menu());
 	
-//	@GetMapping("/redirectSubMenu")
-//	public String getBuscarDataSubMenu(@RequestParam("idperfil") String idperfil,@RequestParam("idmenu") String idmenu,RedirectAttributes model) {
-//		System.err.println(idperfil);
-//		//MENU PRINCIPALES
-//		model.addFlashAttribute("prmidperfil",idperfil);
+		
+		return "adminPerfiles/registroPerfilMenu";
+		}	
+	
+	
+	@PostMapping("/perfilMenu")
+	public String guardarPerfilMenu(@ModelAttribute("nuevoPerfilMenu") @RequestParam("fkPerfil") int idPerfil, @RequestParam("fkMenu") List<Integer> idMenu
+			,@RequestParam("estado") List<String> estado ) {	
+		try {    	
+			//servicioPerfil.insertarPl(perfil);
+			
+			for (Integer Menuid : idMenu) {
+
+				Perfil perfil = servicioPerfil.buscarPerfilId(idPerfil);
+				Menu menu = servicioMenu.buscarMenuId(Menuid);
+				if (idPerfil != 0) {
+					PerfilMenu perfilMenu = new PerfilMenu();
+					perfilMenu.setMenu(menu);
+					perfilMenu.SetPerfil(perfil);
+					perfilMenu.setFechaCreacionPerMen(new Date());
+					for (String est : estado) {
+						perfilMenu.setEstado(est);
+					}
+					
+					servicoPerfilMenu.insertarPefilMenu(perfilMenu);
+					//perfiloperaciones.setCrear(crear);
+
+				}
+				
+			}
+			
+								
+			} catch (Exception e) {
+			// TODO: handle exception
+				System.out.print("Error"+e);
+
+		}return "redirect:/registroPerfilMenu/nuevo";
+		
+	}
+
+	
+//	@Autowired
+//	private IMenuServicio srvMenu;
+//	
+//	@Autowired
+//	private ConfiguracionesServiceImp srvSeting;
+//	
+//	@Autowired
+//	private IPerfilServicio servicioPerfil;
+//	
+//	@Autowired
+//	private IAdminTemplateService srvAdminTemplate;
+//
+//	@GetMapping("/perfilmenu")
+//	public String getShowTemplatePerfilMenu(Model model) {
 //		
-//		return "redirect:/perfilmenu";
+//		//LISTA DE PERFILES
+//		model.addAttribute("listaPerfiles",servicioPerfil.listaPerfil());
+//		//MENU PRINCIPALES
+//		//model.addAttribute("mnMain",srvMenu.onListarMenuPrincipales("0","1"));
+//		
+//		return "perfilMenu";
 //	}
-	
-	@ModelAttribute
-	public void setGenericos(Authentication auth,Model model) {
-		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
-		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
-	}
+//	
+////	@GetMapping("/redirectSubMenu")
+////	public String getBuscarDataSubMenu(@RequestParam("idperfil") String idperfil,@RequestParam("idmenu") String idmenu,RedirectAttributes model) {
+////		System.err.println(idperfil);
+////		//MENU PRINCIPALES
+////		model.addFlashAttribute("prmidperfil",idperfil);
+////		
+////		return "redirect:/perfilmenu";
+////	}
+//	
+//	@ModelAttribute
+//	public void setGenericos(Authentication auth,Model model) {
+//		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
+//		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
+//	}
 
 }

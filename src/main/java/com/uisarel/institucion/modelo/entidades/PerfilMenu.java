@@ -3,9 +3,6 @@ package com.uisarel.institucion.modelo.entidades;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -28,29 +25,53 @@ public class PerfilMenu implements Serializable{/**
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idPerfilMenu;
 	
-	private String estado;
+//	private String estado;
+//	
+//	@DateTimeFormat(pattern = "yyyy-MM-dd")
+//	@Temporal(TemporalType.DATE)
+//	private Date fechaCreacionPerMen;
+//	
+//	@DateTimeFormat(pattern = "yyyy-MM-dd")
+//	@Temporal(TemporalType.DATE)
+//	private Date fechaModificacionPerMen; 
+//		
+//	@ManyToOne(fetch = FetchType.EAGER)
+//	@JoinColumn(name = "fkPefil", referencedColumnName = "idPerfil", nullable = true)
+//	private Perfil  fkPerfil;
+//	
+//	@ManyToOne(fetch = FetchType.EAGER)
+//	@JoinColumn(name = "fkMenu", referencedColumnName = "idMenu", nullable = true)
+//	private Menu fkMenu;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	
+	
+	private String estado;
 	@Temporal(TemporalType.DATE)
 	private Date fechaCreacionPerMen;
-	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	private Date fechaModificacionPerMen; 
 		
 	//Relacion PerfilMenu-Perfil
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "fkPefil")
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "fkPefil", referencedColumnName = "idPerfil", nullable = true)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "fkPefil")
 	private Perfil  fkPerfil;
 	
-	
 	// Relacion PerfilMenu-Menu
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "fkMenu")
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "fkMenu", referencedColumnName = "idMenu", nullable = true)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "fkMenu")
 	private Menu fkMenu;
+
+	
+	public void SetPerfil(Perfil perfil) {
+		
+		this.fkPerfil = perfil;
+		
+	}
+	
+	public void setMenu(Menu menu) {
+		
+		this.fkMenu = menu;
+		
+	}
 
 }

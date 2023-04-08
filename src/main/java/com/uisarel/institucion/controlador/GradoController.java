@@ -1,5 +1,8 @@
 package com.uisarel.institucion.controlador;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -12,38 +15,36 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.uisarel.institucion.modelo.entidades.Grado;
-import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
+import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IGradoService;
-import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
-import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
+import com.uisarel.institucion.servicio.IMenuServicio;
 
 @Controller
 public class GradoController {
 	@Autowired
 	private IGradoService srvGrado;
-
-	@Autowired
-	private ConfiguracionesServiceImp srvSeting;
-
-	@Autowired
-	private IPerfilOperacionesServicio srvOperacion;
 	
 	@Autowired
 	private IAdminTemplateService srvAdminTemplate;
+	
+	@Autowired
+	private IMenuServicio servicioMenu;
+
+	List<Menu> lstMenuAcceso = new ArrayList<>();
 
 	@GetMapping("/grado")
 	public String getGradoAll(Model model) {
 		Grado datax = new Grado();
 		model.addAttribute("data", datax);
 
-		return "mantenimiento/grado";
+		return "estudiantes/grado";
 	}
 
 	@PostMapping("/guardargrado")
 	public String postGuardarGrado(Grado datagrado, BindingResult result, RedirectAttributes redirectAttrs) {
 		if (result.hasErrors()) {
-			return "mantenimiento/grado";
+			return "estudiantes/grado";
 		}
 		int codeAction = datagrado.getIdGrado();
 		//datagrado.setGrado("ero");
@@ -64,7 +65,7 @@ public class GradoController {
 	public String getBuscarGradoID(@PathVariable(value = "id") int idGrado, Model model) {
 		model.addAttribute("data", srvGrado.onBuscarGradoId(idGrado));
 
-		return "mantenimiento/grado";
+		return "estudiantes/grado";
 	}
 
 	@GetMapping("/deleteGradoID/{id}")
@@ -77,13 +78,9 @@ public class GradoController {
 
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
+		lstMenuAcceso = servicioMenu.listarMenu();
+		model.addAttribute("listaMenu", lstMenuAcceso);
 		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
-		PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(16, auth);
 		model.addAttribute("lstdata", srvGrado.onListarGradosAll());
-		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
-		model.addAttribute("cdrSelect", actions.getLeer());
-		model.addAttribute("cdrInsert", actions.getCrear());
-		model.addAttribute("cdrUpdate", actions.getActualizar());
-		model.addAttribute("cdrDelete", actions.getEliminar());
 	}
 }

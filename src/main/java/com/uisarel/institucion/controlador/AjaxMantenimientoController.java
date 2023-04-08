@@ -25,6 +25,7 @@ import com.uisarel.institucion.servicio.IAsignarTareaServicio;
 import com.uisarel.institucion.servicio.IAsistenciaServicio;
 import com.uisarel.institucion.servicio.IConductaService;
 import com.uisarel.institucion.servicio.IEstudianteService;
+import com.uisarel.institucion.servicio.INotificacionesService;
 import com.uisarel.institucion.servicio.IPersonalServicio;
 import com.uisarel.institucion.servicio.ITareaAlumnoServicio;
 
@@ -49,6 +50,9 @@ public class AjaxMantenimientoController {
 
 	@Autowired
 	private IConductaService srvConducta;
+	
+	@Autowired
+	private INotificacionesService srvNoti;
 
 //	RESCONTROLLER ESTUDIANTES
 
@@ -241,6 +245,22 @@ public class AjaxMantenimientoController {
 		srvConducta.onEliminarConducta(idconducta);
 		HashMap<String, Object> response = new HashMap<>();
 		response.put("message", "registro eliminado correctamente");
+		return ResponseEntity.ok(response);
+	}
+	
+	@GetMapping("/senemail")
+	public ResponseEntity<?> email() {
+		String charreao = "<div style='width:50%;padding:.3rem;border-left:4px solid #3d5ee1;font-family: Courier, monospace;'> <h4>¡Hola! Bienvenid@ a PRESKOOL  </h4>"
+				+ "<br>Estimado <b>Jhony More inga</b>, <br> se realizo la creacion de su cuenta a la plataforma escolar"
+				+ " para el AF-2023.<br> sus credenciales de acceso son:<br><br>"
+				+ "<div><b>Usuario:</b> Jhony13.more@gmail.com<br>"
+				+ "<b>Contraseña:</b> 48588250"
+				+ "</div>"
+				+ "</div>";
+		srvNoti.sendMensajeChasqui("CREACION DE CUENTA - PRESKOOL AF-2023", charreao, "jmiserver13@gmail.com", false, null);
+		
+		HashMap<String, Object> response = new HashMap<>();
+		response.put("data", "ok");
 		return ResponseEntity.ok(response);
 	}
 

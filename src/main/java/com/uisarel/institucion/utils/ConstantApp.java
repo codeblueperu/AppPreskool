@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,6 +41,14 @@ public class ConstantApp {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails user = (UserDetails) auth.getPrincipal();
 		return user.getUsername();
+	}
+	
+	public static String getuRolUser() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		for (GrantedAuthority rol : auth.getAuthorities()) {
+			ConstantApp.ROL_LOGIN = 	rol.getAuthority();
+		}
+		return ConstantApp.ROL_LOGIN;
 	}
 	
 }

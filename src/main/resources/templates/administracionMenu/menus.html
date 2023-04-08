@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{plantilla/plantilla}">
+
+<head>
+
+    <title>Lista Menu</title>
+
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="page-sub-header">
+                        <h3 th:text="${titulo}" class="page-title">Titulo</h3>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="students.html">Menu</a></li>
+                            <li class="breadcrumb-item active">All Menu</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="student-group-form">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="myInput" placeholder="BUSCAR ...">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-table comman-shadow">
+                    <div class="card-body">
+
+                        <div class="page-header">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h3 class="page-title">Lista Menu</h3>
+                                </div>
+                                <div class="col-auto text-end float-end ms-auto download-grp">
+                                    <a th:href="@{/menu/nuevo}" class="btn btn-outline-primary me-2"><i
+                                            class="fas fa-plus"></i> Nuevo Menu</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+
+                            <table
+                                class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
+                                <thead class="student-thread">
+
+                                    <tr>
+                                        <th></th>
+                                        <th>ORDEN</th>
+                                        <th>NOMBRE MENU</th>
+                                        <th>ICONO</th>
+                                        <th>ESTADO</th>
+                                        <th>REGISTRO</th>
+                                        <th>ACTUALIZACIÓN</th>
+                                        <th class="text-end">Action</th>
+                                    </tr>
+
+
+                                </thead>
+                                <tbody id="FiltrarUsuario">
+
+                                    <tr th:each="tmp:${listaMenu}">
+
+                                        <td></td>
+
+                                        <td th:text="${tmp.orden}"></td>
+                                        <td th:text="${tmp.nombre}"></td>
+                                        <td th:text="${tmp.icono}"></td>
+                                        <td th:text="${tmp.estado}"></td>
+                                        <td th:text="${tmp.fechaCreacionMenu}"></td>
+                                        <td th:text="${tmp.fechaActualizacionMenu}"></td>
+
+                                        <td class="text-end">
+                                            <div class="actions ">
+                                                <a th:href="@{/listaMenu/eliminar/} + ${tmp.idMenu}"
+                                                    class="btn btn-sm bg-success-light me-2">
+                                                    <i class="feather-trash-2"></i>
+                                                </a>
+                                                <a th:href="@{/listaMenu/editar/} + ${tmp.idMenu}"
+                                                    class="btn btn-sm bg-danger-light">
+                                                    <i class="feather-edit"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</html>

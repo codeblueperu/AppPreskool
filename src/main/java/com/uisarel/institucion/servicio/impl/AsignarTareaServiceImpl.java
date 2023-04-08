@@ -37,10 +37,10 @@ public class AsignarTareaServiceImpl implements IAsignarTareaServicio {
 		List<AsignarTarea> lista = new ArrayList<>();
 		try {
 //			OBTENER EL PERIODO ESCOLAR ACTUAL
-			PeriodoEscolar periodo = repoPeriodoEscolar.findByEstado("APERTURADO").get(0);
-			if (ConstantApp.ROL_LOGIN.compareTo("ADMINISTRADOR") == 0) {
-				lista = repoAsignarTarea.findByPeriodoEscolarIdPeriodoEscolar(periodo.getIdPeriodoEscolar());
-			} else if (ConstantApp.ROL_LOGIN.compareTo("ESTUDIANTE") == 0) {
+			PeriodoEscolar periodo = repoPeriodoEscolar.findByEstadoOrderByEstadoAsc("APERTURADO").get(0);
+			if (ConstantApp.getuRolUser().compareTo("ADMINISTRADOR") == 0) {
+				lista = repoAsignarTarea.findByPeriodoEscolarIdPeriodoEscolarOrderByFechaPresentacionDesc(periodo.getIdPeriodoEscolar());
+			} else if (ConstantApp.getuRolUser().compareTo("ESTUDIANTE") == 0) {
 //				BUSCAR DATOS DEL ALUMNO
 				Estudiante studentLogin = repoEstudiante.findByEmailEstudianteAndPeriodoEscolarIdPeriodoEscolar(
 						ConstantApp.getuserLogin(), periodo.getIdPeriodoEscolar());
@@ -66,7 +66,7 @@ public class AsignarTareaServiceImpl implements IAsignarTareaServicio {
 	public AsignarTarea onGuardarTareaNuevaPeriodoEscolar(AsignarTarea datos) {
 		AsignarTarea response = new AsignarTarea();
 		try {
-			PeriodoEscolar periodo = repoPeriodoEscolar.findByEstado("APERTURADO").get(0);
+			PeriodoEscolar periodo = repoPeriodoEscolar.findByEstadoOrderByEstadoAsc("APERTURADO").get(0);
 			datos.setFechaAsignacion(new Date());
 			datos.setPeriodoEscolar(periodo);
 			response = repoAsignarTarea.save(datos);
@@ -116,7 +116,7 @@ public class AsignarTareaServiceImpl implements IAsignarTareaServicio {
 			int idgrado, int idseccion) {
 		List<AsignarTarea> lista = new ArrayList<>();
 		try {
-			PeriodoEscolar periodo = repoPeriodoEscolar.findByEstado("APERTURADO").get(0);
+			PeriodoEscolar periodo = repoPeriodoEscolar.findByEstadoOrderByEstadoAsc("APERTURADO").get(0);
 
 			lista = repoAsignarTarea
 					.findByPeriodoEscolarIdPeriodoEscolarAndPersonalIdPersonalAndCursoIdCursoAndGradoIdGradoAndSeccionIdSeccion(
@@ -133,7 +133,7 @@ public class AsignarTareaServiceImpl implements IAsignarTareaServicio {
 		List<AsignarTarea> lista = new ArrayList<>();
 		try {
 //			PERIODO ESCOLAR APERTURADO
-			PeriodoEscolar periodo = repoPeriodoEscolar.findByEstado("APERTURADO").get(0);
+			PeriodoEscolar periodo = repoPeriodoEscolar.findByEstadoOrderByEstadoAsc("APERTURADO").get(0);
 //			DATOS DEL USUARIO LOGUEADO
 			Estudiante studentLogin = repoEstudiante.findByEmailEstudianteAndPeriodoEscolarIdPeriodoEscolar(
 					ConstantApp.getuserLogin(), periodo.getIdPeriodoEscolar());

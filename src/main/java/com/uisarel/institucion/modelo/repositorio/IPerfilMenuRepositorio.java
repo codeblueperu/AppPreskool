@@ -16,7 +16,7 @@ public interface IPerfilMenuRepositorio extends JpaRepository<PerfilMenu, Intege
 	 * @param idmenu
 	 * @return
 	 */
-	PerfilMenu findByFkPerfilIdPerfilAndFkMenuIdMenu(int idperfil, int idmenu);
+	//PerfilMenu findByFkPerfilIdPerfilAndFkMenuIdMenu(int idperfil, int idmenu);
 	
 	/**
 	 * @author JMISERVER13
@@ -24,7 +24,7 @@ public interface IPerfilMenuRepositorio extends JpaRepository<PerfilMenu, Intege
 	 * @param menuGrupo
 	 * @return
 	 */
-	List<PerfilMenu> findByFkPerfilIdPerfilAndFkMenuMenuIdPadre(int idperfil, String menuGrupo);
+	//List<PerfilMenu> findByFkPerfilIdPerfilAndFkMenuMenuIdPadre(int idperfil, String menuGrupo);
 	
 	/**
 	 * @author JMISERVER13
@@ -32,7 +32,7 @@ public interface IPerfilMenuRepositorio extends JpaRepository<PerfilMenu, Intege
 	 * @param menuPrincipal
 	 * @return
 	 */
-	List<PerfilMenu> findByFkPerfilNombreAndFkMenuOrden(String namePerfil, String menuPrincipal);
+	//List<PerfilMenu> findByFkPerfilNombreAndFkMenuOrden(String namePerfil, String menuPrincipal);
 	
 	/**
 	 * @author JMISERVER13
@@ -41,7 +41,7 @@ public interface IPerfilMenuRepositorio extends JpaRepository<PerfilMenu, Intege
 	 * @param submenu
 	 * @return
 	 */
-	List<PerfilMenu> findByFkPerfilNombreAndFkMenuMenuIdPadreAndFkMenuOrden(String namePerfil, String grupoMenu, String submenu);
+	//List<PerfilMenu> findByFkPerfilNombreAndFkMenuMenuIdPadreAndFkMenuOrden(String namePerfil, String grupoMenu, String submenu);
 	
 	
 	

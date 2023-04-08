@@ -23,6 +23,12 @@ public interface IPeriodoEscolarRepositorio extends JpaRepository<PeriodoEscolar
 	 * @param estado
 	 * @return
 	 */
-	List<PeriodoEscolar> findByEstado(String estado);
+	List<PeriodoEscolar> findByEstadoOrderByEstadoAsc(String estado);
+	
+	/**
+	 * @author CodeBluePeru
+	 * @return
+	 */
+	List<PeriodoEscolar> findByOrderByEstadoAsc();
 
 }

@@ -17,7 +17,7 @@ public interface IAsignarTareaRepositorio extends JpaRepository<AsignarTarea, In
 	 * @param idPeriodoEscolar
 	 * @return
 	 */
-	List<AsignarTarea> findByPeriodoEscolarIdPeriodoEscolar(int idPeriodoEscolar);
+	List<AsignarTarea> findByPeriodoEscolarIdPeriodoEscolarOrderByFechaPresentacionDesc(int idPeriodoEscolar);
 	
 	/**
 	 * @author CodeBluePeru

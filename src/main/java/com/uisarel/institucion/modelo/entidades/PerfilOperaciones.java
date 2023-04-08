@@ -3,7 +3,6 @@ package com.uisarel.institucion.modelo.entidades;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,7 +14,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter @Setter @NoArgsConstructor
 @Entity
 @Data
 public class PerfilOperaciones implements Serializable{
@@ -28,35 +31,52 @@ public class PerfilOperaciones implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idPerfilOperaciones;
-	
 	private int crear;
 	private int leer;
 	private int actualizar;
 	private int eliminar;
 	private String estado;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	private Date fechaCreacionPerOpe;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	private Date fechaModificacionPerOpe; 
 	
 	//Relacion PerfilOperaciones-Perfil
-//	@ManyToOne(cascade = CascadeType.REFRESH)
-//	@JoinColumn(name = "fkPerfil")
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "fkPerfil", referencedColumnName = "idPerfil", nullable = true)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "fkPerfil")
 	private Perfil fkPerfil;
 	
 	//Relacion PerfilOperaciones-Operaciones
-//	@ManyToOne(cascade = CascadeType.REFRESH)
-//	@JoinColumn(name = "fkOperaciones")
-//	@ManyToOne(fetch = FetchType.EAGER)
-//	@JoinColumn(name = "fkOperaciones", referencedColumnName = "idOperaciones", nullable = true)
-//	private Operaciones fkOperaciones;
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "fkOperaciones")
+	private Operaciones fkOperaciones;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "fkMenu", referencedColumnName = "idMenu", nullable = true)
-	private Menu fkMenu;
-
+	public PerfilOperaciones(int idPerfilOperaciones, Perfil fkPerfil, Operaciones fkOperaciones) {
+		super();
+		this.idPerfilOperaciones = idPerfilOperaciones;
+		this.fkPerfil = fkPerfil;
+		this.fkOperaciones = fkOperaciones;
+	}
+	
+	public PerfilOperaciones(Perfil fkPerfil, Operaciones fkOperaciones) {
+		super();
+		this.fkPerfil = fkPerfil;
+		this.fkOperaciones = fkOperaciones;
+	}
+	
+	public void SetPerfil(Perfil perfil) {
+		
+		this.fkPerfil = perfil;
+		
+	}
+	
+	public void setOperaciones(Operaciones operaciones) {
+		
+		this.fkOperaciones = operaciones;
+		
+	}
+	
+	public void setCrear(Integer crear){
+		this.crear = crear;	
+	}
 }

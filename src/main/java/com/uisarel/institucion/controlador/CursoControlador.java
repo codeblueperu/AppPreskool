@@ -1,5 +1,8 @@
 package com.uisarel.institucion.controlador;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -12,38 +15,36 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.uisarel.institucion.modelo.entidades.Cursos;
-import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
+import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.ICursosService;
-import com.uisarel.institucion.servicio.IPerfilOperacionesServicio;
-import com.uisarel.institucion.servicio.impl.ConfiguracionesServiceImp;
+import com.uisarel.institucion.servicio.IMenuServicio;
 
 @Controller
 public class CursoControlador {
 
 	@Autowired
 	private ICursosService srvCurso;
-
-	@Autowired
-	private ConfiguracionesServiceImp srvSeting;
-
-	@Autowired
-	private IPerfilOperacionesServicio srvOperacion;
 	
 	@Autowired
 	private IAdminTemplateService srvAdminTemplate;
+	
+	@Autowired
+	private IMenuServicio servicioMenu;
+
+	List<Menu> lstMenuAcceso = new ArrayList<>();
 
 	@GetMapping("/curso")
 	public String getCursoAll(Model model) {
 		Cursos datax = new Cursos();
 		model.addAttribute("data", datax);
-		return "mantenimiento/curso";
+		return "docentes/curso";
 	}
 
 	@PostMapping("/guardarcurso")
 	public String postGuardaCurso(Cursos datacurso, BindingResult result, RedirectAttributes redirectAttrs) {
 		if (result.hasErrors()) {
-			return "mantenimiento/curso";
+			return "docentes/curso";
 		}
 		int codeAction = datacurso.getIdCurso();
 		
@@ -63,7 +64,7 @@ public class CursoControlador {
 	public String getBuscarGradoID(@PathVariable(value = "id") int idcurso, Model model) {
 		model.addAttribute("data", srvCurso.onBuscarCursoID(idcurso));
 
-		return "mantenimiento/curso";
+		return "docentes/curso";
 	}
 
 	@GetMapping("/deleteCursoID/{id}")
@@ -76,13 +77,9 @@ public class CursoControlador {
 
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
+		lstMenuAcceso = servicioMenu.listarMenu();
+		model.addAttribute("listaMenu", lstMenuAcceso);
 		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
-		PerfilOperaciones actions = srvOperacion.onBuscarPermidoRolMenu(18, auth);
 		model.addAttribute("lstdata", srvCurso.onListarCursos("ALL"));
-		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
-		model.addAttribute("cdrSelect", actions.getLeer());
-		model.addAttribute("cdrInsert", actions.getCrear());
-		model.addAttribute("cdrUpdate", actions.getActualizar());
-		model.addAttribute("cdrDelete", actions.getEliminar());
 	}
 }

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{plantilla/plantilla}">
+
+<head>
+    <title>Registro Permisos</title>
+</head>
+
+
+
+<body>
+    <div layout:fragment="content">
+
+
+        <div class="student-group-form">
+            <div class="row">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-table comman-shadow">
+                    <div class="card-body">
+
+
+                        <div class="page-header">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h3 class="page-title">Permisos Perfil-Menu </h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form th:action="@{/perfilMenu}" th:object="${nuevoPerfilMenu}" method="post">
+                            <div class="col-12 col-sm-4">
+                                <div class="form-group local-forms">
+                                    <label>Perfil Menu<span class="login-danger">*</span></label>
+                                    <select class="form-control select2" th:name="fkPerfil" required
+                                        autofocus="autofocus">
+                                        <option th:for="fkPerfil" value="">Seleccione Perfil</option>
+                                        <option th:each="perfil: ${listaPerfiles}" th:value="${perfil.idPerfil}"
+                                            th:text="${perfil.nombre}">Masculino</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="table-responsive">
+                                <table
+                                    class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
+
+                                    <thead class="student-thread">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>OPERACIONES</th>
+                                            <th>PERMISOS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="crear">
+                                        <tr th:each="tmp:${listaMenus}" id="crear">
+
+                                            <td th:text="${tmp.idMenu}"></td>
+
+                                            <td>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        th:value="${tmp.idMenu}" th:text="${tmp.nombre}"
+                                                        th:name="fkMenu" checked="checked">
+                                                </div>
+                                            </td>
+
+                                            <td id="crear">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="estado"
+                                                        th:value="${1}" th:name="estado" th:checked="${crear}">
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="student-submit">
+                                <button onclick="fuction()" class="btn btn-primary">Guardar</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+
+</html>

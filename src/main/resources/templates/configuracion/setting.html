@@ -45,7 +45,7 @@
                             <form th:action="@{/guardarsetting}" th:object="${data}" method="POST" enctype="multipart/form-data">
                                 <div class="row">
                                     <input type="hidden" name="idProyecto" th:field="*{idProyecto}">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <label for="descripcionPeriodo">Nombre del Sistema</label>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="basic-addon2"><i class="fa fa-table"
@@ -55,7 +55,17 @@
                                                 autocomplete="off" required>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
+                                        <label for="descripcionPeriodo">Link Acceso Sistema</label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon2"><i class="fa fa-table"
+                                                    aria-hidden="true"></i></span>
+                                            <input type="text" class="form-control" name="linkAcceso"
+                                                th:field="*{linkAcceso}" aria-describedby="basic-addon2"
+                                                autocomplete="off" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
                                         <label for="descripcionPeriodo">Estilos Button Toggle</label>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="basic-addon2"><i class="fa fa-table"
