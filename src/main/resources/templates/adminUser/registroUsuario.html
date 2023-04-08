@@ -1,155 +1,168 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   layout:decorate="~{plantilla/plantilla}">
-  
+
 <head th:replace="~{/plantilla/plantilla :: head}">
-  <title>Registro Usuario</title>
+
+
+  <title th:text="${setting.nameSistema} + ' | Task'"></title>
+
   <script src="content-script.js"></script>
-  
-<link rel="shortcut icon" th:href="@{/themes/assets/img/favicon.png}">
+
+  <link rel="shortcut icon" th:href="@{/fltask/img/{image} (image=${setting.iconoSistema})}">
 
 
-<link rel="stylesheet" th:href="@{/themes/assets/plugins/bootstrap/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/themes/assets/plugins/bootstrap/css/bootstrap.min.css}">
 
-<link rel="stylesheet" th:href="@{/themes/assets/plugins/feather/feather.css}">
+  <link rel="stylesheet" th:href="@{/themes/assets/plugins/feather/feather.css}">
 
-<link rel="stylesheet" th:href="@{/themes/assets/plugins/icons/flags/flags.css}">
+  <link rel="stylesheet" th:href="@{/themes/assets/plugins/icons/flags/flags.css}">
 
-<link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/fontawesome.min.css}">
-<link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/all.min.css}">
+  <link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/fontawesome.min.css}">
+  <link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/all.min.css}">
 
-<link rel="stylesheet" th:href="@{/themes/assets/plugins/datatables/datatables.min.css}">
+  <link rel="stylesheet" th:href="@{/themes/assets/plugins/datatables/datatables.min.css}">
 
-<link rel="stylesheet" th:href="@{/themes/assets/plugins/select2/css/select2.min.css}">
-<link rel="stylesheet" th:href="@{/themes/assets/css/bootstrap-datetimepicker.min.css}">
-<link rel="stylesheet" th:href="@{/themes/assets/css/style.css}">
+  <link rel="stylesheet" th:href="@{/themes/assets/plugins/select2/css/select2.min.css}">
+  <link rel="stylesheet" th:href="@{/themes/assets/css/bootstrap-datetimepicker.min.css}">
+  <link rel="stylesheet" th:href="@{/themes/assets/css/style.css}">
 
 
 
 </head>
 
 <body>
-<div layout:fragment="content" >
-<div class="page-header">
-<div class="row align-items-center">
-<div class="col-sm-12">
-<div class="page-sub-header">
-<h3 class="page-title">Rgistro Usuario</h3>
-<ul class="breadcrumb">
-<li class="breadcrumb-item"><a href="students.html">Student</a></li>
-<li class="breadcrumb-item active">Registro Usuario </li>
-</ul>
-</div>
-</div>
-</div>
-</div>
+  <div layout:fragment="content">
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col-sm-12">
+          <div class="page-sub-header">
+            <h3 class="page-title">Rgistro Usuario</h3>
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a href="students.html">Student</a></li>
+              <li class="breadcrumb-item active">Registro Usuario </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<div class="row">
-<div class="col-sm-12">
-<div class="card comman-shadow">
-<div class="card-body">
-<form th:action="@{/usuario}" th:object="${nuevo}" method="post">
-<div class="row">
-<div class="col-12">
-<h5 class="form-title student-info">Registro Usuario<span><a href="javascript:;"><i class="feather-more-vertical"></i></a></span></h5>
-</div>
-<div class="col-12 col-sm-4">
-<div class="form-group local-forms">
-<label>Nombres <span class="login-danger">*</span></label>
-<input class="form-control" type="text" th:value="${nombreUsuario}" id="txtNombreUsuario" th:name="nombres" placeholder="Ingrese Nombres" required autofocus="autofocus">
-</div>
-</div>
-<div class="col-12 col-sm-4">
-<div class="form-group local-forms">
-<label>Apellidos <span class="login-danger">*</span></label>
-<input class="form-control" type="text" th:value="${apellidoUsuario}" id="txtApellidoUsuario" th:name="apellidos" placeholder="Ingrese Apellidos" required autofocus="autofocus">
-</div>
-</div>
-<div class="col-12 col-sm-4">
-<div class="form-group local-forms">
-<label>CI <span class="login-danger">*</span></label>
-<input class="form-control" type="text" th:value="${CIUsuario}" id="txtCIUsuario" th:name="CI" placeholder="Ingrese CI" required autofocus="autofocus">
-</div>
-</div>
-<div class="col-12 col-sm-4">
-<div class="form-group local-forms">
-<label>Correo <span class="login-danger">*</span></label>
-<input class="form-control" type="text" th:value="${correoUsuario}" id="txtCorreoUsuario" th:name="usuarioCorreo" placeholder="Ingrese Correo" required autofocus="autofocus">
-</div>
-</div>
-<div class="col-12 col-sm-4">
-<div class="form-group local-forms ">
-<label>Fecha Nacimiento <span class="login-danger">*</span></label>
-<input class="form-control datepicker" type="date" th:value="${fechaNacimiento}" id="txtFechaNacimiento" th:name="fechaNacimiento" placeholder="DD-MM-YYYY" >
-</div>
-</div>
-<div class="col-12 col-sm-4">
-<div class="form-group local-forms">
-<label>Perfil Usuario<span class="login-danger">*</span></label>
-<select class="form-control select2" th:name="fkPerfil" required autofocus="autofocus">
-<option value="">Seleccione Perfil</option>
-<option th:each="perfil: ${listaPerfiles}" th:value="${perfil.idPerfil}" th:text="${perfil.nombre}">Masculino</option>
-</select>
-</div>
-</div>
-<div class="col-12 col-sm-4">
-<div class="form-group local-forms">
-<label>Genero <span class="login-danger">*</span></label>
-<select class="form-control select2" th:value="${sexo}" id="txtSexo" th:name="sexo" required autofocus="autofocus">
-<option value="">Seleccione Genero</option>
-<option th:value="Masculino">Masculino</option>
-<option th:value="Femenino">Femenino</option>
-</select>
-</div>
-</div>
-<div class="col-12 col-sm-4">
-<div class="form-group local-forms">
-<label>Estado <span class="login-danger">*</span></label>
-<select class="form-control select2" th:value="${estado}" id="txtEstado" th:name="estadoU" required autofocus="autofocus">
-<option value="">Seleccione Estado </option>
-<option th:value="Activo">Activo</option>
-<option th:value="Inactivo">Inactivo</option>
-</select>
-</div>
-</div>
-<div></div>
-<div class="col-12 col-sm-4">
-<div class="form-group local-forms">
-<label>Contraseña <span class="login-danger">*</span></label>
-<input class="form-control pass-input" type="text" th:value="${Contrasenia}" id="txtContrasenia" th:name="contrasenia" placeholder="Contraseña:" required autofocus="autofocus">
-</div>
-</div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card comman-shadow">
+          <div class="card-body">
+            <form th:action="@{/usuario}" th:object="${nuevo}" method="post">
+              <div class="row">
+                <div class="col-12">
+                  <h5 class="form-title student-info">Registro Usuario<span><a href="javascript:;"><i
+                          class="feather-more-vertical"></i></a></span></h5>
+                </div>
+                <div class="col-12 col-sm-4">
+                  <div class="form-group local-forms">
+                    <label>Nombres <span class="login-danger">*</span></label>
+                    <input class="form-control" type="text" th:value="${nombreUsuario}" id="txtNombreUsuario"
+                      th:name="nombres" placeholder="Ingrese Nombres" required autofocus="autofocus">
+                  </div>
+                </div>
+                <div class="col-12 col-sm-4">
+                  <div class="form-group local-forms">
+                    <label>Apellidos <span class="login-danger">*</span></label>
+                    <input class="form-control" type="text" th:value="${apellidoUsuario}" id="txtApellidoUsuario"
+                      th:name="apellidos" placeholder="Ingrese Apellidos" required autofocus="autofocus">
+                  </div>
+                </div>
+                <div class="col-12 col-sm-4">
+                  <div class="form-group local-forms">
+                    <label>CI <span class="login-danger">*</span></label>
+                    <input class="form-control" type="text" th:value="${CIUsuario}" id="txtCIUsuario" th:name="CI"
+                      placeholder="Ingrese CI" required autofocus="autofocus">
+                  </div>
+                </div>
+                <div class="col-12 col-sm-4">
+                  <div class="form-group local-forms">
+                    <label>Correo <span class="login-danger">*</span></label>
+                    <input class="form-control" type="text" th:value="${correoUsuario}" id="txtCorreoUsuario"
+                      th:name="usuarioCorreo" placeholder="Ingrese Correo" required autofocus="autofocus">
+                  </div>
+                </div>
+                <div class="col-12 col-sm-4">
+                  <div class="form-group local-forms ">
+                    <label>Fecha Nacimiento <span class="login-danger">*</span></label>
+                    <input class="form-control datepicker" type="date" th:value="${fechaNacimiento}"
+                      id="txtFechaNacimiento" th:name="fechaNacimiento" placeholder="DD-MM-YYYY">
+                  </div>
+                </div>
+                <div class="col-12 col-sm-4">
+                  <div class="form-group local-forms">
+                    <label>Perfil Usuario<span class="login-danger">*</span></label>
+                    <select class="form-control select2" th:name="fkPerfil" required autofocus="autofocus">
+                      <option value="">Seleccione Perfil</option>
+                      <option th:each="perfil: ${listaPerfiles}" th:value="${perfil.idPerfil}"
+                        th:text="${perfil.nombre}">Masculino</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-4">
+                  <div class="form-group local-forms">
+                    <label>Genero <span class="login-danger">*</span></label>
+                    <select class="form-control select2" th:value="${sexo}" id="txtSexo" th:name="sexo" required
+                      autofocus="autofocus">
+                      <option value="">Seleccione Genero</option>
+                      <option th:value="Masculino">Masculino</option>
+                      <option th:value="Femenino">Femenino</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-4">
+                  <div class="form-group local-forms">
+                    <label>Estado <span class="login-danger">*</span></label>
+                    <select class="form-control select2" th:value="${estado}" id="txtEstado" th:name="estadoU" required
+                      autofocus="autofocus">
+                      <option value="">Seleccione Estado </option>
+                      <option th:value="Activo">Activo</option>
+                      <option th:value="Inactivo">Inactivo</option>
+                    </select>
+                  </div>
+                </div>
+                <div></div>
+                <div class="col-12 col-sm-4">
+                  <div class="form-group local-forms">
+                    <label>Contraseña <span class="login-danger">*</span></label>
+                    <input class="form-control pass-input" type="text" th:value="${Contrasenia}" id="txtContrasenia"
+                      th:name="contrasenia" placeholder="Contraseña:" required autofocus="autofocus">
+                  </div>
+                </div>
 
-<div class="col-12">
-<h5 class="form-title"><span>Direccion</span></h5>
-</div>
-<div class="col-12">
-<div class="form-group local-forms">
-<label>Direccion<span class="login-danger">*</span></label>
-<input type="text" class="form-control" th:value="${direccion}" id="txtDireccion" th:name="direccion" placeholder="Ingrese Direccion" required autofocus="autofocus">
-</div>
-</div>
-<div></div>
-<div class="student-submit">
-<button type="submit" class="btn btn-primary">Guardar</button>
-</div>
-</div>
-</form>
-</div>
-</div>
-</div>
-</div>
-</div>
+                <div class="col-12">
+                  <h5 class="form-title"><span>Direccion</span></h5>
+                </div>
+                <div class="col-12">
+                  <div class="form-group local-forms">
+                    <label>Direccion<span class="login-danger">*</span></label>
+                    <input type="text" class="form-control" th:value="${direccion}" id="txtDireccion"
+                      th:name="direccion" placeholder="Ingrese Direccion" required autofocus="autofocus">
+                  </div>
+                </div>
+                <div></div>
+                <div class="student-submit">
+                  <button type="submit" class="btn btn-primary" th:style="${setting.coloresButtons}">Guardar</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<script th:src="@{/themes/assets/js/jquery-3.6.0.min.js}"></script>
-<script th:src="@{/themes/assets/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/themes/assets/js/feather.min.js}"></script>
-<script th:src="@{/themes/assets/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
-<script th:src="@{/themes/assets/plugins/datatables/datatables.min.js}"></script>
-<script th:src="@{/themes/assets/plugins/select2/js/select2.min.js}"></script>
-<script th:src="@{/themes/assets/plugins/moment/moment.min.js}"></script>
-<script th:src="@{/themes/assets/js/bootstrap-datetimepicker.min.js}"></script>
+  <script th:src="@{/themes/assets/js/jquery-3.6.0.min.js}"></script>
+  <script th:src="@{/themes/assets/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/themes/assets/js/feather.min.js}"></script>
+  <script th:src="@{/themes/assets/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+  <script th:src="@{/themes/assets/plugins/datatables/datatables.min.js}"></script>
+  <script th:src="@{/themes/assets/plugins/select2/js/select2.min.js}"></script>
+  <script th:src="@{/themes/assets/plugins/moment/moment.min.js}"></script>
+  <script th:src="@{/themes/assets/js/bootstrap-datetimepicker.min.js}"></script>
 
 
 
@@ -158,13 +171,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 
 <script>
 
-$(document).ready(function(){
-  $("#myInput").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#FiltrarUsuario tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+  $(document).ready(function () {
+    $("#myInput").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#FiltrarUsuario tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
     });
   });
-});
 </script>
+
 </html>

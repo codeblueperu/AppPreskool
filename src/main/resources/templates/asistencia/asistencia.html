@@ -4,8 +4,9 @@
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 layout:decorate="~{plantilla/plantilla}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-	<title>PreSkool | Asistencia</title>
-	<link rel="shortcut icon" th:href="@{/themes/assets/img/favicon.png}">
+	<title th:text="${setting.nameSistema} + ' | Asistencia'"></title>
+
+<link rel="shortcut icon" th:href="@{/fltask/img/{image} (image=${setting.iconoSistema})}">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap}" rel="stylesheet">
 <link rel="stylesheet" th:href="@{/themes/assets/plugins/bootstrap/css/bootstrap.min.css}">
 <link rel="stylesheet" th:href="@{/themes/assets/plugins/feather/feather.css}">
@@ -109,7 +110,7 @@ layout:decorate="~{plantilla/plantilla}" xmlns:sec="http://www.thymeleaf.org/ext
 									</div>
 								</div>
 								<div class="col-md-3">
-									<button onclick="onBusarEstudiantes()" class="btn btn-primary"><i class="fa fa-users" aria-hidden="true"></i> Listar Estudiantes</button>
+									<button onclick="onBusarEstudiantes()" class="btn btn-primary" th:style="${setting.coloresButtons}"><i class="fa fa-users" aria-hidden="true"></i> Listar Estudiantes</button>
 								</div>
 							</div>
 						</div>

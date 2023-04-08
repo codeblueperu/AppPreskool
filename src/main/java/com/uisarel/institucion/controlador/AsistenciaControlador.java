@@ -1,7 +1,5 @@
 package com.uisarel.institucion.controlador;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -10,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IMenuServicio;
 import com.uisarel.institucion.servicio.IPeriodoEscolarService;
@@ -35,10 +32,11 @@ public class AsistenciaControlador {
 	@Autowired
 	private IMenuServicio servicioMenu;
 
-	List<Menu> lstMenuAcceso = new ArrayList<>();
-
 	@GetMapping("/addasistencia")
 	public String getCursoAll(Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/addasistencia")) {
+			return "error/errorPage";
+		}
 		model.addAttribute("lstdocente",srvDocente.onListarPersonalAll());
 		model.addAttribute("lstperiodo", srvPeriodoEscolar.onListarPeriodoEscolarEstado("APERTURADO"));
 		model.addAttribute("lstseccion",srvSeccion.onListarSeccionAll());
@@ -47,8 +45,7 @@ public class AsistenciaControlador {
 
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
-		lstMenuAcceso = servicioMenu.listarMenu();
-		model.addAttribute("listaMenu", lstMenuAcceso);
+		model.addAttribute("listaMenu", servicioMenu.onBuscarMenuLogin());
 		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
 	}
 }

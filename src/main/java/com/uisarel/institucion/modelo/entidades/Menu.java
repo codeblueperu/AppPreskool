@@ -57,19 +57,6 @@ public class Menu implements Serializable{/**
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fkPadre")
 	private Menu fkPadre = null;
-	
-	//Relacion Menu-PerfilMenu
-//	@ToString.Exclude
-//	@OneToMany(mappedBy = "fkMenu")
-//	private List<PerfilMenu> subMenu = new ArrayList<>();
-	
-	//Relacion Menu-Menu
-//	@OneToMany(mappedBy = "fkMenu")
-//	private List<PerfilMenu> listarMenu = new ArrayList<>();
-	
-	//Relacion Menu-Menu
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "fkMenu")
-//	private Perfil fkMenu;
+
 
 }

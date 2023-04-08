@@ -1,7 +1,6 @@
 package com.uisarel.institucion.controlador;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.modelo.entidades.PeriodoEscolar;
 import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IMenuServicio;
@@ -33,10 +31,12 @@ public class PeriodoEscolarControlador {
 	@Autowired
 	private IMenuServicio servicioMenu;
 
-	List<Menu> lstMenuAcceso = new ArrayList<>();
-
 	@GetMapping("/periodoescolar")
 	public String getPeriodoEscolar(Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/periodoescolar")) {
+			return "error/errorPage";
+		}
+		
 		PeriodoEscolar datax = new PeriodoEscolar();
 		model.addAttribute("data", datax);
 
@@ -83,9 +83,8 @@ public class PeriodoEscolarControlador {
 	}
 
 	@ModelAttribute
-	public void setGenericos(Authentication auth, Model model) {
-		lstMenuAcceso = servicioMenu.listarMenu();
-		model.addAttribute("listaMenu", lstMenuAcceso);
+	public void setGenericos(Authentication auth, Model model) {		
+		model.addAttribute("listaMenu", servicioMenu.onBuscarMenuLogin());
 		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
 		model.addAttribute("lstdata", srvPeriodo.onListarPeriodoEscolarAll());
 	}

@@ -1,7 +1,5 @@
 package com.uisarel.institucion.controlador;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.uisarel.institucion.modelo.entidades.AdminTemplate;
-import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IMenuServicio;
 
@@ -27,10 +24,11 @@ public class ConfiguracionController {
 	@Autowired
 	private IMenuServicio servicioMenu;
 
-	List<Menu> lstMenuAcceso = new ArrayList<>();
-
 	@GetMapping("/setting")
 	public String getAdminTemplate(Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/setting")) {
+			return "error/errorPage";
+		}
 		model.addAttribute("data", srvAdminTemplate.onMostrarDataTemplateAdmin());
 		return "/configuracion/setting";
 	}
@@ -45,8 +43,7 @@ public class ConfiguracionController {
 
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
-		lstMenuAcceso = servicioMenu.listarMenu();
-		model.addAttribute("listaMenu", lstMenuAcceso);
+		model.addAttribute("listaMenu", servicioMenu.onBuscarMenuLogin());
 		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
 	}
 }

@@ -1,6 +1,5 @@
 package com.uisarel.institucion.controlador;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,12 +38,13 @@ public class PerfilOperacionesControlador {
 	
 	@Autowired
 	private IMenuServicio servicioMenu;
-	
-	List<Menu> lstMenuAcceso = new ArrayList<>();
 
 	// Listar_PerfilOperaciones
 	@GetMapping("/listaPerfilesOperaciones")
 	public String listarPerfilOperaciones(Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/listaPerfilesOperaciones")) {
+			return "error/errorPage";
+		}
 
 		// MENU DINAMICO
 		List<Menu> menu = servicioMenu.listarMenu();
@@ -64,7 +64,6 @@ public class PerfilOperacionesControlador {
 	// MetodoRegistrarUsuario
 	@GetMapping("/registroPerfilesOperaciones/nuevo")
 	public String registroPerfilOperaciones(Model model) {
-
 		// MENU DINAMICO
 		List<Menu> menu = servicioMenu.listarMenu();
 		model.addAttribute("listaMenu", menu);
@@ -95,10 +94,12 @@ public class PerfilOperacionesControlador {
 			@RequestParam("fkOperaciones") List<Integer> idOperaciones) {
 		try {
 
+			System.err.println(idOperaciones);
 			for (Integer Operacioensid : idOperaciones) {
 
 				Perfil perfil = servicioPerfil.buscarPerfilId(idPerfil);
 				Operaciones operaciones = servicioOperaciones.buscarOperacionesId(Operacioensid);
+				
 				// Menu menu = servicioMenu.buscarMenuId(Operacioensid);
 
 				if (idPerfil != 0) {
@@ -130,8 +131,7 @@ public class PerfilOperacionesControlador {
 	
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
-		lstMenuAcceso = servicioMenu.listarMenu();
-		model.addAttribute("listaMenu", lstMenuAcceso);
+		model.addAttribute("listaMenu", servicioMenu.onBuscarMenuLogin());
 		model.addAttribute("setting", srvAdminTemplate.onMostrarDataTemplateAdmin());
 	}
 

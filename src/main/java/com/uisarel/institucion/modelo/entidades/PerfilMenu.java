@@ -3,6 +3,7 @@ package com.uisarel.institucion.modelo.entidades;
 import java.io.Serializable;
 import java.util.Date;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -24,30 +25,12 @@ public class PerfilMenu implements Serializable{/**
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idPerfilMenu;
-	
-//	private String estado;
-//	
-//	@DateTimeFormat(pattern = "yyyy-MM-dd")
-//	@Temporal(TemporalType.DATE)
-//	private Date fechaCreacionPerMen;
-//	
-//	@DateTimeFormat(pattern = "yyyy-MM-dd")
-//	@Temporal(TemporalType.DATE)
-//	private Date fechaModificacionPerMen; 
-//		
-//	@ManyToOne(fetch = FetchType.EAGER)
-//	@JoinColumn(name = "fkPefil", referencedColumnName = "idPerfil", nullable = true)
-//	private Perfil  fkPerfil;
-//	
-//	@ManyToOne(fetch = FetchType.EAGER)
-//	@JoinColumn(name = "fkMenu", referencedColumnName = "idMenu", nullable = true)
-//	private Menu fkMenu;
-	
-	
-	
+
 	private String estado;
+	
 	@Temporal(TemporalType.DATE)
 	private Date fechaCreacionPerMen;
+	
 	@Temporal(TemporalType.DATE)
 	private Date fechaModificacionPerMen; 
 		
@@ -57,6 +40,7 @@ public class PerfilMenu implements Serializable{/**
 	private Perfil  fkPerfil;
 	
 	// Relacion PerfilMenu-Menu
+	//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fkMenu")
 	private Menu fkMenu;

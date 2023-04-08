@@ -3,8 +3,9 @@
     layout:decorate="~{plantilla/plantilla}">
 
 <head>
-    <title>PreSkool | Setting</title>
-    <link rel="shortcut icon" th:href="@{/themes/assets/img/favicon.png}">
+    <title th:text="${setting.nameSistema} + ' | Setting'"></title>
+
+    <link rel="shortcut icon" th:href="@{/fltask/img/{image} (image=${setting.iconoSistema})}">
     <link
         href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap}"
         rel="stylesheet">
@@ -123,7 +124,7 @@
                                 </div><br>
                                 <div class="row">
                                     <div class="" style="display: flex; gap:15px">
-                                        <button type="submit" class="btn btn-primary btn-xs">Guardar Cambios</button>
+                                        <button type="submit" class="btn btn-primary btn-xs" th:style="${setting.coloresButtons}">Guardar Cambios</button>
                                     </div>
                                    
                                 </div>

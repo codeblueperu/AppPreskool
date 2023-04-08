@@ -1,7 +1,5 @@
 package com.uisarel.institucion.controlador;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.modelo.entidades.Seccion;
 import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IMenuServicio;
@@ -31,10 +28,11 @@ public class SeccionControlador {
 	@Autowired
 	private IMenuServicio servicioMenu;
 
-	List<Menu> lstMenuAcceso = new ArrayList<>();
-
 	@GetMapping("/seccion")
 	public String getSeccionAll(Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/seccion")) {
+			return "error/errorPage";
+		}
 		Seccion datax = new Seccion();
 		model.addAttribute("data", datax);
 
@@ -61,6 +59,9 @@ public class SeccionControlador {
 
 	@GetMapping("/buscarSeccionID/{id}")
 	public String getBuscarSeccionID(@PathVariable(value = "id") int idseccion, Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/seccion")) {
+			return "error/errorPage";
+		}
 		model.addAttribute("data", srvSeccion.onBuscarSeccionID(idseccion));
 
 		return "estudiantes/seccion";
@@ -68,6 +69,7 @@ public class SeccionControlador {
 
 	@GetMapping("/deleteSeccionID/{id}")
 	public String getDeleteSeccionID(@PathVariable("id") int idseccion, Model model) {
+		
 		srvSeccion.onEliminarSeccionID(idseccion);
 		model.addAttribute("msg", "Seccion eliminado");
 
@@ -76,8 +78,7 @@ public class SeccionControlador {
 
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
-		lstMenuAcceso = servicioMenu.listarMenu();
-		model.addAttribute("listaMenu", lstMenuAcceso);
+		model.addAttribute("listaMenu", servicioMenu.onBuscarMenuLogin());
 		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
 		model.addAttribute("lstdata", srvSeccion.onListarSeccionAll());
 	}

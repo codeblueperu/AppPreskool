@@ -3,7 +3,7 @@
   layout:decorate="~{plantilla/plantilla}">
 
 <head>
-  <title>Registro Permisos</title>
+  <title th:text="${setting.nameSistema} + ' | Operaciones'"></title>
 </head>
 
 
@@ -113,7 +113,7 @@
               </div>
 
               <div class="student-submit">
-                <button onclick="fuction()" class="btn btn-primary">Guardar</button>
+                <button onclick="fuction()" class="btn btn-primary" th:style="${setting.coloresButtons}">Guardar</button>
               </div>
 
             </form>

@@ -1,6 +1,5 @@
 package com.uisarel.institucion.controlador;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.modelo.entidades.Perfil;
 import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IMenuServicio;
@@ -30,12 +28,13 @@ public class PerfilControlador {
 	
 	@Autowired
 	private IMenuServicio servicioMenu;
-
-	List<Menu> lstMenuAcceso = new ArrayList<>();
 	
 	//ListarPerfiles
 	@GetMapping("/listaPerfiles")
 	public String listarPErfiles(Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/listaPerfiles")) {
+			return "error/errorPage";
+		}
 		List<Perfil> listaPerfiles = servicioPerfil.listaPerfil();
 		model.addAttribute("titulo", "Perfiles");
 		model.addAttribute("listaPerfiles", listaPerfiles);
@@ -45,6 +44,9 @@ public class PerfilControlador {
 	//MetodoRegistrarPerfiles
 		@GetMapping("/perfil/nuevo")
 		public String registroPerfil(Model modelo) {
+			if(!servicioMenu.onValidarRutaPermiso("/listaPerfiles")) {
+				return "error/errorPage";
+			}
 			Perfil perfil = new Perfil();
 			modelo.addAttribute("Perfil", perfil);
 			return "adminPerfiles/registroPerfil";
@@ -68,6 +70,9 @@ public class PerfilControlador {
 		//MetodoActualizarPErfil
 		@GetMapping("/listaPerfiles/editar/{idPerfil}")
 		public String editarPerfil(@PathVariable(value="idPerfil") int idPerfil,  Model model) {
+			if(!servicioMenu.onValidarRutaPermiso("/listaPerfiles")) {
+				return "error/errorPage";
+			}
 			Perfil existe=null;
 			if(idPerfil>0) {
 				existe= servicioPerfil.buscarPerfilId(idPerfil);
@@ -94,8 +99,7 @@ public class PerfilControlador {
 		
 		@ModelAttribute
 		public void setGenericos(Authentication auth,Model model) {
-			lstMenuAcceso = servicioMenu.listarMenu();
-			model.addAttribute("listaMenu", lstMenuAcceso);
+			model.addAttribute("listaMenu", servicioMenu.onBuscarMenuLogin());
 			model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());			
 		}
 }

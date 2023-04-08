@@ -1,6 +1,5 @@
 package com.uisarel.institucion.controlador;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.modelo.entidades.Operaciones;
 import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IMenuServicio;
@@ -31,11 +29,12 @@ public class OperacionesControlador {
 	@Autowired
 	private IMenuServicio servicioMenu;
 
-	List<Menu> lstMenuAcceso = new ArrayList<>();
-
 	// ListarPerfiles
 	@GetMapping("/listaOperaciones")
 	public String listarOperaciones(Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/listaOperaciones")) {
+			return "error/errorPage";
+		}
 		List<Operaciones> listaOperaciones = servicioOperaciones.listaOperaciones();
 		model.addAttribute("titulo", "Operaciones");
 		model.addAttribute("listaOperaciones", listaOperaciones);
@@ -45,6 +44,9 @@ public class OperacionesControlador {
 	// MetodoRegistrarPerfiles
 	@GetMapping("/operacion/nuevo")
 	public String registroOperacion(Model modelo) {
+		if(!servicioMenu.onValidarRutaPermiso("/listaOperaciones")) {
+			return "error/errorPage";
+		}
 		Operaciones operacion = new Operaciones();
 		modelo.addAttribute("Operaciones", operacion);
 		return "adminOperaciones/registroOperaciones";
@@ -66,6 +68,9 @@ public class OperacionesControlador {
 	// MetodoActualizarPErfil
 	@GetMapping("/listaOperaciones/editar/{idOperaciones}")
 	public String editarOperaciones(@PathVariable(value = "idOperaciones") int idOperaciones, Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/listaOperaciones")) {
+			return "error/errorPage";
+		}
 		Operaciones existe = null;
 		if (idOperaciones > 0) {
 			existe = servicioOperaciones.buscarOperacionesId(idOperaciones);
@@ -93,8 +98,7 @@ public class OperacionesControlador {
 
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
-		lstMenuAcceso = servicioMenu.listarMenu();
-		model.addAttribute("listaMenu", lstMenuAcceso);
+		model.addAttribute("listaMenu", servicioMenu.onBuscarMenuLogin());
 		model.addAttribute("setting", srvAdminTemplate.onMostrarDataTemplateAdmin());
 	}
 

@@ -14,7 +14,7 @@ async function onListarDashboardCount(){
 		$("#ctteacher").html(docentes.length)
 		 $("#cttareasi").html(tarearealizada.length)
 		$("#ctfalto").html(inasistencias.length) 
-		console.log(estudiante,docentes,tarearealizada,inasistencias);
+		//console.log(estudiante,docentes,tarearealizada,inasistencias);
 	})
 	.fail(function(err) {
 		console.log(err);

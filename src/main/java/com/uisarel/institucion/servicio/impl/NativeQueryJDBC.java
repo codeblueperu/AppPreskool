@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.uisarel.institucion.dto.DtoGroupGradoNivel;
+import com.uisarel.institucion.dto.DtoMenuLogin;
 import com.uisarel.institucion.modelo.entidades.PeriodoEscolar;
 import com.uisarel.institucion.modelo.entidades.Personal;
 import com.uisarel.institucion.modelo.repositorio.IPeriodoEscolarRepositorio;
@@ -85,6 +86,43 @@ public class NativeQueryJDBC {
 				+ person.getIdPersonal() + " )", Integer.class);
 
 		return total;
+	}
+
+	/**
+	 * @author CodeBluePeru
+	 * @apiNote DEBIDO A QUE LAS RELACIONES SON INFINITY JSON SE DECIDIO HACER NATIVO
+	 * @param tipoMenu
+	 * @param codMenu
+	 * @param perfil
+	 * @return
+	 */
+	public List<DtoMenuLogin> onListarMenuLoginUsuario(String tipoMenu, int codMenu, String perfil) {
+		String sql = "SELECT mn.nombre,mn.icono,mn.url,mn.orden,mn.estado,mn.fk_padre as grupo, "
+				+ " p.nombre as perfil, mn.id_menu FROM perfil_menu pm, menu mn, perfil p WHERE pm.fk_menu = mn.id_menu "
+				+ " and pm.fk_pefil = p.id_perfil and p.nombre = '" + perfil + "'";
+		if (tipoMenu.compareTo("MP") == 0) {
+			sql += " and mn.fk_padre is null ";
+		} else {
+			sql += " and mn.fk_padre =  " + codMenu;
+		}
+		sql += "  order by mn.orden asc ";
+		return jdbcTemplate.query(sql, (rs, rowNum) -> mapToDtoMenuLogin(rs));
+	}
+
+	private DtoMenuLogin mapToDtoMenuLogin(ResultSet rs) throws SQLException {
+		return new DtoMenuLogin(rs.getString("nombre"), rs.getString("icono"), rs.getString("url"),
+				rs.getString("orden"), rs.getString("estado"), rs.getString("grupo"), rs.getString("perfil"), rs.getInt("id_menu"));
+	}
+	
+	/**
+	 * @author CodeBluePeru
+	 * @param ruta
+	 * @param perfil
+	 * @return
+	 */
+	public int onValidarPermisoRuta(String ruta,String perfil) {		
+		return jdbcTemplate.queryForObject("SELECT count(*) FROM perfil_menu pm, menu mn, perfil p WHERE pm.fk_menu = mn.id_menu "
+				+ " and pm.fk_pefil = p.id_perfil  and mn.url = '"+ruta+"' and p.nombre = '"+perfil+"'", Integer.class);
 	}
 
 }

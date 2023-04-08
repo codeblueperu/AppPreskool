@@ -3,10 +3,9 @@
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 layout:decorate="~{plantilla/plantilla}">
 <head>
-	<title>PreSkool | Student</title>
+	<title th:text="${setting.nameSistema} + ' | Task'"></title>
 
-
-	<link rel="shortcut icon" th:href="@{/themes/assets/img/favicon.png}">
+	<link rel="shortcut icon" th:href="@{/fltask/img/{image} (image=${setting.iconoSistema})}">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap}" rel="stylesheet">
 	<link rel="stylesheet" th:href="@{/themes/assets/plugins/bootstrap/css/bootstrap.min.css}">
 	<link rel="stylesheet" th:href="@{/themes/assets/plugins/feather/feather.css}">
@@ -216,8 +215,8 @@ layout:decorate="~{plantilla/plantilla}">
 							</div>
 							<div class="row">
 								<div class="col-md-12 text-end float-end ms-auto">
-									<a id="btncancel" th:href="@{/estudiantes}"  class="btn btn-danger">Cancelar</a>
-									<button  id="btnsave" class="btn btn-primary" onclick="onProcesarEstudiante();">Procesar Registro</button>
+									<a id="btncancel" th:href="@{/estudiantes}"  class="btn btn-danger" th:style="${setting.coloresButtonsCancel}">Cancelar</a>
+									<button  id="btnsave" class="btn btn-primary" th:style="${setting.coloresButtons}" onclick="onProcesarEstudiante();">Procesar Registro</button>
 								</div>
 							</div>
 

@@ -3,8 +3,8 @@
   layout:decorate="~{plantilla/plantilla}">
 
 <head>
-  <title>Registro Perfil</title>
-
+  <title th:text="${setting.nameSistema} + ' | Perfil'"></title>
+  <link rel="shortcut icon" th:href="@{/fltask/img/{image} (image=${setting.iconoSistema})}">
 </head>
 
 <body>
@@ -56,7 +56,7 @@
                 <!--<input type="hidden" th:field="*{idUsuario}"> -->
                 <div class="col-12">
                   <div class="student-submit">
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="submit" class="btn btn-primary" th:style="${setting.coloresButtons}">Guardar</button>
                   </div>
                 </div>
               </div>

@@ -13,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import com.uisarel.institucion.modelo.entidades.Menu;
+import com.uisarel.institucion.dto.DtoMenuLogin;
 import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IAsignarTareaServicio;
 import com.uisarel.institucion.servicio.IConductaService;
@@ -51,7 +51,7 @@ public class indexControlador {
 			template = "/dashboard/teacherdashboard";
 		}
 
-		List<Menu> menu = servicioMenu.listarMenu();
+		List<DtoMenuLogin> menu = servicioMenu.onBuscarMenuLogin();
 		model.addAttribute("listaMenu", menu);
 		//model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
 		return template;
@@ -61,7 +61,7 @@ public class indexControlador {
 	public String verLogin() {
 		return "auth/login";
 	}
-
+	
 	@GetMapping("/logout")
 	public String logout(jakarta.servlet.http.HttpServletRequest request) {
 

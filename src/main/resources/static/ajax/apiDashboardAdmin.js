@@ -15,7 +15,7 @@ async function onListarDashboardCount(){
 		$("#ctteacher").html(docentes.length)
 		$("#ctaulas").html(aulas.length)
 		$("#ctcursos").html(cursos.length)
-		console.log(estudiante,cursos,aulas,docentes,grados,groupprimaria);
+		//console.log(estudiante,cursos,aulas,docentes,grados,groupprimaria);
 
 		let gprimary = []
 		let gsecundaria = []

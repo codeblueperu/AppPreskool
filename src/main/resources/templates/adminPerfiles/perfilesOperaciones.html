@@ -3,11 +3,8 @@
     layout:decorate="~{plantilla/plantilla}">
 
 <head>
-    <title>Lista PerfilOperaciones</title>
-
-
-
-
+    <title th:text="${setting.nameSistema} + ' | Perfil'"></title>
+    <link rel="shortcut icon" th:href="@{/fltask/img/{image} (image=${setting.iconoSistema})}">
 </head>
 
 <body>

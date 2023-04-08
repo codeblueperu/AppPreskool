@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.modelo.entidades.Perfil;
 import com.uisarel.institucion.modelo.entidades.PerfilMenu;
+import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IMenuServicio;
 import com.uisarel.institucion.servicio.IPerfilMenuServicio;
 import com.uisarel.institucion.servicio.IPerfilServicio;
@@ -29,11 +31,15 @@ public class PerfilMenuControlador {
 	private IPerfilServicio servicioPerfil;
 	@Autowired
 	private IMenuServicio servicioMenu;
+	@Autowired
+	private IAdminTemplateService srvAdminTemplate;
 
 	//LISTAR_PERFIL_MENU
 	@GetMapping("/listaPerfilMenu")
 	public String listarPerfilMenu(Model model) {
-		
+		if(!servicioMenu.onValidarRutaPermiso("/listaPerfilMenu")) {
+			return "error/errorPage";
+		}
 		//MENU DINAMICO
 		List<Menu> menu = servicioMenu.listarMenu();
 		model.addAttribute("listaMenu", menu);
@@ -51,7 +57,7 @@ public class PerfilMenuControlador {
 	//REGISTRAR_PERFIL_MENU
 	@GetMapping("/registroPerfilMenu/nuevo")
 	public String registroPerfileMenu(Model model) {
-		
+				
 		//MENU DINAMICO
 		List<Menu> menu = servicioMenu.listarMenu();
 		model.addAttribute("listaMenu", menu);
@@ -112,44 +118,10 @@ public class PerfilMenuControlador {
 		}return "redirect:/registroPerfilMenu/nuevo";
 		
 	}
-
 	
-//	@Autowired
-//	private IMenuServicio srvMenu;
-//	
-//	@Autowired
-//	private ConfiguracionesServiceImp srvSeting;
-//	
-//	@Autowired
-//	private IPerfilServicio servicioPerfil;
-//	
-//	@Autowired
-//	private IAdminTemplateService srvAdminTemplate;
-//
-//	@GetMapping("/perfilmenu")
-//	public String getShowTemplatePerfilMenu(Model model) {
-//		
-//		//LISTA DE PERFILES
-//		model.addAttribute("listaPerfiles",servicioPerfil.listaPerfil());
-//		//MENU PRINCIPALES
-//		//model.addAttribute("mnMain",srvMenu.onListarMenuPrincipales("0","1"));
-//		
-//		return "perfilMenu";
-//	}
-//	
-////	@GetMapping("/redirectSubMenu")
-////	public String getBuscarDataSubMenu(@RequestParam("idperfil") String idperfil,@RequestParam("idmenu") String idmenu,RedirectAttributes model) {
-////		System.err.println(idperfil);
-////		//MENU PRINCIPALES
-////		model.addFlashAttribute("prmidperfil",idperfil);
-////		
-////		return "redirect:/perfilmenu";
-////	}
-//	
-//	@ModelAttribute
-//	public void setGenericos(Authentication auth,Model model) {
-//		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
-//		model.addAttribute("menuLista", srvSeting.onListaMenuPerfil(auth));
-//	}
-
+	@ModelAttribute
+	public void setGenericos(Authentication auth, Model model) {
+		model.addAttribute("listaMenu", servicioMenu.onBuscarMenuLogin());
+		model.addAttribute("setting", srvAdminTemplate.onMostrarDataTemplateAdmin());
+	}
 }

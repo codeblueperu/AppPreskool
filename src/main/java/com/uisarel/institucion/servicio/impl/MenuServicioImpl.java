@@ -1,5 +1,6 @@
 package com.uisarel.institucion.servicio.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +8,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.uisarel.institucion.dto.DtoMenuLogin;
 import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.modelo.repositorio.IMenuRepositorio;
 import com.uisarel.institucion.servicio.IMenuServicio;
+import com.uisarel.institucion.utils.ConstantApp;
 
 @Service
 @Component
@@ -18,10 +21,13 @@ public class MenuServicioImpl implements IMenuServicio {
 	@Autowired
 	private IMenuRepositorio menuRepositorio;
 
+	@Autowired
+	private NativeQueryJDBC srvNative;
+
 	@Override
 	public List<Menu> listarMenu() {
 		List<Menu> lista = menuRepositorio.listarMenu();
-		//System.err.println(lista);
+		onBuscarMenuLogin();
 		return lista;
 	}
 
@@ -91,32 +97,35 @@ public class MenuServicioImpl implements IMenuServicio {
 		return menuRepositorio.findAll();
 	}
 
-//	@Autowired
-//	private IMenuRepositorio repoMenu;
-//	
-//	@Override
-//	public List<Menu> onListarMenuPrincipales(String principalMenu, String estadoMenu) {
-//		List<Menu> lista = new ArrayList<>();
-//		try {
-//			//lista = repoMenu.findByOrdenAndEstadoMenuOrderByMenuIdPadreAsc(principalMenu, estadoMenu);
-//		} catch (Exception e) {
-//			throw e;
-//		}
-//		return lista;
-//	}
-//
-//	@Override
-//	public List<Menu> onListarSubMenu(int idmenu) {
-//		List<Menu> lista = new ArrayList<>();
-//		try {
-//			Menu menu = repoMenu.findById(idmenu).get();
-//			
-//			//lista = repoMenu.findByMenuIdPadreAndOrdenAndEstadoMenu(menu.getMenuIdPadre(),"1", "1");
-//			lista.add(menu);
-//		} catch (Exception e) {
-//			throw e;
-//		}
-//		return lista;
-//	}
+	@Override
+	public List<DtoMenuLogin> onBuscarMenuLogin() {
+		List<DtoMenuLogin> menuLogin = new ArrayList<>();
+		try {
+			List<DtoMenuLogin> menuPrincipales = srvNative.onListarMenuLoginUsuario("MP", 0, ConstantApp.getuRolUser());
+			for (DtoMenuLogin mnuLista : menuPrincipales) {
+				List<DtoMenuLogin> subMenu = srvNative.onListarMenuLoginUsuario("SUBM", mnuLista.getIdMenu(),
+						ConstantApp.getuRolUser());
+				mnuLista.setSubMenu(subMenu);
+				menuLogin.add(mnuLista);
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+		//System.err.println(menuLogin);
+		return menuLogin;
+	}
+
+	@Override
+	public boolean onValidarRutaPermiso(String ruta) {
+		boolean status = false;
+		try {
+			if(srvNative.onValidarPermisoRuta(ruta, ConstantApp.getuRolUser()) > 0) {
+				status = true;
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+		return status;
+	}
 
 }

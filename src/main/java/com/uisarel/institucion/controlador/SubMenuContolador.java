@@ -1,6 +1,5 @@
 package com.uisarel.institucion.controlador;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,10 +25,11 @@ public class SubMenuContolador {
 	@Autowired
 	private IMenuServicio servicioMenu;
 
-	List<Menu> lstMenuAcceso = new ArrayList<>();
-
 	@GetMapping("/listaSubMenu")
 	public String subMenu(Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/listaSubMenu")) {
+			return "error/errorPage";
+		}
 
 		// MENU DINAMICO
 		List<Menu> menu = servicioMenu.listarMenu();
@@ -46,6 +46,9 @@ public class SubMenuContolador {
 	// MetodoRegistrarSubMenu
 	@GetMapping("/submenu/nuevo")
 	public String registroSubMenu(Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/listaSubMenu")) {
+			return "error/errorPage";
+		}
 
 		// MENU DINAMICO
 		List<Menu> menu = servicioMenu.listarMenu();
@@ -78,6 +81,9 @@ public class SubMenuContolador {
 	// MetodoActualizarSubMenu
 	@GetMapping("/listaSubMenu/editarSubMenu/{idMenu}")
 	public String editarSubMenu(@PathVariable(value = "idMenu") int idMenu, Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/listaSubMenu")) {
+			return "error/errorPage";
+		}
 		Menu existe = null;
 		if (idMenu > 0) {
 
@@ -102,8 +108,7 @@ public class SubMenuContolador {
 	
 	@ModelAttribute
 	public void setGenericos( Model model) {		
-		lstMenuAcceso = servicioMenu.listarMenu();
-		model.addAttribute("listaMenu", lstMenuAcceso);
+		model.addAttribute("listaMenu", servicioMenu.onBuscarMenuLogin());
 		model.addAttribute("setting", srvAdminTemplate.onMostrarDataTemplateAdmin());
 	}
 }

@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.uisarel.institucion.dto.DtoMenuLogin;
 import com.uisarel.institucion.modelo.entidades.AsignarTarea;
-import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IAsignarTareaServicio;
 import com.uisarel.institucion.servicio.IMenuServicio;
@@ -52,12 +52,14 @@ public class AsignarTareaController {
 	@Autowired
 	private IMenuServicio servicioMenu;
 
-	List<Menu> lstMenuAcceso = new ArrayList<>();
+	List<DtoMenuLogin> lstMenuAcceso = new ArrayList<>();
 	
 	
-
 	@GetMapping("/taskstudent")
 	public String getViewTareasEstudiantesAll(Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/taskstudent")) {
+			return "error/errorPage";
+		}
 		model.addAttribute("lstdocente", srvDocente.onListarPersonalAll());
 		model.addAttribute("lstperiodo", srvPeriodoEscolar.onListarPeriodoEscolarEstado("APERTURADO"));
 		model.addAttribute("lstseccion", srvSeccion.onListarSeccionAll());
@@ -66,14 +68,18 @@ public class AsignarTareaController {
 
 	@GetMapping("/listTask")
 	public String getListarTareasAsignadasPeriodoEscolarAperturado(Model model) {
-		// model.addAttribute("lstdocente", srvDocente.onListarPersonalAll());
-		// model.addAttribute("lstcursos", srvCursos.onListarCursos("VIGENTE"));
+		if(!servicioMenu.onValidarRutaPermiso("/listTask")) {
+			return "error/errorPage";
+		}
 		model.addAttribute("dttareas", srvAsignarTarea.onListarTareaPeriodoEscolarAperturado(0));
 		return "obligaciones/tareas";
 	}
 
 	@GetMapping("/formaddtask")
 	public String getTemplateCrearNuevaTareasAsignadasPeriodoEscolarAperturado(Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/listTask")) {
+			return "error/errorPage";
+		}
 		AsignarTarea tarea = new AsignarTarea();
 		model.addAttribute("data", tarea);
 		model.addAttribute("dttarea", tarea);
@@ -83,6 +89,9 @@ public class AsignarTareaController {
 
 	@GetMapping("/viewtaskedit")
 	public String getTemplateEditTareasAsignadasPeriodoEscolarAperturado(@RequestParam("id") int idtarea, Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/listTask")) {
+			return "error/errorPage";
+		}
 		AsignarTarea tarea = new AsignarTarea();
 		model.addAttribute("data", tarea);
 		model.addAttribute("dttarea", srvAsignarTarea.onBuscarTareaIdPeriodoAprturado(idtarea));
@@ -119,7 +128,7 @@ public class AsignarTareaController {
 
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
-		lstMenuAcceso = servicioMenu.listarMenu();
+		lstMenuAcceso = servicioMenu.onBuscarMenuLogin();
 		model.addAttribute("listaMenu", lstMenuAcceso);
 		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
 	}

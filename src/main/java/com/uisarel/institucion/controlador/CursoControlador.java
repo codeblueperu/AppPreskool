@@ -1,7 +1,6 @@
 package com.uisarel.institucion.controlador;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.uisarel.institucion.modelo.entidades.Cursos;
-import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.ICursosService;
 import com.uisarel.institucion.servicio.IMenuServicio;
@@ -32,10 +30,11 @@ public class CursoControlador {
 	@Autowired
 	private IMenuServicio servicioMenu;
 
-	List<Menu> lstMenuAcceso = new ArrayList<>();
-
 	@GetMapping("/curso")
 	public String getCursoAll(Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/curso")) {
+			return "error/errorPage";
+		}
 		Cursos datax = new Cursos();
 		model.addAttribute("data", datax);
 		return "docentes/curso";
@@ -62,6 +61,9 @@ public class CursoControlador {
 
 	@GetMapping("/buscarCursorID/{id}")
 	public String getBuscarGradoID(@PathVariable(value = "id") int idcurso, Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/curso")) {
+			return "error/errorPage";
+		}
 		model.addAttribute("data", srvCurso.onBuscarCursoID(idcurso));
 
 		return "docentes/curso";
@@ -69,6 +71,9 @@ public class CursoControlador {
 
 	@GetMapping("/deleteCursoID/{id}")
 	public String getDeleteGradoID(@PathVariable("id") int idcurso, Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/curso")) {
+			return "error/errorPage";
+		}
 		srvCurso.onEliminarCurso(idcurso);
 		model.addAttribute("msg", "Curso eliminado");
 
@@ -77,8 +82,8 @@ public class CursoControlador {
 
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
-		lstMenuAcceso = servicioMenu.listarMenu();
-		model.addAttribute("listaMenu", lstMenuAcceso);
+		
+		model.addAttribute("listaMenu", servicioMenu.onBuscarMenuLogin());
 		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
 		model.addAttribute("lstdata", srvCurso.onListarCursos("ALL"));
 	}

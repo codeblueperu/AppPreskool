@@ -29,22 +29,6 @@ function init(){
   onListaPersonalAll();	
 }
 
-function enviaremail(){
-  $.ajax({
-		url: '/api/v1/mantenimiento/senemail',
-		type: 'GET',
-		dataType: 'json',
-		data: {nivel: ''},
-	})
-	.done(function({data}) {
-		console.log(data);
-		
-	})
-	.fail(function(err) {
-		console.log(err);
-	});
-}
-
 async function onListaPersonalAll(){
 	await $.ajax({
 		url: '/api/v1/mantenimiento/listapersonalAll',

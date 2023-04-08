@@ -1,8 +1,5 @@
 package com.uisarel.institucion.controlador;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -15,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.uisarel.institucion.modelo.entidades.Grado;
-import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IGradoService;
 import com.uisarel.institucion.servicio.IMenuServicio;
@@ -31,10 +27,11 @@ public class GradoController {
 	@Autowired
 	private IMenuServicio servicioMenu;
 
-	List<Menu> lstMenuAcceso = new ArrayList<>();
-
 	@GetMapping("/grado")
 	public String getGradoAll(Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/grado")) {
+			return "error/errorPage";
+		}
 		Grado datax = new Grado();
 		model.addAttribute("data", datax);
 
@@ -63,6 +60,7 @@ public class GradoController {
 
 	@GetMapping("/buscarGradoID/{id}")
 	public String getBuscarGradoID(@PathVariable(value = "id") int idGrado, Model model) {
+		
 		model.addAttribute("data", srvGrado.onBuscarGradoId(idGrado));
 
 		return "estudiantes/grado";
@@ -78,8 +76,7 @@ public class GradoController {
 
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
-		lstMenuAcceso = servicioMenu.listarMenu();
-		model.addAttribute("listaMenu", lstMenuAcceso);
+		model.addAttribute("listaMenu",  servicioMenu.onBuscarMenuLogin());
 		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
 		model.addAttribute("lstdata", srvGrado.onListarGradosAll());
 	}

@@ -3,7 +3,7 @@
   layout:decorate="~{plantilla/plantilla}">
 
 <head>
-  <title>Editar Operaciones</title>
+  <title th:text="${setting.nameSistema} + ' | Operaciones'"></title>
 
 </head>
 
@@ -74,7 +74,7 @@
                 <input type="hidden" th:field="*{idOperaciones}">
                 <div class="col-12">
                   <div class="student-submit">
-                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                    <button type="submit" class="btn btn-primary" th:style="${setting.coloresButtons}">Actualizar</button>
                   </div>
                 </div>
               </div>

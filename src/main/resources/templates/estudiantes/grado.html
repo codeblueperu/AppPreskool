@@ -3,10 +3,9 @@
 	layout:decorate="~{plantilla/plantilla}">
 
 <head>
-	<title>Grado</title>
+	<title th:text="${setting.nameSistema} + ' | Grado'"></title>
 
-
-	<link rel="shortcut icon" th:href="@{/themes/assets/img/favicon.png}">
+	<link rel="shortcut icon" th:href="@{/fltask/img/{image} (image=${setting.iconoSistema})}">
 	<link
 		href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap}"
 		rel="stylesheet">
@@ -128,9 +127,9 @@
 							</div>
 							<div class="row">
 								<div class="col-md-12">
-									<a th:href="@{/grado}" class="btn btn-danger">Cancelar</a>
-									<button th:if="${cdrInsert == 1}" type="submit"
-										class="btn btn-primary">Guardar</button>
+									<a th:href="@{/grado}" class="btn btn-danger" th:style="${setting.coloresButtonsCancel}">Cancelar</a>
+									<button type="submit"
+										class="btn btn-primary" th:style="${setting.coloresButtons}">Guardar</button>
 								</div>
 							</div>
 						</form>

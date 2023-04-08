@@ -3,10 +3,9 @@
     layout:decorate="~{plantilla/plantilla}">
 
 <head>
-    <title>Registro Permisos</title>
+    <title th:text="${setting.nameSistema} + ' | Permisos'"></title>
+    <link rel="shortcut icon" th:href="@{/fltask/img/{image} (image=${setting.iconoSistema})}">
 </head>
-
-
 
 <body>
     <div layout:fragment="content">
@@ -82,7 +81,7 @@
                             </div>
 
                             <div class="student-submit">
-                                <button onclick="fuction()" class="btn btn-primary">Guardar</button>
+                                <button onclick="fuction()" class="btn btn-primary" th:style="${setting.coloresButtons}">Guardar</button>
                             </div>
 
                         </form>

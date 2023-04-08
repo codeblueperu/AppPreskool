@@ -3,9 +3,9 @@
   layout:decorate="~{plantilla/plantilla}">
 
 <head th:replace="~{/plantilla/plantilla :: head}">
-  <title>Editar Perfil</title>
+  <title th:text="${setting.nameSistema} + ' | Perfil'"></title>
 
-  <link rel="shortcut icon" th:href="@{/themes/assets/img/favicon.png}">
+  <link rel="shortcut icon" th:href="@{/fltask/img/{image} (image=${setting.iconoSistema})}">
 
 
   <link rel="stylesheet" th:href="@{/themes/assets/plugins/bootstrap/css/bootstrap.min.css}">
@@ -82,7 +82,7 @@
                 <input type="hidden" th:field="*{idPerfil}">
                 <div class="col-12">
                   <div class="student-submit">
-                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                    <button type="submit" class="btn btn-primary" th:style="${setting.coloresButtons}">Actualizar</button>
                   </div>
                 </div>
               </div>

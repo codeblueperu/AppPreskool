@@ -4,8 +4,8 @@
 
 <head>
 
-    <title>Registro Sub-Menu</title>
-
+    <title th:text="${setting.nameSistema} + ' | SubMenu'"></title>
+    <link rel="shortcut icon" th:href="@{/themes/assets/img/favicon.png}">
 </head>
 
 <body>
@@ -91,7 +91,7 @@
 
                                 <div class="col-12">
                                     <div class="student-submit">
-                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                        <button type="submit" class="btn btn-primary" th:style="${setting.coloresButtons}">Guardar</button>
                                     </div>
                                 </div>
 

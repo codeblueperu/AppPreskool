@@ -6,6 +6,9 @@ var id_tarea = urlParams.get("id");
 var grados = [];
 
 function init(){
+	if(rolUser === "ESTUDIANTE"){
+		$(".perstudent").css("display","none")
+	}
 	//$("#dtpfecha").val(moment(new Date()).format('yyyy-MM-DD'));
 	$("#contfile").css("display","none")
 	if(id_tarea != null){

@@ -1,7 +1,5 @@
 package com.uisarel.institucion.controlador;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -11,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.servicio.IAdminTemplateService;
 import com.uisarel.institucion.servicio.IMenuServicio;
 import com.uisarel.institucion.servicio.IPeriodoEscolarService;
@@ -32,10 +29,11 @@ public class EstudianteControlador {
 	@Autowired
 	private IMenuServicio servicioMenu;
 
-	List<Menu> lstMenuAcceso = new ArrayList<>();
-
 	@GetMapping("/estudiantes")
 	public String getGradoAll(Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/estudiantes")) {
+			return "error/errorPage";
+		}
 		model.addAttribute("lstperiodo", srvPeriodoEscolar.onListarPeriodoEscolarEstado("APERTURADO"));
 		model.addAttribute("lstseccion",srvSeccion.onListarSeccionAll());
 		return "estudiantes/estudiante";
@@ -43,6 +41,9 @@ public class EstudianteControlador {
 
 	@GetMapping("/viewcreatestudent")
 	public String getViewCreateNewStudiante(Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/estudiantes")) {
+			return "error/errorPage";
+		}
 		model.addAttribute("lstperiodo", srvPeriodoEscolar.onListarPeriodoEscolarEstado("APERTURADO"));
 		model.addAttribute("lstseccion",srvSeccion.onListarSeccionAll());
 		return "estudiantes/newStudent";
@@ -50,6 +51,9 @@ public class EstudianteControlador {
 	
 	@GetMapping("/vieweditstudent")
 	public String getViewEditStudiante(@RequestParam("student") int idestudiante,@RequestParam("periodo") int periodo, Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/estudiantes")) {
+			return "error/errorPage";
+		}
 		model.addAttribute("lstperiodo", srvPeriodoEscolar.onListarPeriodoEscolarEstado("APERTURADO"));
 		model.addAttribute("lstseccion",srvSeccion.onListarSeccionAll());
 		return "estudiantes/newStudent";
@@ -57,8 +61,8 @@ public class EstudianteControlador {
 	
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
-		lstMenuAcceso = servicioMenu.listarMenu();
-		model.addAttribute("listaMenu", lstMenuAcceso);
+		
+		model.addAttribute("listaMenu", servicioMenu.onBuscarMenuLogin());
 		model.addAttribute("setting", srvAdminTemplate.onMostrarDataTemplateAdmin());
 	}
 }

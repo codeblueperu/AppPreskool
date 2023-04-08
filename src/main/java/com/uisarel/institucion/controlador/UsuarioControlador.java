@@ -1,6 +1,5 @@
 package com.uisarel.institucion.controlador;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.uisarel.institucion.modelo.entidades.Menu;
 import com.uisarel.institucion.modelo.entidades.Perfil;
 import com.uisarel.institucion.modelo.entidades.Usuario;
 import com.uisarel.institucion.modelo.entidades.UsuarioPerfil;
@@ -41,11 +39,12 @@ public class UsuarioControlador {
 	@Autowired
 	private IMenuServicio servicioMenu;
 
-	List<Menu> lstMenuAcceso = new ArrayList<>();
-
 	// ListarUsuarios
 	@GetMapping("/listaUsuarios")
 	public String listarUsuarios(Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/listaUsuarios")) {
+			return "error/errorPage";
+		}
 		List<Usuario> listaUsuarios = servicioUsuario.listaUsuario();
 		model.addAttribute("titulo", "Usuarios");
 		model.addAttribute("listaUsuarios", listaUsuarios);
@@ -55,6 +54,9 @@ public class UsuarioControlador {
 	// MetodoRegistrarUsuario
 	@GetMapping("/usuario/nuevo")
 	public String registroUsuario(Model modelo) {
+		if(!servicioMenu.onValidarRutaPermiso("/listaUsuarios")) {
+			return "error/errorPage";
+		}
 		List<Perfil> listaPerfiles = servicioPerfil.listaPerfil();
 		modelo.addAttribute("listaPerfiles", listaPerfiles);
 		Usuario usuario = new Usuario();
@@ -112,8 +114,7 @@ public class UsuarioControlador {
 
 	@ModelAttribute
 	public void setGenericos(Authentication auth, Model model) {
-		lstMenuAcceso = servicioMenu.listarMenu();
-		model.addAttribute("listaMenu", lstMenuAcceso);
+		model.addAttribute("listaMenu", servicioMenu.onBuscarMenuLogin());
 		model.addAttribute("setting", srvAdminTemplate.onMostrarDataTemplateAdmin());
 		
 	}
