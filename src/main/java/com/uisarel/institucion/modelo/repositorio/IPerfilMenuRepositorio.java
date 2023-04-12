@@ -15,7 +15,7 @@ public interface IPerfilMenuRepositorio extends JpaRepository<PerfilMenu, Intege
 	 * @param idmenu
 	 * @return
 	 */
-	//PerfilMenu findByFkPerfilIdPerfilAndFkMenuIdMenu(int idperfil, int idmenu);
+	PerfilMenu findByFkPerfilIdPerfilAndFkMenuIdMenu(int idperfil, int idmenu);
 	
 	/**
 	 * @author JMISERVER13

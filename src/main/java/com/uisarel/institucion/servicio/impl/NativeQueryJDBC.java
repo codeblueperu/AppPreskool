@@ -99,13 +99,36 @@ public class NativeQueryJDBC {
 	public List<DtoMenuLogin> onListarMenuLoginUsuario(String tipoMenu, int codMenu, String perfil) {
 		String sql = "SELECT mn.nombre,mn.icono,mn.url,mn.orden,mn.estado,mn.fk_padre as grupo, "
 				+ " p.nombre as perfil, mn.id_menu FROM perfil_menu pm, menu mn, perfil p WHERE pm.fk_menu = mn.id_menu "
-				+ " and pm.fk_pefil = p.id_perfil and p.nombre = '" + perfil + "'";
+				+ " and pm.fk_pefil = p.id_perfil  ";
+		
 		if (tipoMenu.compareTo("MP") == 0) {
 			sql += " and mn.fk_padre is null ";
 		} else {
 			sql += " and mn.fk_padre =  " + codMenu;
 		}
+		
+		if(perfil.compareTo("ALL") != 0) {
+			sql += " and p.nombre = '" + perfil + "'";
+		}
+		
 		sql += "  order by mn.orden asc ";
+		return jdbcTemplate.query(sql, (rs, rowNum) -> mapToDtoMenuLogin(rs));
+	}
+	
+	public List<DtoMenuLogin> onListarMenuUsuarioPerfil(int codMenu, int idperfil) {
+		String sql = "SELECT mn.nombre,mn.icono,mn.url,mn.orden,pm.estado,mn.fk_padre as grupo, "
+				+ " p.nombre as perfil, mn.id_menu FROM perfil_menu pm, menu mn, perfil p WHERE pm.fk_menu = mn.id_menu "
+				+ " and pm.fk_pefil = p.id_perfil and mn.fk_padre  = "+codMenu+" and p.id_perfil = " + idperfil;
+		return jdbcTemplate.query(sql, (rs, rowNum) -> mapToDtoMenuLogin(rs));
+	}
+	
+	public List<DtoMenuLogin> onListarMenuSubmenu(int codMenu) {
+		String sql = "SELECT mn.nombre,mn.icono,mn.url,mn.orden,mn.estado,mn.fk_padre as grupo, "
+				+ " '' as perfil, mn.id_menu FROM  menu mn WHERE mn.fk_padre  =  " + codMenu
+				+ " union\r\n"
+				+ " SELECT mn.nombre,mn.icono,mn.url,mn.orden,mn.estado,mn.fk_padre as grupo, "
+				+ " '' as perfil, mn.id_menu FROM  menu mn WHERE mn.id_menu  = "+ codMenu
+				+ " order by icono desc ";
 		return jdbcTemplate.query(sql, (rs, rowNum) -> mapToDtoMenuLogin(rs));
 	}
 

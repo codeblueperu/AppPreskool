@@ -23,12 +23,12 @@ public interface IPerfilMenuServicio {
 //	 */
 //	List<PerfilMenu> onListarPerfilMenu();
 //	
-//	/**
-//	 * @author JMISERVER13
-//	 * @apiNote GUARDAR PERFIL MENU
-//	 * @param perfilmenu
-//	 */
-//	void onSavePerfilMenu(int idperfil, int idmenu, String estado);
+	/**
+	 * @author JMISERVER13
+	 * @apiNote GUARDAR PERFIL MENU
+	 * @param perfilmenu
+	 */
+	void onSavePerfilMenu(int idperfil, int idmenu, String estado);
 //	
 //	/**
 //	 * @author JMISERVER13

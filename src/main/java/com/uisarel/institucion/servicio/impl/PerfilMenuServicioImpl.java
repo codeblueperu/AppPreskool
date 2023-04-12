@@ -1,18 +1,21 @@
 package com.uisarel.institucion.servicio.impl;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uisarel.institucion.modelo.entidades.Menu;
+import com.uisarel.institucion.modelo.entidades.Perfil;
 import com.uisarel.institucion.modelo.entidades.PerfilMenu;
 import com.uisarel.institucion.modelo.repositorio.IPerfilMenuRepositorio;
 import com.uisarel.institucion.servicio.IPerfilMenuServicio;
 
 @Service
 public class PerfilMenuServicioImpl implements IPerfilMenuServicio {
-	
+
 	@Autowired
 	public IPerfilMenuRepositorio repositorioPerfilMenu;
 
@@ -46,6 +49,36 @@ public class PerfilMenuServicioImpl implements IPerfilMenuServicio {
 		repositorioPerfilMenu.delete(buscarPerfilMenuId(idPerfilMenu));
 	}
 
+	@Override
+	public void onSavePerfilMenu(int idperfil, int idmenu, String estado) {
+		PerfilMenu perfilmenu = new PerfilMenu();
+
+		try {
+			// ELIMINAR ANTES DE GUARDAR PARA EVTAR DUPLICADOS
+			PerfilMenu perfilMenuELiminar = repositorioPerfilMenu.findByFkPerfilIdPerfilAndFkMenuIdMenu(idperfil,
+					idmenu);
+			System.err.println(perfilmenu);
+			if (perfilMenuELiminar != null) {
+				repositorioPerfilMenu.deleteById(perfilMenuELiminar.getIdPerfilMenu());
+			}
+
+			// UNA VEZ ELIMINADO GURDAMOS
+			perfilmenu.setEstado(estado);
+			perfilmenu.setFechaCreacionPerMen(new Date());
+			perfilmenu.setFechaModificacionPerMen(new Date());
+			Perfil perfil = new Perfil();
+			perfil.setIdPerfil(idperfil);
+			perfilmenu.setFkPerfil(perfil);
+			Menu menu = new Menu();
+			menu.setIdMenu(idmenu);
+			perfilmenu.setFkMenu(menu);
+
+			repositorioPerfilMenu.save(perfilmenu);
+		} catch (Exception e) {
+			throw e;
+		}
+
+	}
 
 //	@Autowired
 //	private IPerfilMenuRepositorio repoPerfilMenu;
@@ -64,30 +97,7 @@ public class PerfilMenuServicioImpl implements IPerfilMenuServicio {
 //		return perilMenu;
 //	}
 //
-//	@Override
-//	public void onSavePerfilMenu(int idperfil, int idmenu,String estado) {
-//		PerfilMenu perfilmenu = new PerfilMenu();
-//		
-//		try {
-//			//ELIMINAR ANTES DE GUARDAR PARA EVTAR DUPLICADOS
-//			eliminarPerfilMenu(idperfil, idmenu);
-//			//UNA VEZ ELIMINADO GURDAMOS
-//			perfilmenu.setEstado(estado);
-//			perfilmenu.setFechaCreacionPerMen(new Date());
-//			perfilmenu.setFechaModificacionPerMen(new Date());
-//			Perfil perfil = new Perfil();
-//			perfil.setIdPerfil(idperfil);			
-//			perfilmenu.setFkPerfil(perfil);
-//			Menu menu = new Menu();
-//			menu.setIdMenu(idmenu);
-//			perfilmenu.setFkMenu(menu);
-//			
-//			repoPerfilMenu.save(perfilmenu);
-//		} catch (Exception e) {
-//			throw e;
-//		}
-//		
-//	}
+
 //
 //	@Override
 //	public void eliminarPerfilMenu(int idperfil, int idmenu) {

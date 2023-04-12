@@ -9,6 +9,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.uisarel.institucion.servicio.INotificacionesService;
+import com.uisarel.institucion.utils.ConstantApp;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -26,7 +27,7 @@ public class NotificacionesServiceImpl implements INotificacionesService {
 			MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
 //	            REMITENTE
-			helper.setFrom("jhony13.more@gmail.com");
+			helper.setFrom(ConstantApp.USER_SERVICE_EMAIL);
 //	            DESTINATARIO
 			helper.setTo(destinatario_chasqui);
 //			ASUNTO EMAIL

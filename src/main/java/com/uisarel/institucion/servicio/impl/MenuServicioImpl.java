@@ -27,7 +27,6 @@ public class MenuServicioImpl implements IMenuServicio {
 	@Override
 	public List<Menu> listarMenu() {
 		List<Menu> lista = menuRepositorio.listarMenu();
-		onBuscarMenuLogin();
 		return lista;
 	}
 
@@ -92,12 +91,6 @@ public class MenuServicioImpl implements IMenuServicio {
 	}
 
 	@Override
-	public List<Menu> listarMenus() {
-		// TODO Auto-generated method stub
-		return menuRepositorio.findAll();
-	}
-
-	@Override
 	public List<DtoMenuLogin> onBuscarMenuLogin() {
 		List<DtoMenuLogin> menuLogin = new ArrayList<>();
 		try {
@@ -126,6 +119,24 @@ public class MenuServicioImpl implements IMenuServicio {
 			throw e;
 		}
 		return status;
+	}
+
+	@Override
+	public List<Menu> listarMenuPrincipales() {
+		
+		return menuRepositorio.listarMenu();
+	}
+
+	@Override
+	public List<DtoMenuLogin> onBuscarSubmenu(int idMenuPrincipal) {
+		// TODO Auto-generated method stub
+		return srvNative.onListarMenuSubmenu(idMenuPrincipal);
+	}
+
+	@Override
+	public List<DtoMenuLogin> onBuscarMenuusuarioPerfil(int codMenu, int idperfil) {
+		// TODO Auto-generated method stub
+		return srvNative.onListarMenuUsuarioPerfil(codMenu, idperfil);
 	}
 
 }

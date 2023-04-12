@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.uisarel.institucion.modelo.entidades.Usuario;
 import com.uisarel.institucion.modelo.repositorio.IUsuarioRepositorio;
 import com.uisarel.institucion.servicio.IUsuarioServicio;
+import com.uisarel.institucion.utils.ConstantApp;
 
 
 @Service
@@ -54,6 +55,12 @@ public class UsuarioServicioImpl implements IUsuarioServicio{
 		// TODO Auto-generated method stub
 		repositorio.delete(buscarUsuarioId(idUsuario));
 		
+	}
+
+	@Override
+	public String updatePasswordUser(String password) {
+		repositorio.onUpdateClaveUser(passwordEncoder.encode(password), ConstantApp.getuserLogin());
+		return "La contraseña fue modificaca con éxito!";
 	}
 
 	

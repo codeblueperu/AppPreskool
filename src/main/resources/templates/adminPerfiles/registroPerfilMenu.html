@@ -5,6 +5,14 @@
 <head>
     <title th:text="${setting.nameSistema} + ' | Permisos'"></title>
     <link rel="shortcut icon" th:href="@{/fltask/img/{image} (image=${setting.iconoSistema})}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/feather/feather.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/icons/flags/flags.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/fontawesome.min.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/fontawesome/css/all.min.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/plugins/datatables/datatables.min.css}">
+<link rel="stylesheet" th:href="@{/themes/assets/css/style.css}">
 </head>
 
 <body>
@@ -29,19 +37,49 @@
                                 </div>
                             </div>
                         </div>
-
-                        <form th:action="@{/perfilMenu}" th:object="${nuevoPerfilMenu}" method="post">
-                            <div class="col-12 col-sm-4">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
                                 <div class="form-group local-forms">
                                     <label>Perfil Menu<span class="login-danger">*</span></label>
-                                    <select class="form-control select2" th:name="fkPerfil" required
+                                    <select class="form-control select2" required id="idperfil"
                                         autofocus="autofocus">
-                                        <option th:for="fkPerfil" value="">Seleccione Perfil</option>
+                                        <option value="">Seleccione Perfil</option>
                                         <option th:each="perfil: ${listaPerfiles}" th:value="${perfil.idPerfil}"
-                                            th:text="${perfil.nombre}">Masculino</option>
+                                            th:text="${perfil.nombre}"></option>
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-4 col-sm-4">
+                                <div class="form-group local-forms">
+                                    <label>Lista Modulos<span class="login-danger">*</span></label>
+                                    <select class="form-control select2" required id="idmenu" onchange="onBuscarSubMenu()"
+                                        autofocus="autofocus">
+                                        <option value="">Seleccione Menu</option>
+                                        <option th:each="menu: ${listaMenus}" th:value="${menu.idMenu}"
+                                            th:text="${menu.nombre}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table
+                                class="table border-0 star-student table-hover table-center mb-0 table-striped" id="__table__menu__perfil__">
+                                <thead class="student-thread">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>OPERACIONES</th>
+                                        <th>PERMISOS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                       
+
+                       <!--  <form th:action="@{/perfilMenu}" th:object="${nuevoPerfilMenu}" method="post">
+                            
 
 
                             <div class="table-responsive">
@@ -84,15 +122,23 @@
                                 <button onclick="fuction()" class="btn btn-primary" th:style="${setting.coloresButtons}">Guardar</button>
                             </div>
 
-                        </form>
+                        </form> -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-
-
+    <script th:src="@{/themes/assets/js/jquery-3.6.0.min.js}"></script>
+	<script th:src="@{/themes/assets/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/themes/assets/js/feather.min.js}"></script>
+	<script th:src="@{/themes/assets/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+	<script th:src="@{/themes/assets/plugins/datatables/datatables.min.js}"></script>
+	<script th:src="@{/themes/assets/plugins/moment/moment.min.js}"></script>
+	<script th:src="@{/themes/assets/js/bootstrap-datetimepicker.min.js}"></script>
+    <div layout:fragment="ajax_method">
+		<script th:src="@{/ajax/ApiPerfilMenu.js}"></script>
+	</div>
 </body>
 
 

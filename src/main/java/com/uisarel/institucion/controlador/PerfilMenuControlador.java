@@ -59,25 +59,25 @@ public class PerfilMenuControlador {
 	public String registroPerfileMenu(Model model) {
 				
 		//MENU DINAMICO
-		List<Menu> menu = servicioMenu.listarMenu();
-		model.addAttribute("listaMenu", menu);
-		//--
-		
-		//PERFIL OPERACIONES GUARDAR
+//		List<Menu> menu = servicioMenu.listarMenu();
+//		model.addAttribute("listaMenu", menu);
+//		//--
+//		
+//		//PERFIL OPERACIONES GUARDAR
 		List<Perfil> listaPerfiles = servicioPerfil.listaPerfil();
 		model.addAttribute("listaPerfiles", listaPerfiles);
-			
-		List<Menu> listaMenus = servicioMenu.listarMenus();
+//			
+		List<Menu> listaMenus = servicioMenu.listarMenuPrincipales();
 		model.addAttribute("listaMenus", listaMenus);
-				
-		PerfilMenu perfileMenu = new PerfilMenu();
-		model.addAttribute("PerfilMenu", perfileMenu);
-		
-		model.addAllAttributes(listaMenus);
-		model.addAllAttributes(listaPerfiles);
-			
-		model.addAttribute("perfil", new Perfil());
-		model.addAttribute("menu", new Menu());
+//				
+//		PerfilMenu perfileMenu = new PerfilMenu();
+//		model.addAttribute("PerfilMenu", perfileMenu);
+//		
+//		model.addAllAttributes(listaMenus);
+//		model.addAllAttributes(listaPerfiles);
+//			
+//		model.addAttribute("perfil", new Perfil());
+//		model.addAttribute("menu", new Menu());
 	
 		
 		return "adminPerfiles/registroPerfilMenu";

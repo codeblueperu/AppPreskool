@@ -5,7 +5,7 @@ function init(){
     lengthChange: true,
     searching: false,
     ordering: false,
-    info: true,
+    info: true, 
     retrieve: true,
     processing: true,
     autoWidth: false,

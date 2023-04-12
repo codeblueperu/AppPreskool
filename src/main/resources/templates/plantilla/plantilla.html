@@ -197,8 +197,7 @@
 								<p id="cargoLogin" style="font-size: 10px;" class="text-muted mb-0">loading....</p>
 							</div>
 						</div>
-						<a class="dropdown-item" href="profile.html">My Profile</a>
-						<a class="dropdown-item" href="inbox.html">Inbox</a>
+						<a class="dropdown-item" href="#" onclick="openModal()">Cambiar Clave</a>
 						<a class="dropdown-item" onclick="onCerrarSeccion()">Logout</a>
 					</div>
 				</li>
@@ -261,6 +260,7 @@
 
 			</div>
 		</div>
+		<div th:insert="/modal/updatePassword :: modalclavesadue"></div>
 
 
 

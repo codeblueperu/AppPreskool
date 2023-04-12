@@ -16,6 +16,5 @@ public interface IUsuarioServicio {
 	
 	public void eliminarUsuario(int idUsuario);
 	
-	
-
+	public String updatePasswordUser(String password);
 }
