@@ -73,7 +73,7 @@
                 <!--<input type="hidden" th:field="*{idUsuario}"> -->
                 <div class="col-12">
                   <div class="student-submit">
-                    <button type="submit" class="btn btn-primary" th:style="${setting.coloresButtons}">Submit</button>
+                    <button th:if="${valid.actualizar}" type="submit" class="btn btn-primary" th:style="${setting.coloresButtons}">Submit</button>
                   </div>
                 </div>
               </div>

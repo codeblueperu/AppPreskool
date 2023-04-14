@@ -26,7 +26,10 @@ function init(){
     },
   });
 
-  onListaPersonalAll();	
+  if($("#token_vw").val() == "1"){
+    onListaPersonalAll();	
+  }
+ 
 }
 
 async function onListaPersonalAll(){
@@ -37,7 +40,8 @@ async function onListaPersonalAll(){
 		data: {nivel: ''},
 	})
 	.done(function({data}) {
-		console.log(data);
+    let update = $("#token_up").val();
+    let eliminar = $("#token_dt").val();
 		__table_docente__.clear().draw();
 		for (let i = 0; i < data.length; i++) {  
     let deletebtn  = `<button onclick="onEliminarEstudiante(${data[i].idPersonal})" class="btn btn-sm bg-success-light me-2" >
@@ -52,7 +56,7 @@ async function onListaPersonalAll(){
               data[i].fechaNacimiento,
               data[i].email,              
               data[i].direccion,
-              `${editbtn} ${deletebtn}`
+              `${(update == "1" ? editbtn : '')} ${(eliminar  == "1" ? deletebtn : '')}`
             ])
             .draw(false);
         }

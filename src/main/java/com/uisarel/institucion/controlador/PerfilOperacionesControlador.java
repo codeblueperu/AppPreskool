@@ -65,25 +65,25 @@ public class PerfilOperacionesControlador {
 	@GetMapping("/registroPerfilesOperaciones/nuevo")
 	public String registroPerfilOperaciones(Model model) {
 		// MENU DINAMICO
-		List<Menu> menu = servicioMenu.listarMenu();
-		model.addAttribute("listaMenu", menu);
+//		List<Menu> menu = servicioMenu.listarMenu();
+//		model.addAttribute("listaMenu", menu);
 		// --
 
 		// PERFIL OPERACIONES GUARDAR
 		List<Perfil> listaPerfiles = servicioPerfil.listaPerfil();
 		model.addAttribute("listaPerfiles", listaPerfiles);
 
-		List<Operaciones> listaOperaciones = servicioOperaciones.listaOperaciones();
-		model.addAttribute("listaOperaciones", listaOperaciones);
+//		List<Operaciones> listaOperaciones = servicioOperaciones.listaOperaciones();
+//		model.addAttribute("listaOperaciones", listaOperaciones);
 
-		PerfilOperaciones perfilOperaciones = new PerfilOperaciones();
-		model.addAttribute("PerfilOperaciones", perfilOperaciones);
-
-		model.addAttribute("perfil", new Perfil());
-		model.addAttribute("operaciones", new Operaciones());
-
-		List<Menu> listaMenu = servicioMenu.listarMenu();
-		model.addAttribute("listaMenu", listaMenu);
+//		PerfilOperaciones perfilOperaciones = new PerfilOperaciones();
+//		model.addAttribute("PerfilOperaciones", perfilOperaciones);
+//
+//		model.addAttribute("perfil", new Perfil());
+//		model.addAttribute("operaciones", new Operaciones());
+//
+//		List<Menu> listaMenu = servicioMenu.listarMenu();
+//		model.addAttribute("listaMenu", listaMenu);
 
 		return "adminOperaciones/registroPerfilesOperaciones";
 	}
@@ -133,6 +133,7 @@ public class PerfilOperacionesControlador {
 	public void setGenericos(Authentication auth, Model model) {
 		model.addAttribute("listaMenu", servicioMenu.onBuscarMenuLogin());
 		model.addAttribute("setting", srvAdminTemplate.onMostrarDataTemplateAdmin());
+		model.addAttribute("valid", servicioMenu.onOperacionesPerfilMenu(18));
 	}
 
 }

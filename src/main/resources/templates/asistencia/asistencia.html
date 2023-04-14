@@ -26,8 +26,8 @@ layout:decorate="~{plantilla/plantilla}" xmlns:sec="http://www.thymeleaf.org/ext
 					<div class="page-sub-header">
 						<h3 class="page-title">Registrar Asistencia</h3>
 						<ul class="breadcrumb">
-							<li class="breadcrumb-item"><a href="#">All</a></li>
-							<li class="breadcrumb-item active"><a th:href="@{addasistencia}">Asistencia</a></li>
+							<li class="breadcrumb-item"><a href="#">Asistencia</a></li>
+							<li class="breadcrumb-item active"><a th:href="@{addasistencia}">All Asistencia</a></li>
 						</ul>
 					</div>
 				</div>
@@ -53,20 +53,8 @@ layout:decorate="~{plantilla/plantilla}" xmlns:sec="http://www.thymeleaf.org/ext
 										</select>
 									</div>
 								</div>
-								<!-- <div class="col-md-2">
-									<div class="form-group local-forms">
-										<label>Periodo Escolar <span class="login-danger">*</span></label>
-										<select class="form-control" id="cboperiodo" onchange="">
-											<option value="">---: SELECCIONE :---</option>
-											<option 
-												th:each="itemperiodo : ${lstperiodo}" 
-												th:selected="${itemperiodo.estado == 'APERTURADO'}"
-												th:value="${itemperiodo.idPeriodoEscolar}" 
-												th:text="${itemperiodo.anioEscolar}">
-											</option>
-										</select>
-									</div>
-								</div> -->
+								<input type="hidden" th:value="${valid.leer}" id="token_vw">
+								<input type="hidden" th:value="${valid.crear}" id="token_cr">
 								<div class="col-md-6">
 									<div class="form-group local-forms">
 										<label>Cursos <span class="login-danger">*</span></label>
@@ -109,8 +97,8 @@ layout:decorate="~{plantilla/plantilla}" xmlns:sec="http://www.thymeleaf.org/ext
 										<input type="date" placeholder="DD-MM-YYYY" id="dtpfecha" class="form-control">
 									</div>
 								</div>
-								<div class="col-md-3">
-									<button onclick="onBusarEstudiantes()" class="btn btn-primary" th:style="${setting.coloresButtons}"><i class="fa fa-users" aria-hidden="true"></i> Listar Estudiantes</button>
+								<div class="col-md-3" th:if="${valid.leer == 1}">
+									<button  onclick="onBusarEstudiantes()" class="btn btn-primary" th:style="${setting.coloresButtons}"><i class="fa fa-users" aria-hidden="true"></i> Listar Estudiantes</button>
 								</div>
 							</div>
 						</div>

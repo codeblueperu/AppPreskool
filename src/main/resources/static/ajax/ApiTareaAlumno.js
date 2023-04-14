@@ -235,6 +235,10 @@ async function onBusarEstudiantes(){
 
 $("#__table_students__ tbody").on("click", ".rbnstatus", function () {
 	
+	if($("#token_cr").val() == "0"){
+		getMessageALert("warning","Lo sentimos","Estimado usuario, usted no cuenta con permisos para continuar con esta operación.")
+		return false
+	}
   	let fecha = moment(new Date()).format('yyyy-MM-DD')
   	let hora = moment(new Date()).format('H:mm:ss')
   	let estado_presenta =  $(this).parents("tr").find("td").eq(5).find("input:radio:checked").val()
@@ -253,6 +257,11 @@ $("#__table_students__ tbody").on("click", ".rbnstatus", function () {
 });
 
 $("#__table_students__ tbody").on("keypress", "#txtnota", function (e) {
+	if($("#token_cr").val() == "0"){
+		getMessageALert("warning","Lo sentimos","Estimado usuario, usted no cuenta con permisos para continuar con esta operación.")
+		return false
+	}
+	
 	if (e.keyCode === 13 && !e.shiftKey) {
 	  	let fecha = moment(new Date()).format('yyyy-MM-DD')
 	  	let hora = moment(new Date()).format('H:mm:ss')

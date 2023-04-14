@@ -45,7 +45,7 @@ public class ConstantApp {
 	public static String getuRolUser() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		for (GrantedAuthority rol : auth.getAuthorities()) {
-			ConstantApp.ROL_LOGIN = rol.getAuthority();
+			ConstantApp.ROL_LOGIN = rol.getAuthority().toUpperCase();
 		}
 		return ConstantApp.ROL_LOGIN;
 	}

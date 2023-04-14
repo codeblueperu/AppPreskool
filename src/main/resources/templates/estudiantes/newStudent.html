@@ -216,7 +216,7 @@ layout:decorate="~{plantilla/plantilla}">
 							<div class="row">
 								<div class="col-md-12 text-end float-end ms-auto">
 									<a id="btncancel" th:href="@{/estudiantes}"  class="btn btn-danger" th:style="${setting.coloresButtonsCancel}">Cancelar</a>
-									<button  id="btnsave" class="btn btn-primary" th:style="${setting.coloresButtons}" onclick="onProcesarEstudiante();">Procesar Registro</button>
+									<button th:if="${valid.crear == 1}"  id="btnsave" class="btn btn-primary" th:style="${setting.coloresButtons}" onclick="onProcesarEstudiante();">Procesar Registro</button>
 								</div>
 							</div>
 

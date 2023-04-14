@@ -110,5 +110,6 @@ public class SubMenuContolador {
 	public void setGenericos( Model model) {		
 		model.addAttribute("listaMenu", servicioMenu.onBuscarMenuLogin());
 		model.addAttribute("setting", srvAdminTemplate.onMostrarDataTemplateAdmin());
+		model.addAttribute("valid", servicioMenu.onOperacionesPerfilMenu(20));
 	}
 }

@@ -6,7 +6,7 @@ layout:decorate="~{plantilla/plantilla}">
 	<title th:text="${setting.nameSistema} + ' | Estudiante'"></title>
 
 	<link rel="shortcut icon" th:href="@{/fltask/img/{image} (image=${setting.iconoSistema})}">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap}" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" th:href="@{/themes/assets/plugins/bootstrap/css/bootstrap.min.css}">
 <link rel="stylesheet" th:href="@{/themes/assets/plugins/feather/feather.css}">
 <link rel="stylesheet" th:href="@{/themes/assets/plugins/icons/flags/flags.css}">
@@ -25,8 +25,7 @@ layout:decorate="~{plantilla/plantilla}">
 					<div class="page-sub-header">
 						<h3 class="page-title">Lista Estudiantes</h3>
 						<ul class="breadcrumb">
-							<li class="breadcrumb-item"><a href="#">Crear</a></li>
-							<li class="breadcrumb-item active"><a th:href="@{/viewcreatestudent}">nuevo estudiante</a></li>
+							<li th:if="${valid.crear == 1}" class="breadcrumb-item active"><a th:href="@{/viewcreatestudent}"><i class="fa fa-plus-circle" aria-hidden="true"></i> Nuevo estudiante</a></li>
 						</ul>
 					</div>
 				</div>
@@ -83,7 +82,7 @@ layout:decorate="~{plantilla/plantilla}">
 						<div class="clear-fixed"></div>
 						<div class="page-body">
 							<div class="table-responsive">
-								<table class="table border-0 star-student table-hover table-center mb-0 table-striped" id="__table_estudiante__">
+								<table th:if="${valid.leer == 1}" class="table border-0 star-student table-hover table-center mb-0 table-striped" id="__table_estudiante__">
 									<thead class="student-thread">
 										<tr>		
 											<th>Periodo</th>		

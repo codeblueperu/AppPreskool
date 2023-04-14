@@ -63,6 +63,7 @@ public class AsignarTareaController {
 		model.addAttribute("lstdocente", srvDocente.onListarPersonalAll());
 		model.addAttribute("lstperiodo", srvPeriodoEscolar.onListarPeriodoEscolarEstado("APERTURADO"));
 		model.addAttribute("lstseccion", srvSeccion.onListarSeccionAll());
+		model.addAttribute("valid", servicioMenu.onOperacionesPerfilMenu(13));
 		return "obligaciones/taskstudent";
 	}
 
@@ -72,6 +73,7 @@ public class AsignarTareaController {
 			return "error/errorPage";
 		}
 		model.addAttribute("dttareas", srvAsignarTarea.onListarTareaPeriodoEscolarAperturado(0));
+		model.addAttribute("valid", servicioMenu.onOperacionesPerfilMenu(12));
 		return "obligaciones/tareas";
 	}
 
@@ -84,6 +86,7 @@ public class AsignarTareaController {
 		model.addAttribute("data", tarea);
 		model.addAttribute("dttarea", tarea);
 		model.addAttribute("lstdocente", srvDocente.onListarPersonalAll());
+		model.addAttribute("valid", servicioMenu.onOperacionesPerfilMenu(12));
 		return "obligaciones/nuevaTarea";
 	}
 
@@ -96,6 +99,7 @@ public class AsignarTareaController {
 		model.addAttribute("data", tarea);
 		model.addAttribute("dttarea", srvAsignarTarea.onBuscarTareaIdPeriodoAprturado(idtarea));
 		model.addAttribute("lstdocente", srvDocente.onListarPersonalAll());
+		model.addAttribute("valid", servicioMenu.onOperacionesPerfilMenu(12));
 		return "obligaciones/nuevaTarea";
 	}
 
@@ -131,5 +135,6 @@ public class AsignarTareaController {
 		lstMenuAcceso = servicioMenu.onBuscarMenuLogin();
 		model.addAttribute("listaMenu", lstMenuAcceso);
 		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
+		
 	}
 }

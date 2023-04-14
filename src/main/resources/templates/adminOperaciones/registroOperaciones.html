@@ -4,7 +4,7 @@
 
 <head>
   <title th:text="${setting.nameSistema} + ' | Operaciones'"></title>
-
+  <link rel="shortcut icon" th:href="@{/themes/assets/img/favicon.png}">
 </head>
 
 <body>
@@ -37,7 +37,7 @@
                   <div class="form-group local-forms">
                     <label>Nombre Operacion <span class="login-danger">*</span></label>
                     <input class="form-control" type="text" th:value="${nombreOperacion}" id="txtNombreOperacion"
-                      th:name="nombre" placeholder="Nombre Operacion" required autofocus="autofocus">
+                      th:name="nombre" placeholder="Nombre Operacion" required autofocus="autofocus" autocomplete="off">
                   </div>
                 </div>
 
@@ -56,7 +56,7 @@
                 <!--<input type="hidden" th:field="*{idUsuario}"> -->
                 <div class="col-12">
                   <div class="student-submit">
-                    <button type="submit" class="btn btn-primary" th:style="${setting.coloresButtons}">Guardar</button>
+                    <button th:if="${valid.crear}" type="submit" class="btn btn-primary" th:style="${setting.coloresButtons}">Guardar</button>
                   </div>
                 </div>
               </div>

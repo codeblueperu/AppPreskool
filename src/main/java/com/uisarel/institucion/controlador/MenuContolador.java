@@ -27,7 +27,9 @@ public class MenuContolador {
 
 	@GetMapping("/listaMenu")
 	public String index(Model model) {
-
+		if(!servicioMenu.onValidarRutaPermiso("/listaMenu")) {
+			return "error/errorPage";
+		}
 		// MENU DINAMICO
 		List<Menu> menu = servicioMenu.listarMenu();
 		model.addAttribute("listaMenu", menu);
@@ -43,6 +45,9 @@ public class MenuContolador {
 	// MetodoRegistrarMenu
 	@GetMapping("/menu/nuevo")
 	public String registroMenu(Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/listaMenu")) {
+			return "error/errorPage";
+		}
 
 		// MENU DINAMICO
 		List<Menu> menu = servicioMenu.listarMenu();
@@ -74,6 +79,9 @@ public class MenuContolador {
 	// MetodoActualizarMenu
 	@GetMapping("/listaMenu/editar/{idMenu}")
 	public String editarMenu(@PathVariable(value = "idMenu") int idMenu, Model model) {
+		if(!servicioMenu.onValidarRutaPermiso("/listaMenu")) {
+			return "error/errorPage";
+		}
 
 		// MENU DINAMICO
 		List<Menu> menu = servicioMenu.listarMenu();
@@ -110,5 +118,6 @@ public class MenuContolador {
 	public void setGenericos(Authentication auth, Model model) {
 		model.addAttribute("listaMenu", servicioMenu.onBuscarMenuLogin());
 		model.addAttribute("setting", srvAdminTemplate.onMostrarDataTemplateAdmin());
+		model.addAttribute("valid", servicioMenu.onOperacionesPerfilMenu(20));
 	}
 }

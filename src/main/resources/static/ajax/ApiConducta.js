@@ -105,7 +105,7 @@ async function buscarDatosDocente(){
 		}
 
 	})
-	.fail(function(error) {
+	.fail(function(err) {
 		console.log(err);
 		if(err.status === 409){
 			getMessageALert('warning','Upps!', err.responseJSON.message)
@@ -170,6 +170,8 @@ async function onProcesarConducta(){
 		getMessageALert('warning','Lo sentimos!', "Todo los campos son requerido :(")
 		return false;
 	}
+
+	
 	$("#btnsave").attr("disabled", true);
 	$("#btncancel").css("visibility", "hidden");
     $("#btnsave").html(
@@ -227,6 +229,10 @@ async function onListarSancionesAlumno(){
 		return false;
 	}
 
+	if($("#token_vw").val() == "0"){
+		return false
+	}
+
 	await $.ajax({
 		url: '/api/v1/mantenimiento/buscarConductaAlumnoGradoSeccionNivel',
 		type: 'GET',
@@ -238,7 +244,7 @@ async function onListarSancionesAlumno(){
 		},
 	})
 	.done(function({data}) {
-		console.log(data);
+		let eliminar = $("#token_dt").val()
 		__table_conducta__.clear().draw();
 		for (let i = 0; i < data.length; i++){
 			let btndelete = `<button onclick="onEliminarConducta(${data[i].idConducta})" class="btn btn-sm bg-success-light me-2" >
@@ -249,7 +255,7 @@ async function onListarSancionesAlumno(){
               data[i].curso.nombreCurso,
               data[i].fechaRegistra,
               data[i].descripcion,
-			  btndelete
+			  (eliminar == "1" ? btndelete : "")
             ])
             .draw(false);
 		}

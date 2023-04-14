@@ -36,6 +36,8 @@
 					<div class="tab-content">
 						<div class="tab-pane show active" id="tapaddreport">
 							<input type="hidden" id="idConducta">
+							<input type="hidden" id="token_vw" th:value="${valid.leer}">
+							<input type="hidden" id="token_dt" th:value="${valid.eliminar}">
 							<div class="row">
 								<div class="col-md-5">
 									<div class="form-group local-forms">
@@ -136,7 +138,7 @@
 								<div class="col-md-4"
 									style="display: flex; flex-direction: row; justify-content: space-between;">
 									<a th:href="@{/addconduct}" id="btncancel" class="btn btn-danger">Limpiar Todo</a>
-									<button id="btnsave" class="btn btn-primary"
+									<button id="btnsave" class="btn btn-primary" th:if="${valid.crear}"
 										onclick="onProcesarConducta()" th:style="${setting.coloresButtons}">Procesar</button>
 								</div>
 							</div>

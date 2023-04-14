@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.uisarel.institucion.dto.DtoMenuLogin;
 import com.uisarel.institucion.modelo.entidades.Menu;
+import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
 
 public interface IMenuServicio {
 
@@ -59,4 +60,11 @@ public interface IMenuServicio {
 	 * @return
 	 */
 	public List<DtoMenuLogin> onBuscarMenuusuarioPerfil(int codMenu, int idperfil);
+	
+	/**
+	 * @author CodeBluePeru
+	 * @param idOperacion
+	 * @return
+	 */
+	public PerfilOperaciones onOperacionesPerfilMenu(int idOperacion);
 }

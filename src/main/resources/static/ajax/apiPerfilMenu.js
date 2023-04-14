@@ -27,6 +27,10 @@ function init(){
 }
 
 async function onBuscarSubMenu(){	
+    //console.log($("#token_vw").val());
+    if($("#idperfil").val() == "" || $("#idmenu").val() == "" || $("#token_vw").val() == "0"){
+        return false
+    }
 	await $.ajax({
 	url: '/webservice/v1/buscarSubMenu',
 	type: 'GET',
@@ -68,6 +72,11 @@ async function onBuscarSubMenu(){
 }
 
 $("#__table__menu__perfil__ tbody").on("click", "#chkstatus", async function () {
+
+    if($("#token_cr").val() == "0"){
+        Swal.fire({"icon": "warning", "title": "warning", "text": "Lo sentimos no cuentas con permisos para otorgar estos accesos."})
+        return false
+    }
 	let status = $(this).parents("tr").find("td").eq(2).find("input:checkbox:checked").val()
     let idmenu = $(this).parents("tr").find("td").eq(0).html()        
     let idperfil = $("#idperfil").val()

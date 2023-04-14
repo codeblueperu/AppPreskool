@@ -40,20 +40,7 @@ layout:decorate="~{plantilla/plantilla}">
 										</select>
 									</div>
 								</div>
-								<!-- <div class="col-md-2">
-									<div class="form-group local-forms">
-										<label>Periodo Escolar <span class="login-danger">*</span></label>
-										<select class="form-control" id="cboperiodo" onchange="">
-											<option value="">---: SELECCIONE :---</option>
-											<option 
-												th:each="itemperiodo : ${lstperiodo}" 
-												th:selected="${itemperiodo.estado == 'APERTURADO'}"
-												th:value="${itemperiodo.idPeriodoEscolar}" 
-												th:text="${itemperiodo.anioEscolar}">
-											</option>
-										</select>
-									</div>
-								</div> -->
+								<input type="hidden" th:value="${valid.crear}" id="token_cr">
 								<div class="col-md-4">
 									<div class="form-group local-forms">
 										<label>Cursos <span class="login-danger">*</span></label>
@@ -99,7 +86,7 @@ layout:decorate="~{plantilla/plantilla}">
 									</div>
 								</div>
 								<div class="col-md-2">
-									<button onclick="onBusarEstudiantes()" class="btn btn-primary"><i class="fa fa-users" aria-hidden="true"></i> Buscar</button>
+									<button th:if="${valid.leer == 1}" onclick="onBusarEstudiantes()" class="btn btn-primary"><i class="fa fa-users" aria-hidden="true"></i> Buscar</button>
 								</div>
 							</div>
 						</div>

@@ -4,7 +4,7 @@
 
 <head>
   <title th:text="${setting.nameSistema} + ' | Operaciones'"></title>
-
+  <link rel="shortcut icon" th:href="@{/themes/assets/img/favicon.png}">
 </head>
 
 <body>
@@ -74,7 +74,7 @@
                 <input type="hidden" th:field="*{idOperaciones}">
                 <div class="col-12">
                   <div class="student-submit">
-                    <button type="submit" class="btn btn-primary" th:style="${setting.coloresButtons}">Actualizar</button>
+                    <button th:if="${valid.actualizar}" type="submit" class="btn btn-primary" th:style="${setting.coloresButtons}">Actualizar</button>
                   </div>
                 </div>
               </div>

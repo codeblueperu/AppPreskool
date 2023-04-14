@@ -49,8 +49,7 @@ public class AjaxMantenimientoController {
 	private ITareaAlumnoServicio srvTareaAlumno;
 
 	@Autowired
-	private IConductaService srvConducta;
-	
+	private IConductaService srvConducta;	
 
 //	RESCONTROLLER ESTUDIANTES
 

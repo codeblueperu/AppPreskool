@@ -16,7 +16,7 @@
                     <div class="page-sub-header">
                         <h3 th:text="${titulo}" class="page-title">Titulo</h3>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="students.html">Sub-Menu</a></li>
+                            <li class="breadcrumb-item"><a th:href="@{/listaSubMenu}">Sub-Menu</a></li>
                             <li class="breadcrumb-item active">All Sub-Menu</li>
                         </ul>
                     </div>
@@ -45,7 +45,7 @@
                                     <h3 class="page-title">Lista Sub-Menu</h3>
                                 </div>
                                 <div class="col-auto text-end float-end ms-auto download-grp">
-                                    <a th:href="@{/submenu/nuevo}" class="btn btn-outline-primary me-2"><i
+                                    <a th:if="${valid.crear}" th:href="@{/submenu/nuevo}" class="btn btn-outline-primary me-2"><i
                                             class="fas fa-plus"></i> Nuevo Sub-Menu</a>
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
 
 
                                 </thead>
-                                <tbody id="FiltrarUsuario">
+                                <tbody id="FiltrarUsuario" th:if="${valid.leer}">
 
                                     <tr th:each="subMenu:${listaSubMenu}">
                                         <td></td>
@@ -85,11 +85,11 @@
 
                                         <td class="text-end">
                                             <div class="actions ">
-                                                <a th:href="@{/listaSubMenuu/eliminar/} + ${subMenu.idMenu}"
+                                                <a th:if="${valid.eliminar}" th:href="@{/listaSubMenuu/eliminar/} + ${subMenu.idMenu}"
                                                     class="btn btn-sm bg-success-light me-2">
                                                     <i class="feather-trash-2"></i>
                                                 </a>
-                                                <a th:href="@{/listaSubMenu/editarSubMenu/} + ${subMenu.idMenu}"
+                                                <a th:if="${valid.actualizar}" th:href="@{/listaSubMenu/editarSubMenu/} + ${subMenu.idMenu}"
                                                     class="btn btn-sm bg-danger-light">
                                                     <i class="feather-edit"></i>
                                                 </a>

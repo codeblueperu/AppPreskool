@@ -32,7 +32,7 @@
           <div class="page-sub-header">
             <h3 class="page-title">Editar Usuario</h3>
             <ul class="breadcrumb">
-              <li class="breadcrumb-item"><a href="students.html">Student</a></li>
+              <li class="breadcrumb-item"><a th:href="@{/listaUsuarios}">Student</a></li>
               <li class="breadcrumb-item active">Editar Students</li>
             </ul>
           </div>
@@ -147,7 +147,7 @@
                 <input type="hidden" th:field="*{idUsuario}">
                 <div class="col-12">
                   <div class="student-submit">
-                    <button type="submit" class="btn btn-primary" th:style="${setting.coloresButtons}">Guardar</button>
+                    <button th:if="${valid.actualizar}" type="submit" class="btn btn-primary" th:style="${setting.coloresButtons}">Guardar</button>
                   </div>
                 </div>
               </div>

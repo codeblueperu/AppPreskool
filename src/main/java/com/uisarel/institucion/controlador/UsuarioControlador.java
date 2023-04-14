@@ -116,6 +116,6 @@ public class UsuarioControlador {
 	public void setGenericos(Authentication auth, Model model) {
 		model.addAttribute("listaMenu", servicioMenu.onBuscarMenuLogin());
 		model.addAttribute("setting", srvAdminTemplate.onMostrarDataTemplateAdmin());
-		
+		model.addAttribute("valid", servicioMenu.onOperacionesPerfilMenu(15));
 	}
 }

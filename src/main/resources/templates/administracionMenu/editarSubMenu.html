@@ -21,7 +21,7 @@
                     <div class="page-sub-header">
                         <h3 class="page-title">Editar Sub-Menu</h3>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="students.html">Sub-Menu</a></li>
+                            <li class="breadcrumb-item"><a th:href="@{/listaSubMenu}">Sub-Menu</a></li>
                             <li class="breadcrumb-item active">Editar Sub-Menu</li>
                         </ul>
                     </div>
@@ -115,7 +115,7 @@
 
                                 <div class="col-12">
                                     <div class="student-submit">
-                                        <button type="submit" class="btn btn-primary" th:style="${setting.coloresButtons}">Actualizar</button>
+                                        <button th:if="${valid.actualizar}" type="submit" class="btn btn-primary" th:style="${setting.coloresButtons}">Actualizar</button>
                                     </div>
                                 </div>
 

@@ -24,7 +24,7 @@ layout:decorate="~{plantilla/plantilla}">
 					<div class="page-sub-header">
 						<h3 class="page-title">Lista Obligaciones</h3>
 						<ul class="breadcrumb">
-							<li class="breadcrumb-item active perstudent"><a th:href="@{formaddtask}"><i class="fa fa-plus-circle" aria-hidden="true"></i> Nueva Obligacion</a></li>
+							<li th:if="${valid.crear}" class="breadcrumb-item active perstudent"><a th:href="@{formaddtask}"><i class="fa fa-plus-circle" aria-hidden="true"></i> Nueva Obligacion</a></li>
 						</ul>
 					</div>
 				</div>
@@ -79,7 +79,7 @@ layout:decorate="~{plantilla/plantilla}">
 											<th></th>
 										</tr>
 									</thead>
-									<tbody>
+									<tbody th:if="${valid.leer}">
 										<tr th:each="item : ${dttareas}" >
 											<td th:text="${item.personal.nombre}+ ' ' + ${item.personal.apellidos}"></td>
 											<td th:text="${item.nivelEscolar}"></td>
@@ -87,7 +87,7 @@ layout:decorate="~{plantilla/plantilla}">
 											<td th:text="${item.tema}"></td>
 											<td th:text="${#calendars.format(item.fechaAsignacion,'dd/MM/yyyy')}"></td>
 											<td th:text="${#calendars.format(item.fechaPresentacion,'dd/MM/yyyy')}"></td>
-											<td><a th:href="@{/viewtaskedit?id=} + ${item.idTarea}" class="btn btn-sm bg-danger-light perstudent" >
+											<td><a th:if="${valid.actualizar}" th:href="@{/viewtaskedit?id=} + ${item.idTarea}" class="btn btn-sm bg-danger-light perstudent" >
 												<i class="feather-edit"></i>
 												</a></td>
 										</tr>

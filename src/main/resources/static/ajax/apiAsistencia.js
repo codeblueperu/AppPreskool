@@ -121,6 +121,10 @@ async function onBusarEstudiantes() {
 		getMessageALert('warning','Lo sentimos', 'Seleccione las opciones segun su busqueda');
 		return false
 	}
+
+	if($("#token_vw").val() == "0"){
+		return
+	}
 	await $.ajax({
 		url: '/api/v1/mantenimiento/buscarAlumnosGradoNivelSeccionPeriodo',
 		type: 'GET',
@@ -207,6 +211,11 @@ async function onBusarEstudiantes() {
 }
 
 $("#__table_students__ tbody").on("click", ".rbnstatus", async function () {
+
+	if($("#token_cr").val() == "0"){
+		getMessageALert("warning","Lo sentimos","Estimado usuario, usted no cuenta con permisos para crear una asistencia.")
+		return false
+	}
 
 	let fecha = moment($("#dtpfecha").val()).format('yyyy-MM-DD')
 	let hora = moment(new Date()).format('H:mm:ss')

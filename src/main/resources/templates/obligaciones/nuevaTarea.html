@@ -135,7 +135,7 @@ layout:decorate="~{plantilla/plantilla}">
 								</div><br>
 								<div class="row">
 									<div class="col-md-12">
-										 <button type="submit" class="btn btn-primary" th:style="${setting.coloresButtons}">Guardar</button>  
+										 <button th:if="${valid.crear}" type="submit" class="btn btn-primary" th:style="${setting.coloresButtons}">Guardar</button>  
 									</div>
 								</div>
 							</div>

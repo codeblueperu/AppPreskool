@@ -85,6 +85,7 @@ public class CursoControlador {
 		
 		model.addAttribute("listaMenu", servicioMenu.onBuscarMenuLogin());
 		model.addAttribute("setting",srvAdminTemplate.onMostrarDataTemplateAdmin());
+		model.addAttribute("valid", servicioMenu.onOperacionesPerfilMenu(9));
 		model.addAttribute("lstdata", srvCurso.onListarCursos("ALL"));
 	}
 }

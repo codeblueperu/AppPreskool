@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.uisarel.institucion.dto.DtoMenuLogin;
 import com.uisarel.institucion.modelo.entidades.Menu;
+import com.uisarel.institucion.modelo.entidades.PerfilOperaciones;
 import com.uisarel.institucion.modelo.repositorio.IMenuRepositorio;
+import com.uisarel.institucion.modelo.repositorio.IPerfilOperacionesRepositorio;
 import com.uisarel.institucion.servicio.IMenuServicio;
 import com.uisarel.institucion.utils.ConstantApp;
 
@@ -23,6 +25,9 @@ public class MenuServicioImpl implements IMenuServicio {
 
 	@Autowired
 	private NativeQueryJDBC srvNative;
+
+	@Autowired
+	private IPerfilOperacionesRepositorio repoPerfilOperacion;
 
 	@Override
 	public List<Menu> listarMenu() {
@@ -104,7 +109,7 @@ public class MenuServicioImpl implements IMenuServicio {
 		} catch (Exception e) {
 			throw e;
 		}
-		//System.err.println(menuLogin);
+		// System.err.println(menuLogin);
 		return menuLogin;
 	}
 
@@ -112,7 +117,7 @@ public class MenuServicioImpl implements IMenuServicio {
 	public boolean onValidarRutaPermiso(String ruta) {
 		boolean status = false;
 		try {
-			if(srvNative.onValidarPermisoRuta(ruta, ConstantApp.getuRolUser()) > 0) {
+			if (srvNative.onValidarPermisoRuta(ruta, ConstantApp.getuRolUser()) > 0) {
 				status = true;
 			}
 		} catch (Exception e) {
@@ -123,7 +128,7 @@ public class MenuServicioImpl implements IMenuServicio {
 
 	@Override
 	public List<Menu> listarMenuPrincipales() {
-		
+
 		return menuRepositorio.listarMenu();
 	}
 
@@ -137,6 +142,26 @@ public class MenuServicioImpl implements IMenuServicio {
 	public List<DtoMenuLogin> onBuscarMenuusuarioPerfil(int codMenu, int idperfil) {
 		// TODO Auto-generated method stub
 		return srvNative.onListarMenuUsuarioPerfil(codMenu, idperfil);
+	}
+
+	@Override
+	public PerfilOperaciones onOperacionesPerfilMenu(int idOperacion) {
+		PerfilOperaciones operaciones = new PerfilOperaciones();
+		try {
+			operaciones = repoPerfilOperacion
+					.findByFkPerfilNombreAndFkOperacionesIdOperaciones(ConstantApp.getuRolUser(), idOperacion);
+			
+			if(operaciones == null) {
+				operaciones = new PerfilOperaciones();
+				operaciones.setCrear(0);
+				operaciones.setLeer(0);
+				operaciones.setActualizar(0);
+				operaciones.setEliminar(0);
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+		return operaciones;
 	}
 
 }

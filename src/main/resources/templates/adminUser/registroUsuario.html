@@ -5,7 +5,7 @@
 <head th:replace="~{/plantilla/plantilla :: head}">
 
 
-  <title th:text="${setting.nameSistema} + ' | Task'"></title>
+  <title th:text="${setting.nameSistema} + ' | Usuario Nuevo'"></title>
 
   <script src="content-script.js"></script>
 
@@ -145,7 +145,7 @@
                 </div>
                 <div></div>
                 <div class="student-submit">
-                  <button type="submit" class="btn btn-primary" th:style="${setting.coloresButtons}">Guardar</button>
+                  <button th:if="${valid.crear}" type="submit" class="btn btn-primary" th:style="${setting.coloresButtons}">Guardar</button>
                 </div>
               </div>
             </form>

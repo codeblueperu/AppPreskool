@@ -18,7 +18,7 @@
                     <div class="page-sub-header">
                         <h3 class="page-title">Registro Menu</h3>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="students.html">Registro Menu</a></li>
+                            <li class="breadcrumb-item"><a th:href="@{/listaMenu}">Registro Menu</a></li>
                             <li class="breadcrumb-item active">Registro Menu</li>
                         </ul>
                     </div>
@@ -79,7 +79,7 @@
 
                                 <div class="col-12">
                                     <div class="student-submit">
-                                        <button type="submit" class="btn btn-primary" th:style="${setting.coloresButtons}">Guardar</button>
+                                        <button th:if="${valid.crear}" type="submit" class="btn btn-primary" th:style="${setting.coloresButtons}">Guardar</button>
                                     </div>
                                 </div>
 
